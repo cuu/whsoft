@@ -1,0 +1,63 @@
+https://211.99.249.141/GL/softManager.asp?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=yhmc&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7#
+
+
+Referer: https://211.99.249.141/GL/softManager.asp?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7
+
+
+test.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=yhmc&pxgz_type=yes&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7
+
+
+https://211.99.249.141/GL/softManager.asp?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7#
+
+
+https://211.99.249.141/GL/softManager.asp?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7#
+
+https://211.99.249.141/GL/softManager.asp?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=yhmc&pxgz_type=yes&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7#
+
+
+https://211.99.249.141/GL/softManager.asp?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=yhmc&pxgz_type=yes&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7#
+
+https://211.99.249.141/GL/softManager.asp?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=diskid&pxgz_type=&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7#
+
+
+
+
+
+
+object(Pager)#1 (10) { ["url"]=> string(202) "http://127.0.0.1/whsoft/WHSoft/GL/softManager.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&pg=1" ["countall"]=> int(4) ["page"]=> int(1) ["thestr"]=> string(28) " 1" ["backstr"]=> string(38) "首页 上一页 " ["nextstr"]=> string(38) " 下一页 尾页" ["pg"]=> int(1) ["countlist"]=> int(10) ["style"]=> string(4) "page" ["gotoback"]=> string(38) "首页 上一页 " }
+
+
+object(Pager)#1 (10) { ["url"]=> string(202) "http://127.0.0.1/whsoft/WHSoft/GL/softManager.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&pg=1" ["countall"]=> int(20) ["page"]=> int(2) ["thestr"]=> string(265) " 1 2" ["backstr"]=> string(38) "首页 上一页 " ["nextstr"]=> string(468) " 下一页 尾页" ["pg"]=> int(1) ["countlist"]=> int(10) ["style"]=> string(4) "page" ["gotoback"]=> string(38) "首页 上一页 " }
+
+	object(Pager)#1 (10) {
+  ["url"]=>
+  string(202) "http://127.0.0.1/whsoft/WHSoft/GL/softManager.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&pg=1"
+  ["countall"]=>
+  int(40)
+  ["page"]=>
+  int(4)
+  ["thestr"]=>
+  string(739) " <font class='page'>1</font> <a href=http://127.0.0.1/whsoft/WHSoft/GL/softManager.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&pg=2 class='page'><u>2</u></a> <a href=http://127.0.0.1/whsoft/WHSoft/GL/softManager.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&pg=3 class='page'><u>3</u></a> <a href=http://127.0.0.1/whsoft/WHSoft/GL/softManager.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&pg=4 class='page'><u>4</u></a>"
+  ["backstr"]=>
+  string(38) "<span class='page'>首页 上一页</span> "
+  ["nextstr"]=>
+  string(468) " <a href=http://127.0.0.1/whsoft/WHSoft/GL/softManager.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&pg=2 class='page'>下一页</a> <a href=http://127.0.0.1/whsoft/WHSoft/GL/softManager.php?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&pg=4 class='page'>尾页</a>"
+  ["pg"]=>
+  int(1)
+  ["countlist"]=>
+  int(10)
+  ["style"]=>
+  string(4) "page"
+  ["gotoback"]=>
+  string(38) "<span class='page'>首页 上一页</span> "
+}
+
+
+首　页 [1] [2] [3] [4] [5] [6] [7]  下一页  尾  页  页次:1/7页 共133条记录 20条/页
+1 首页 上一页 下一页 尾页 页次：1/1 共1条记录 10条/页
+
+https://211.99.249.141/GL/softManager.asp?diskid=&yhmc=&gddh=&yddh=&zt=&sfzx=&zcrq1=&zcrq2=&rjjsrq1=&rjjsrq2=&zhsxrq1=&zhsxrq2=&pxgz=zcrq&action=Search&searchButton=%C8%B7%B6%A8%CB%D1%CB%F7&page=2
+
+
+
+

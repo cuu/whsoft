@@ -1,0 +1,116 @@
+code is gb2312
+pass is [etc]jc with crc32 in php5
+
+大部分纯了id之外，全可以null,以下是错误的
+whatever
+数据要用double才能精确存储小数
+ALTER   TABLE   table_name   auto_increment=1
+DELETE from table_name
+ 
+#mysql creation
+CREATE DATABASE  `sq_whsoft` DEFAULT CHARACTER SET gb2312 COLLATE gb2312_chinese_ci;
+
+CREATE TABLE  `sq_whsoft`.`admin` (
+`username` VARCHAR( 256 ) CHARACTER SET gb2312 COLLATE gb2312_chinese_ci NOT NULL COMMENT  '用户名',
+`passwd` VARCHAR( 256 ) CHARACTER SET gb2312 COLLATE gb2312_chinese_ci NOT NULL COMMENT  '密码',
+`type` INT( 3 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  '类型'
+) ENGINE = MYISAM CHARACTER SET gb2312 COLLATE gb2312_chinese_ci COMMENT =  '管理员数据，分不同类型的管理，权限';
+
+CREATE TABLE  `sq_whsoft`.`SOFTSETUP` (
+`id` INT NOT NULL ,
+`yhmc` VARCHAR( 17 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT  '用户名称',
+`lxdz` VARCHAR( 256 ) CHARACTER SET gb2312 COLLATE gb2312_chinese_ci NOT NULL COMMENT  '联系地址',
+`gddh` VARCHAR( 18 ) NOT NULL COMMENT  '固定电话',
+`yddh` VARCHAR( 18 ) NOT NULL COMMENT  '移动电话',
+`diskid` VARCHAR( 26 ) NOT NULL COMMENT  '注册号',
+`zcrq` VARCHAR( 10 ) NOT NULL COMMENT  '注册日期',
+`rjjsrq` VARCHAR( 10 ) NOT NULL COMMENT  '软件结束日期',
+`zt` INT( 1 ) NOT NULL DEFAULT  '0' COMMENT  '状态',
+`bz` VARCHAR( 256 ) CHARACTER SET gb2312 COLLATE gb2312_chinese_ci NOT NULL COMMENT  '备注',
+`zhsxrq` VARCHAR( 10 ) NOT NULL COMMENT  '帐号生效日期',
+`zhsxsj` VARCHAR( 8 ) NOT NULL COMMENT  '帐号生效时间',
+PRIMARY KEY (  `id` )
+) ENGINE = MYISAM ;
+
+ALTER TABLE  `softsetup` CHANGE  `id`  `id` INT( 11 ) NOT NULL AUTO_INCREMENT
+
+CREATE TABLE  `sq_whsoft`.`ip` (
+`diskid` VARCHAR( 26 ) NOT NULL COMMENT  'macaddr',
+`ipaddr` VARCHAR( 18 ) NOT NULL COMMENT  'user ip',
+`time` VARCHAR( 10 ) NOT NULL COMMENT  'check time',
+`val` INT NOT NULL COMMENT  'return val'
+) ENGINE = MYISAM COMMENT =  'Make return faster';
+
+
+CREATE TABLE  `sq_whsoft`.`userzhb` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`rjbb` INT NOT NULL ,
+`zhmc` CHAR( 70 ) NOT NULL ,
+`zh` CHAR( 70 ) NOT NULL ,
+`zhlx` INT NOT NULL ,
+`zcfsm` CHAR( 100 ) NOT NULL ,
+`serverame` CHAR( 100 ) NOT NULL ,
+`zhye` DOUBLE(20,4) NOT NULL ,
+`diskid` CHAR( 25 ) NOT NULL ,
+`zhsxrq` CHAR( 10 ) NOT NULL ,
+`zhsxsj` CHAR( 8 ) NOT NULL
+) ENGINE = MYISAM ;
+
+
+#----------------------------------
+INSERT INTO  `sq_whsoft`.`admin` (
+`username` ,
+`passwd` ,
+`type`
+)
+VALUES (
+'admin',  '3786722207',  '1'
+);
+
+
+
+CREATE TABLE  `sq_whsoft`.`note` (
+`id` INT NOT NULL AUTO_INCREMENT ,
+`noteTitle` CHAR( 4 ) NOT NULL ,
+`noteContent` VARCHAR( 256 ) NOT NULL ,
+`sfqy` INT NOT NULL ,
+PRIMARY KEY (  `id` )
+) ENGINE = MYISAM ;
+
+
+#--------------------------
+短信内容
+
+注册
+尊敬的客户您好，感谢您安装“金钥匙”智能交易系统，我们将尽快为您开通服务，如有其它疑问欢迎致电4006680345。
+
+激活
+尊敬的客户您好，您所申请的服务已经开通，请参照我们的使用说明进行您的交易。
+
+锁定
+尊敬的客户您好，您的软件据使用终止日期还有5天，请您及时联系您的代理商或致电4006680345，以免给您的交易带来不便。
+
+
+
+
+
+UPDATE  `sq_whsoft`.`admin` SET  `passwd` =  '3786722207' WHERE  `admin`.`username` =  'admin' AND  `admin`.`passwd` =  '-1856667801' AND  `admin`.`type` =1 LIMIT 1 ;
+
+
+
+
+#for chrome ie
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+#edit xampp conf
+apache/conf/extra/perl.conf ,# the last line
+apache/conf/extra/httpd-xampp.conf:
+#for goldrock asp to php
+    <FilesMatch "\.asp$">
+        SetHandler application/x-httpd-php
+    </FilesMatch>
+#-------------------------------
+apache/conf/httpd.conf:
+AddHandler cgi-script .cgi .pl [delete .asp]
+
+
