@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once "header.php";
 include_once "waibu.php";
 include_once "cscheck.php";
@@ -14,7 +13,7 @@ include_once "cscheck.php";
 <meta http-equiv="Content-Language" content="zh-cn">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <link rel="stylesheet" type="text/css" href="images/css.css">
-<title>管理员帐号密码修改</title>
+<title>管理员帐号密码</title>
 </head>
 
 <body bgcolor="#CAD7F7" topmargin="0">
@@ -27,16 +26,9 @@ include_once "cscheck.php";
    </tr>
    <tr>
     <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="64" align="center">
-    <font size="2">原帐号：
-   </font></td>
+    <font size="2">原帐号：</font></td>
     <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="286" align="left">
-    <input type="text" name="yusername" size="20" value="
-<?php
-  if( isset($_GET['name']))
-    echo $_GET["name"];
-?>
-" >
-   </td>
+    <input type="text" name="yusername" size="20" value=""></td>
    </tr>
    <tr>
     <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="64" align="center">

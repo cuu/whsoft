@@ -55,7 +55,6 @@ if($res > 0)
 			//ini_set('session.gc_maxlifetime', 60*20);
 			setcookie("yhgl", "jcok"  , time()+60*20);
 			setcookie("zz"  , $row[2] , time()+60*20); // user type
-			$_SESSION["zz"] = trim( $row[2] );
 			// set session and cookie expire time
 				
 			//mysql_free_result($result);
