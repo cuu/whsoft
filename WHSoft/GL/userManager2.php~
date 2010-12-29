@@ -48,7 +48,7 @@ include_once "../../function/xdownpage.php";
    </td>
    <td align="left" style="padding-left:10px">
      ’Àªß’ ∫≈£∫
-	 <input name="zh" type="text" size="20" maxlength="20" class="logininput" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" >
+	 <input name="zh" type="text" size="20" maxlength="20" class="logininput">
    </td>
   </tr>
   
@@ -236,10 +236,10 @@ function  Search()
 
         $handle = openConn();
         if($handle ==NULL)  die();
-	// $sql_get_count = "select count(*) from userzhb";
-        //$result = mysql_query($sql_get_count,$handle);
-        //$all = mysql_fetch_array($result,MYSQL_NUM);
-        //$all_num = $all[0];
+        $sql_get_count = "select count(*) from userzhb";
+        $result = mysql_query($sql_get_count,$handle);
+        $all = mysql_fetch_array($result,MYSQL_NUM);
+        $all_num = $all[0];
 
         $result = mysql_query($sql,$handle);
         if($result ===false)
@@ -248,9 +248,6 @@ function  Search()
                 closeConn($handle);
                 die();
         }
-
-	$all = mysql_num_rows($result);
-	$all_num=$all;
 
         $num = mysql_num_rows($result);
         if($num > 0 )

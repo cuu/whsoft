@@ -38,11 +38,11 @@ include_once "../../function/xdownpage.php";
    </td>
    <td align="left" style="padding-left:10px">
      ’ ªß√˚≥∆£∫
-	 <input name="zhmc" type="text" size="20" maxlength="20" class="logininput" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+	 <input name="zhmc" type="text" size="20" maxlength="20" class="logininput" >
    </td>
    <td align="left" style="padding-left:10px">
      ’Àªß’ ∫≈£∫
-	 <input name="zh" type="text" size="20" maxlength="20" class="logininput">
+	 <input name="zh" type="text" size="20" maxlength="20" class="logininput" onKeyUp="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" >
    </td>
   </tr>
   
