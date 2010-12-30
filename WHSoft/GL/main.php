@@ -11,7 +11,7 @@ include_once "cscheck.php";
 <title>后台管理</title>
 </head>
 
-<frameset rows="*" cols="180,*" framespacing="0" frameborder="0" border="0">
+<frameset FRAMEBORDER=NO    rows="*" cols="180,*" framespacing="0"   >
   <frame src="left.php" name="leftFrame" scrolling="no" noresize>
   <frame src="index.php" name="mainFrame">
 </frameset>

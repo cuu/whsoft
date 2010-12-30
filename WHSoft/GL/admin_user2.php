@@ -1,6 +1,6 @@
 <?php
 /// this is for root opers, add normal users, delete ,change passwd...
-//session_start();
+session_start();
 include_once "header.php";
 //include_once "cscheck.php";
 include_once "../../function/conn.php";
@@ -53,40 +53,39 @@ include_once "../../function/xdownpage.php";
 		{
 	    
 ?>
-<TABLE border=0 cellPadding=0 cellSpacing=0 width="800" align="center">
-  <tr>
-   <td background="images/admin_bg_1.gif"  height="25" colspan="5" class="biaoti">用户管理</td>
-  </tr>
-</TABLE>
+<div style="background:#e3e9ff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
+		    <span style="font-size:20px;" >&nbsp;&nbsp;</span>
+</div>
+
+
 		    <?php  
 		    if( intval($_SESSION["zz"]) == 1 ) // super user 
 		    {
 ?>
-<TABLE border=0 cellPadding=0 cellSpacing=0 width="800" align="left">
-  <tr>
-   <td  height="25" colspan="5" class="biaoti">
-       <a href="add_user.php" >添加管理员</a>
-   </td>
-  </tr>
-</TABLE>
+<div style="margin-left:10px;">
+<span style="border:1px solid #ccc;padding:3px;margin-bottom:10px;font-size:12px;" ><a href="add_user.php" >添加管理员</a></span>
+</div>
+
 <?php
 		    }
 ?>
 
-<TABLE border="1" cellspacing="0" width="1600" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0">
-      <tr height='30' bgcolor='#F1F3F5'>
-       <td width="100" class="tdbiaoti">确认操作</td>
-       <td width="100"  class="tdbiaoti">用户名称</td>
-       <td width="100" class="tdbiaoti">用户类型</td>
+<TABLE border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#fff" bordercolordark="#fff" style="border-collapse: collapse; table-layout:fixed;width:100%;" bordercolor="#fff" >
+      <tr height='10' >
+       <td width="150" class="tdbiaoti"></td>
+       <td width="120"  class="tdbiaoti"></td>
+       <td width="120" class="tdbiaoti"></td>
+       <td></td>
      </tr>
 <?php
 	        $row = mysql_fetch_array($result,MYSQL_ASSOC); 
 		for( $i = 0; $i < $num; $i++)
 		{   
 ?>
-<tr height='25' bgcolor="#f1f3f5">
+<tr height='25' style="border-bottom:1px solid #ccc;">
  <td align="center">
          <a href="http://" class="del" onClick="JavaScript:openScript('admin_user.php?name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,383,'no')">修改</a>
+		    &nbsp;&nbsp;
          <a href="?action=del&name=<?php echo trim($row["username"]);?>" class="del" onClick="return confirm('删除该管理帐号,您确定进行删除操作吗？')" target="delframe">删除</a>
         </td>
 <td align="center">
@@ -102,7 +101,7 @@ include_once "../../function/xdownpage.php";
 		      default:break;
 		      }
 		    ?>
-</td>
+</td><td></td>
 </tr>
 <?php		}
 ?>

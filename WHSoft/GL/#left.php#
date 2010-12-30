@@ -26,7 +26,7 @@ session_start();
 		 <table width="100%"  border="0" cellspacing="5" cellpadding="0">
           <tr>
            <td width="19%">&nbsp;</td>
-           <td width="81%"><span class="">ºóÌ¨¹ÜÀí²Ëµ¥</span></td>
+           <td width="81%"><span class="">åå°ç®¡ç†èœå•</span></td>
           </tr>
          </table>
 		</TD>
@@ -42,14 +42,14 @@ session_start();
 	if( intval($_SESSION["zz"]) == 1)
 	  {
 	    ?>
-        <a href="admin_user2.php" target="mainFrame"><B>ÕÊ»§ĞŞ¸Ä</B></A>
+        <a href="admin_user2.php" target="mainFrame"><B>å¸æˆ·ä¿®æ”¹</B></A>
 	      <?php }else
 	  {
 	    ?>
-	    <a href="admin_user.php" target="mainFrame"><B>ÕÊ»§ĞŞ¸Ä</B></A>
+	    <a href="admin_user.php" target="mainFrame"><B>å¸æˆ·ä¿®æ”¹</B></A>
 	    <?php   }
 	    ?>
- | <a href="logout.php" target=_top><B>ÍË³ö</B></A></SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+ | <a href="logout.php" target=_top><B>é€€å‡º</B></A></SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</TD>
        </TR>
 	  </TBODY>
 	 </TABLE>
@@ -69,15 +69,15 @@ session_start();
             <TR><TD height=5></TD><td></td></TR>
             <TR>
 	     <td id="kkk1" >&nbsp;</td>
-<TD style="" id="kk1" height=25 ><a id="menu_item1" href="softManager.php" target=mainFrame>×¢²áÓÃ»§¹ÜÀí</a></TD>
+<TD style="" id="kk1" height=25 ><a id="menu_item1" href="softManager.php" target=mainFrame>æ³¨å†Œç”¨æˆ·ç®¡ç†</a></TD>
             </TR>
             <TR>
 		  <td id="kkk2" >&nbsp;</td>
-            <TD style="" id="kk2" height=25 bgcolor=""><a id="menu_item2" href="userManager.php" target=mainFrame>Íâ»ãÕË»§¹ÜÀí</A></TD>
+            <TD style="" id="kk2" height=25 bgcolor=""><a id="menu_item2" href="userManager.php" target=mainFrame>å¤–æ±‡è´¦æˆ·ç®¡ç†</A></TD>
             </TR>
 	     <TR>
 									      <td id="kkk3" >&nbsp;</td>
-             <TD style="" id="kk3" height=25 bgcolor=""><a id="menu_item3" href="noteSet.php" target=mainFrame>¶ÌĞÅÄÚÈİÉèÖÃ</A></TD>
+             <TD style="" id="kk3" height=25 bgcolor=""><a id="menu_item3" href="noteSet.php" target=mainFrame>çŸ­ä¿¡å†…å®¹è®¾ç½®</A></TD>
             </TR>
 			<TR><TD height=5></TD></TR>
            

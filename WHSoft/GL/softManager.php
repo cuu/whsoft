@@ -17,7 +17,7 @@ include_once "../../function/xdownpage.php";
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
 </head>
-<body>
+<body style="">
 <?php
 	$action = getFormValue("action");
 	switch($action)
@@ -31,15 +31,12 @@ include_once "../../function/xdownpage.php";
 		default:
 
 ?>
-
-<TABLE border=0 cellPadding=0 cellSpacing=0 width="800" align="center">
-  <tr>
-   <td background="images/admin_bg_1.gif"  height="25" colspan="5" class="biaoti">注册用户管理</td>
-  </tr>
-</TABLE>
+<div style="background:#e3e9ff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
+		    <span style="font-size:20px;" class="biaoti" >注册用户管理</span>
+</div>
 
 <form action="softManager.php" method="get" name="formSearch" style="margin:0px">
- <TABLE border="1" cellspacing="0" width="800" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="center">
+ <TABLE border="1" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
   <tr bgcolor="#FFFFFF" height="30">
    <td align="left" style="padding-left:10px">
      注 册 号：

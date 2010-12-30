@@ -1,9 +1,10 @@
 /* CSS Document */
 BODY
 {
-	BACKGROUND: #799AE1;
+	BACKGROUND: #fff;
 	MARGIN: 0px;
 	FONT: 12px ËÎÌו;
+	/*border-right:3px solid #bbccff;*/
 }
 TABLE
 {
@@ -33,11 +34,25 @@ A:hover
 }
 .sec_menu
 {
-	BORDER-RIGHT: white 1px solid;
-	BACKGROUND: #ECDBBD;
+	
 	OVERFLOW: hidden;
-	BORDER-LEFT: white 1px solid;
-	BORDER-BOTTOM: white 1px solid
+	
+}
+.sec_menu td
+{
+	font-size:14px;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+#l_menu td
+{
+	padding-top:3px;
+	padding-bottom:3px;
+
+}
+#l_menu a 
+{
+	font-size:14px;
 }
 .menu_title
 {

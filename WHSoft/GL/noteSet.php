@@ -30,13 +30,13 @@ include_once "../../function/function.php";
 if($id == "" ) $id=0;
 if($action == "save") save();
 ?>
-<TABLE border=0 cellPadding=0 cellSpacing=0 width="800" align="center">
-  <tr>
-   <td background="images/admin_bg_1.gif"  height="25" colspan="5" class="biaoti">短信内容设置</td>
-  </tr>
- </TABLE>
+<div style="background:#e3e9ff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
+		    <span style="font-size:20px;" class="biaoti" >短信内容设置</span>
+</div>
+
+
  <form action="noteSet.php" method="post" name="formSearch" style="margin:0px" target="saveframe">
- <TABLE border="1" cellspacing="0" width="800" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="center">
+ <TABLE border="1" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
   <tr bgcolor="#FFFFFF" height="30">
    <td>
 <?php

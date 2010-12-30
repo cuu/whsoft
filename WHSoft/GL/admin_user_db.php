@@ -16,6 +16,7 @@ $xpsw      = trim($_POST['xpsw']     );
 //$add_username = trim($_POST["add_username"] );
 //$add_psw      = trim($_POST["add_psw"]);
 $add_new_user = trim($_POST["add_new_user"] );
+var_dump($_POST);
 if(strcmp($add_new_user,"add") == 0)
   {
     // add new user
@@ -40,7 +41,7 @@ if(strcmp($add_new_user,"add") == 0)
 	  }
 	else
 	  {
-	    $sql = "insert into admin(username,passwd,type) value('".$add_username."','".g_CRC32($add_psw)."',".intval($u_type).")";
+	    $sql = "insert into admin(username,passwd,type) values('".$add_username."','".g_CRC32($add_psw)."',".intval($u_type).")";
 	    $result1 = mysql_query($sql,$handle);
 	    if($result1)
 	      {
@@ -55,9 +56,9 @@ if(strcmp($add_new_user,"add") == 0)
 		die();
 	      }
 	  }
-      }else die();
+      }else die("mysql_query failed".mysql_error());
   
-    die(); 
+    return;
   }
 
 if( strlen( trim($yusername)) < 1 ) 
