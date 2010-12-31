@@ -22,6 +22,13 @@ if( isset($_SESSION["zz"]) && intval( trim($_SESSION["zz"])) == 1)
     $edit_type = trim($_POST["edit_type"]);
   }
 
+if ( isset ($_POST["sedit"] ) && $_POST["sedit"] == "1")
+  {
+    
+
+    
+  }
+
 if(strcmp($add_new_user,"add") == 0)
   {
     //echo " add new user now";

@@ -21,7 +21,7 @@ include_once "cscheck.php";
 
 <form method="POST" action="admin_user_db.php">
 <?php
-  if( isset($_GET["edit"] && $_GET["edit"] =="1") )
+  if( isset($_GET["edit"]) && $_GET["edit"] =="1" )
     {
 ?>
     <input type="hidden" name="sedit" value="1" />
@@ -29,7 +29,7 @@ include_once "cscheck.php";
     }
 ?>
  <div align="center"><p>°°</p><p>°°</p>
-  <table border="0" width="368" cellspacing="0" cellpadding="1" bgcolor="#F1F3F5" style="border: 1px solid #000000; padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
+  <table border="0" width="368" cellspacing="0" cellpadding="1" bgcolor="#Fff" style="border: 1px solid #000000; padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
    <tr>
     <td height="25"  width="358" colspan="2" class="biaoti">π‹¿Ì‘±’ ∫≈√‹¬Î</td>
    </tr>

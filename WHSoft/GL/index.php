@@ -26,5 +26,12 @@ body
    所有操作请慎重,误操作不可撤销!
    感谢您的使用
 </div>
+<div id="search_panel" style="padding-left:30px;" >
+<form action="search.php" method="GET" name="searh_form">
+   <input type="text" name="s_q" size="57" value="" style="height:25px; padding:5px 8px 0px 6px;font:18px arial,sans-serif bold;" />
+   <input type="submit" size="10" value="Search" style="height:30px;font:15px arial,sans-serif bold;vertical-align:top;outline:0 none; cursor: pointer;color:#000;border:medium none;" />
+</form>
+
+</div>
 </body>
 </html>
