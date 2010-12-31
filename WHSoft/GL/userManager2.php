@@ -227,20 +227,26 @@ function  Search()
 
         if( $pg!="")
         {
+	  $sql2 = $sql;
                 $sql .= " LIMIT ".((intval($pg)-1)*20).", 20";
         }
         else
         {
+	  $sql2 = $sql;
                 $sql .= " LIMIT 0 , 20";
         }
 
         $handle = openConn();
         if($handle ==NULL)  die();
-	// $sql_get_count = "select count(*) from userzhb";
-        //$result = mysql_query($sql_get_count,$handle);
-        //$all = mysql_fetch_array($result,MYSQL_NUM);
-        //$all_num = $all[0];
+	/*
+        //$sql_get_count = "select count(*) from userzhb";
+        $result = mysql_query($sql2,$handle);
+	if ($result !== false)
+	  {
+	    $all_num = mysql_num_rows($result);
+	  }else { die("mysql_error".mysql_error()); }
 
+         */
         $result = mysql_query($sql,$handle);
         if($result ===false)
         {
@@ -324,7 +330,15 @@ function  Search()
 
 	  <tr height='25' style="cursor:hand; background:#ffffff" onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
 	    <td align="center">
+<?php  
+	if( isset($_SESSION["zz"]) && intval($_SESSION["zz"]) ==1)
+	  {
+?>
          <a href="?action=del&id=<?php echo trim($row["id"]);?>" class="del" onClick="return confirm('删除该账户将无法恢复,您确定进行删除操作吗？')" target="delframe">删除</a>
+<?php
+	  }else
+	  echo "?";
+?>
         </td>
 		<td align="center"><?php echo trim($row["diskid"]);?></td>
 		<td align="center">

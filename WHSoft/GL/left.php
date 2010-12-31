@@ -26,7 +26,7 @@ session_start();
 		 <table width="100%"  border="0" cellspacing="5" cellpadding="0">
           <tr>
            <td width="19%">&nbsp;</td>
-           <td width="81%"><span class=""><a href="main.asp" >后台管理菜单</a></span></td>
+           <td width="81%"><span class=""><a href="index.php"   target="mainFrame"  >后台管理菜单</a></span></td>
           </tr>
          </table>
 		</TD>

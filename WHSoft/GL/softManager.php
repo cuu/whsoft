@@ -235,23 +235,30 @@ function Search()
 	
 	if( $pg!="")
 	{
-		$sql .= " LIMIT ".((intval($pg)-1)*20).", 20";	
+	  $sql2 = $sql;
+	        $sql .= " LIMIT ".((intval($pg)-1)*20).", 20";	
+		
 	}
 	else
 	{
-		$sql .= " LIMIT 0 , 20";
+	  $sql2 = $sql; 
+	  	$sql .= " LIMIT 0 , 20";
 	}
 	
 
 	$handle = openConn();
 	if($handle ==NULL)  die();
-	$sql_get_count = "select count(*) from softsetup";
-	$result = mysql_query($sql_get_count,$handle);
-	$all = mysql_fetch_array($result,MYSQL_NUM);
-	$all_num = $all[0];
+	//$sql_get_count = "select count(*) from softsetup";
+	$result = mysql_query($sql2,$handle);
+	if( $result !== false)
+	  {
+	$all = mysql_num_rows($result);
+	$all_num = $all;
+	  }
+	else { die("mysql error".mysql_error()); }
 
-	$result = mysql_query($sql,$handle);
-	if($result ===false)
+        $result = mysql_query($sql,$handle);
+       	if($result ===false)
 	{
 		echo "Search mysql error()".mysql_error()."<br />";
 		closeConn($handle);
@@ -404,7 +411,14 @@ function Search()
 	  <tr height='25' style="cursor:hand; background:#ffffff" onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
 	    <td align="center">
          <a href="http://" class="del" onClick="JavaScript:openScript('soft_edit.php?id=<?php echo trim($row["id"]);?>','注册用户<?php echo trim($row["id"]);?>',500,383,'no')">修改</a>
+<?php  
+		    if( isset($_SESSION["zz"]) && intval($_SESSION["zz"]) ==1)
+		      {
+?>
          <a href="?action=del&id=<?php echo trim($row["id"]);?>" class="del" onClick="return confirm('删除该用户将删除其下所有使用过的外汇账户,您确定进行删除操作吗？')" target="delframe">删除</a>
+<?php
+                      }
+?>
         </td>
 		<td align="center"><?php echo trim($row["yhmc"]);?></td>
 		<td align="center"><a href="http://" class="link" onClick="JavaScript:openScript('userManager2.php?diskid=<?php echo trim($row["diskid"]);?>&pxgz=sfzx&pxgz_type=&action=Search','注册用户<?php echo trim($row["id"]);?>',1000,300,'yes')"><?php echo trim( $row["diskid"]);?></a></td>
