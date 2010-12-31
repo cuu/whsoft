@@ -22,6 +22,11 @@ if( isset($_SESSION["zz"]) && intval( trim($_SESSION["zz"])) == 1)
     $edit_type = trim($_POST["edit_type"]);
   }
 
+if ( isset ($_POST["sedit"] ) && $_POST["sedit"] == "1")
+  {
+    
+  }
+
 if(strcmp($add_new_user,"add") == 0)
   {
     //echo " add new user now";
@@ -31,12 +36,12 @@ if(strcmp($add_new_user,"add") == 0)
     $u_type       = trim($_POST["u_type"] );
     if( strlen( trim($add_username)) < 1) 
       {
-      	echo "<script language=javascript>alert('ÕÊºÅÃû³Æ²»ÄÜÎª¿Õ£¡');window.history.back();</script>";
+      	echo "<script language=javascript>alert('å¸å·åç§°ä¸èƒ½ä¸ºç©ºï¼');window.history.back();</script>";
 	die();
       }
     if( strlen( trim($add_psw)) < 1)
       {
-        echo "<script language=javascript>alert('ÕÊºÅÃÜÂë²»ÄÜÎª¿Õ£¡');window.history.back();</script>";
+        echo "<script language=javascript>alert('å¸å·å¯†ç ä¸èƒ½ä¸ºç©ºï¼');window.history.back();</script>";
 	die();
       }
     $handle = openConn();
@@ -51,7 +56,7 @@ if(strcmp($add_new_user,"add") == 0)
 	if($num > 0)
 	  {
 	    closeConn($handle);
-	    echo "<script language=javascript>alert('ÕÊºÅÒÑ´æÔÚ,ÇëÈ·ÈÏÃû³ÆÊÇ·ñÕıÈ·£¡');window.history.back();</script>";
+	    echo "<script language=javascript>alert('å¸å·å·²å­˜åœ¨,è¯·ç¡®è®¤åç§°æ˜¯å¦æ­£ç¡®ï¼');window.history.back();</script>";
 	    die();
 	  }
 	else
@@ -65,13 +70,13 @@ if(strcmp($add_new_user,"add") == 0)
 	      {
 		//echo "result1 !== false";
 		closeConn($handle);
-		echo "<script language=javascript>alert('¹ÜÀíÔ±ÕÊºÅÌí¼Ó³É¹¦;Çë¼Ç×¡ÄúµÄĞÂÕÊºÅĞÅÏ¢!');window.location.href='admin_user2.php'</script>";
+		echo "<script language=javascript>alert('ç®¡ç†å‘˜å¸å·æ·»åŠ æˆåŠŸ;è¯·è®°ä½æ‚¨çš„æ–°å¸å·ä¿¡æ¯!');window.location.href='admin_user2.php'</script>";
 		die();
 	      }
 	    else
 	      {
 		closeConn($handle);
-		echo "<script language=javascript>alert('¹ÜÀíÔ±ÕÊºÅÌí¼ÓÓĞ´í '".mysql_error().");</script>";
+		echo "<script language=javascript>alert('ç®¡ç†å‘˜å¸å·æ·»åŠ æœ‰é”™ '".mysql_error().");</script>";
 		die();
 	      }
 	  }
@@ -82,19 +87,19 @@ if(strcmp($add_new_user,"add") == 0)
 
 if( strlen( trim($yusername)) < 1 ) 
 {
-	echo "<script language=javascript>alert('Ô­ÕÊºÅ²»ÄÜÎª¿Õ£¡');window.history.back();</script>";
+	echo "<script language=javascript>alert('åŸå¸å·ä¸èƒ½ä¸ºç©ºï¼');window.history.back();</script>";
 	die();
 }
 
 if( strlen( trim($ypsw)) < 1)
 {
-	echo "<script language=javascript>alert('Ô­ÃÜÂë²»ÄÜÎª¿Õ!');window.history.back();</script>";
+	echo "<script language=javascript>alert('åŸå¯†ç ä¸èƒ½ä¸ºç©º!');window.history.back();</script>";
 	die();
 }
 
 if(strlen( trim($xpsw ) )< 1)
 {
-	echo "<script language=javascript>alert('ĞÂÃÜÂë²»ÄÜÎª¿Õ!');window.history.back();</script>";;
+	echo "<script language=javascript>alert('æ–°å¯†ç ä¸èƒ½ä¸ºç©º!');window.history.back();</script>";;
 	die();
 }
 
@@ -106,7 +111,7 @@ $result = mysql_query($sql,$handle);
 if($result === false) 
 {
 	closeConn($handle);
-	echo "<script language=javascript>alert('Ô­ÓÃ»§ÃûÊäÈëÓĞÎó£¡');window.history.back();</script>";
+	echo "<script language=javascript>alert('åŸç”¨æˆ·åè¾“å…¥æœ‰è¯¯ï¼');window.history.back();</script>";
 	die();
 }
 else
@@ -115,7 +120,7 @@ else
 	if($num <= 0)
 	{
 		closeConn($handle);
-		echo "<script language=javascript>alert('Ô­ÓÃ»§Ãû²»´æÔÚ£¡');window.history.back();</script>";
+		echo "<script language=javascript>alert('åŸç”¨æˆ·åä¸å­˜åœ¨ï¼');window.history.back();</script>";
 		die();
 	}
 	else
@@ -135,12 +140,12 @@ else
 			if($result===false)
 			{  
 				closeConn($handle);
-				echo "<script language=javascript>alert('¹ÜÀíÔ±ÕÊºÅÉèÖÃÓĞ´í '".mysql_error().");'</script>";
+				echo "<script language=javascript>alert('ç®¡ç†å‘˜å¸å·è®¾ç½®æœ‰é”™ '".mysql_error().");'</script>";
 			}
 			else
 			{
 				closeConn($handle);
-				echo "<script language=javascript>alert('¹ÜÀíÔ±ÕÊºÅÉèÖÃ³É¹¦;Çë¼Ç×¡ÄúµÄĞÂÕÊºÅĞÅÏ¢!');window.location.href='admin_user.php'</script>";
+				echo "<script language=javascript>alert('ç®¡ç†å‘˜å¸å·è®¾ç½®æˆåŠŸ;è¯·è®°ä½æ‚¨çš„æ–°å¸å·ä¿¡æ¯!');window.location.href='admin_user.php'</script>";
 				die();
 			}	
 
@@ -148,12 +153,12 @@ else
 		else if( intval($_SESSION["zz"]) > $row['type'] ) // IF USER IS BLEW  
 		  {
 		    closeConn($handle);
-		    echo "<script language=javascript>alert('ÕÊºÅÀàĞÍÓĞÎó£¡');window.history.back();</script>";
+		    echo "<script language=javascript>alert('å¸å·ç±»å‹æœ‰è¯¯ï¼');window.history.back();</script>";
 		  }
 		else
 		{
 			closeConn($handle);
-			echo "<script language=javascript>alert('Ô­ÃÜÂëÊäÈëÓĞÎó£¡');window.history.back();</script>";
+			echo "<script language=javascript>alert('åŸå¯†ç è¾“å…¥æœ‰è¯¯ï¼');window.history.back();</script>";
 		}
 	}
 }

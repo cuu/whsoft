@@ -78,13 +78,14 @@ include_once "../../function/xdownpage.php";
        <td></td>
      </tr>
 <?php
-	        $row = mysql_fetch_array($result,MYSQL_ASSOC); 
+	        
 		for( $i = 0; $i < $num; $i++)
 		{   
+		  $row = mysql_fetch_array($result,MYSQL_ASSOC); 
 ?>
 <tr height='25' style="border-bottom:1px solid #ccc;">
  <td align="center">
-         <a href="http://" class="del" onClick="JavaScript:openScript('admin_user.php?name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,383,'no')">修改</a>
+         <a href="http://" class="del" onClick="JavaScript:openScript('admin_user.php?edit=1&name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,383,'no')">修改</a>
 		    &nbsp;&nbsp;
          <a href="?action=del&name=<?php echo trim($row["username"]);?>" class="del" onClick="return confirm('删除该管理帐号,您确定进行删除操作吗？')" target="delframe">删除</a>
         </td>
@@ -103,7 +104,9 @@ include_once "../../function/xdownpage.php";
 		    ?>
 </td><td></td>
 </tr>
-<?php		}
+<?php	
+               
+               	}
 ?>
 
 </table>

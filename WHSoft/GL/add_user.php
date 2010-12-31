@@ -15,12 +15,12 @@ include_once "cscheck.php";
 <title>添加管理员</title>
 </head>
 
-<body bgcolor="" topmargin="0">
+<body  topmargin="0">
 
 <form method="POST" action="admin_user_db.php">
  <div align="center"><p>　</p><p>　</p>
 <input name="add_new_user" type="hidden" value="add" >
-  <table border="0" width="368" cellspacing="0" cellpadding="1" bgcolor="#fff" style="border: 1px solid #000000; padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
+  <table border="0" width="368" cellspacing="0" cellpadding="1"  style="border: 1px solid #000000; padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
    <tr>
     <td height="25"  width="358" colspan="2" class="biaoti">添加新的管理员帐号</td>
    </tr>

@@ -17,19 +17,27 @@ include_once "cscheck.php";
 <title>管理员帐号密码修改</title>
 </head>
 
-<body bgcolor="#CAD7F7" topmargin="0">
+<body bgcolor="#fff" topmargin="0">
 
 <form method="POST" action="admin_user_db.php">
+<?php
+  if( isset($_GET["edit"] && $_GET["edit"] =="1") )
+    {
+?>
+    <input type="hidden" name="sedit" value="1" />
+<?php
+    }
+?>
  <div align="center"><p>　</p><p>　</p>
   <table border="0" width="368" cellspacing="0" cellpadding="1" bgcolor="#F1F3F5" style="border: 1px solid #000000; padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
    <tr>
-    <td height="25" background="images/admin_bg_1.gif" width="358" colspan="2" class="biaoti">管理员帐号密码</td>
+    <td height="25"  width="358" colspan="2" class="biaoti">管理员帐号密码</td>
    </tr>
    <tr>
-    <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="64" align="center">
+    <td style="border-left-width: 1px;"  width="80" align="left">
     <font size="2">原帐号：
    </font></td>
-    <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="286" align="left">
+    <td style="border-left-width: 1px;" width="286" align="left">
     <input type="text" name="yusername" size="20" value="
 <?php
   if( isset($_GET['name']))
@@ -39,23 +47,39 @@ include_once "cscheck.php";
    </td>
    </tr>
    <tr>
-    <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="64" align="center">
+    <td style="border-left-width: 1px;" width="80" align="left">
     <font size="2">原密码：</font></td>
-    <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="286" align="left">
+    <td style="border-left-width: 1px;" width="286" align="left">
     <input type="text" name="ypsw" size="20"></td>
    </tr>
    <tr>
-    <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="64" align="center">
+    <td style="border-left-width: 1px;" width="80" align="left">
     <font size="2">新帐号：</font></td>
-    <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="286" align="left">
+    <td style="border-left-width: 1px;" width="286" align="left">
     <input type="text" name="xusername" size="20" value="">&nbsp;<font size="2" color="#FF0000">若不修改请勿填写</font></td>
    </tr>
    <tr>
-    <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="64" align="center">
+    <td style="border-left-width: 1px; " width="80" align="left">
     <font size="2">新密码：</font></td>
-    <td style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0" width="286" align="left">
+    <td style="border-left-width: 1px; " width="286" align="left">
     <input type="text" name="xpsw" size="20">&nbsp;<font size="2" color="#FF0000">若不修改请勿填写</font></td>
    </tr>
+  <?php if (isset($_SESSION["zz"]) && intval($_SESSION["zz"] )==1)
+{ 
+?>
+   <tr>
+    <td style="border-left-width: 1px; " width="80" align="left">
+    <font size="2">帐号类型：</font></td>
+    <td style="border-left-width: 1px;" width="286" align="left">
+    <select name="edit_type" >
+     <option value="1" >Super user </option>
+     <option value="2" > Normal user </option>
+    </select>
+    </td>
+   </tr>
+<?php 
+}
+?>
   </table>
   <p><input type="submit" value="修改" name="B1"></div>
 </form>
