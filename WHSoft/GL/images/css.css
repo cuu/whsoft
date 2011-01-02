@@ -1,10 +1,10 @@
 /* CSS */
 body{
 	margin:0px;
-	border:3px solid #bbccff;
-	border-left:6px solid #bbccff;
+	border-top:px solid #bbccff;
+	
 	height:100%;
-	border-right:0px solid #fff;
+
 }
 form{margin:0px;}
 table{

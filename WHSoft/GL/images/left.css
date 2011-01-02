@@ -1,7 +1,7 @@
 /* CSS Document */
 BODY
 {
-	BACKGROUND: #fff;
+	/*BACKGROUND: #fff; */
 	MARGIN: 0px;
 	FONT: 12px ËÎÌå;
 	/*border-right:3px solid #bbccff;*/
@@ -89,4 +89,28 @@ frame
 {
 	
 	border:none;
+}
+
+#main_menubar_left
+{
+	font-family:"Î¢ÈíÑÅºÚ","ËÎÌå","ºÚÌå";
+	font-size:15px;
+}
+#main_menubar_left a{
+	font-family: arial,sans-serif;
+	font-size:14px;
+	color:#0000cc;
+}
+#main_menubar_left span
+{
+	margin-left:10px;
+}
+#main_menubar_right a{
+	font-family: arial,sans-serif;
+	font-size:14px;
+	color:#0000cc;
+}
+#main_menubar_right span
+{
+	margin-left:10px;
 }

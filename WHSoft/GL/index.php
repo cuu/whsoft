@@ -5,9 +5,9 @@ body
   {
   height:100%;
   width:100%;
-  border:3px solid #bbccff;
-  border-left:6px solid #bbccff;
-  border-right:none;
+  border-top:1px solid #bbccff;
+ 
+
   margin:0px;
 
   }

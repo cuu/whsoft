@@ -13,110 +13,72 @@ session_start();
 
 </HEAD>
 <BODY >
- 
- <TABLE cellSpacing="0" cellPadding="0" width="100%" align="left" >
-  <TBODY>
-   <TR>
-    <TD vAlign="top">
-	 <TABLE cellSpacing="0" cellPadding="0" width="150" align="center">
-      <TBODY>
-       <TR><TD height="4"></TD></TR>
-       <TR>
-        <TD height="38" vAlign="bottom" >
-		 <table width="100%"  border="0" cellspacing="5" cellpadding="0">
-          <tr>
-           <td width="19%">&nbsp;</td>
-           <td width="81%"><span class=""><a href="index.php"   target="mainFrame"  >后台管理菜单</a></span></td>
-          </tr>
-         </table>
-		</TD>
-       </TR>
-      </TBODY>
-	 </TABLE>
-	 
-	 <TABLE cellSpacing="1" cellPadding="0" width="207" align="center">
-      <TBODY>
-       <TR style="border-bottom:1p solid #bbccff;">
-        <TD  height="25" onselectstart="return false">&nbsp;<SPAN>
+<div id="main_menubar">
+<div id="main_menubar_left" style="float:left;padding:5px;font-size:15px;">
+      <span class=""><a href="index.php"   target="mainFrame"  >后台管理菜单</a></span>
 	<?php
 	if( intval($_SESSION["zz"]) == 1)
 	  {
 	    ?>
-        <a href="admin_user2.php" target="mainFrame"><B>帐户修改</B></A>
+       <span id="kk6"> <a id="menu_item5" href="admin_user2.php" target="mainFrame"><u>帐户修改</u></A> </span>
 	      <?php }else
 	  {
 	    ?>
-	    <a href="admin_user.php" target="mainFrame"><B>帐户修改</B></A>
+       <span id="kk6" > <a  id="menu_item5" href="admin_user.php" target="mainFrame"><u>帐户修改</u></A> </span>
 	    <?php   }
 	    ?>
- | <a href="logout.php" target=_top><B>退出</B></A></SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</TD>
-       </TR>
-	  </TBODY>
-	 </TABLE>
+<span id="kk1"> <a id="menu_item1" href="softManager.php" target=mainFrame>注册用户管理</a> </span>
+<span id="kk2"><a id="menu_item2" href="userManager.php" target=mainFrame>外汇账户管理</A> </span>
+<span id="kk3"> <a id="menu_item3" href="noteSet.php" target=mainFrame>短信内容设置</A> </span>
+</div>
+<div id="main_menubar_right" style="float:right;padding:5px;"
 
-	 <div style="height:1px;border-top:1px solid #bbccff;"></div>
+<span id="kk5" ><b><?php echo $_SESSION["yhgl"]; ?></b></span>
+<span id="kk4">  <a id="menu_item4" href="logout.php" target=mainFrame>登出</A> </span>
+</div>
 
-	 <TABLE id="l_menu" cellSpacing=0 cellPadding=0 width=207 align=center>
-      <TBODY>
-       <TR>
-        <TD class=menu_title id=menuTitle0 onMouseOver="this.className='menu_title2';" onclick=showsubmenu(0) onMouseOut="this.className='menu_title';" onselectstart="return false"  height=2><SPAN></SPAN></TD>
-       </TR>
-       <TR>
-        <TD id=submenu0>
-	  <DIV class=sec_menu style="WIDTH: 207px;text-align:center;">
-          <TABLE cellSpacing=0 cellPadding=0 width=207 align=center>
-           <TBODY>
-            <TR><TD height=5></TD><td></td></TR>
-            <TR>
-	     <td id="kkk1" >&nbsp;</td>
-<TD style="" id="kk1" height=25 ><a id="menu_item1" href="softManager.php" target=mainFrame>注册用户管理</a></TD>
-            </TR>
-            <TR>
-		  <td id="kkk2" >&nbsp;</td>
-            <TD style="" id="kk2" height=25 bgcolor=""><a id="menu_item2" href="userManager.php" target=mainFrame>外汇账户管理</A></TD>
-            </TR>
-	     <TR>
-									      <td id="kkk3" >&nbsp;</td>
-             <TD style="" id="kk3" height=25 bgcolor=""><a id="menu_item3" href="noteSet.php" target=mainFrame>短信内容设置</A></TD>
-            </TR>
-			<TR><TD height=5></TD></TR>
-           
-	 
-		 </TABLE>
-        </DIV>
-	   </TD>
-	  </TR>
-	 </TBODY>
-	</TABLE>
-	 
-	 
-	</TD>
-   </TR>
-  </TBODY>
+<div style="clear:both;"></div>
+
+</div> <!-- end main_menubar --> 
 <script>
       	      $("#menu_item1").click(function () {
 		  $(this).parent().css('background-color', '#bbccff');
+		
 		  $("#kk2").css('background-color','white');
 		  $("#kk3").css('background-color',"white");
-		  $("#kkk1").css('background-color', '#bbccff');
-		  $("#kkk2").css('background-color', '#fff');
-		  $("#kkk3").css('background-color', '#fff');
+		  $("#kk6").css('background-color',"white");
+		 // $("#kkk1").css('background-color', '#bbccff');
+		 // $("#kkk2").css('background-color', '#fff');
+		 // $("#kkk3").css('background-color', '#fff');
 		});
       	      $("#menu_item2").click(function () {
 		  $(this).parent().css('background-color', '#bbccff');
+		  
 		  $("#kk1").css('background-color','white');
 		  $("#kk3").css('background-color',"white");
-		  $("#kkk2").css('background-color', '#bbccff');
-		  $("#kkk1").css('background-color', '#fff');
-		  $("#kkk3").css('background-color', '#fff');
+		  $("#kk6").css('background-color',"white");
+		 // $("#kkk2").css('background-color', '#bbccff');
+		 // $("#kkk1").css('background-color', '#fff');
+		 // $("#kkk3").css('background-color', '#fff');
 		});
       	      $("#menu_item3").click(function () {
 		  $(this).parent().css('background-color', '#bbccff');
 		  $("#kk2").css('background-color','white');
 		  $("#kk1").css('background-color',"white");
-		  $("#kkk3").css('background-color', '#bbccff');
-		  $("#kkk1").css('background-color', '#fff');
-		  $("#kkk2").css('background-color', '#fff');
+		  $("#kk6").css('background-color',"white");
+		  //$("#kkk3").css('background-color', '#bbccff');
+		  //$("#kkk1").css('background-color', '#fff');
+		  //$("#kkk2").css('background-color', '#fff');
+		});
+      	      $("#menu_item5").click(function () {
+		  $(this).parent().css('background-color', '#bbccff');
+		  $("#kk2").css('background-color','white');
+		  $("#kk1").css('background-color',"white");
+		  $("#kk3").css('background-color',"white");
+		 
+		  //$("#kkk3").css('background-color', '#bbccff');
+		  //$("#kkk1").css('background-color', '#fff');
+		  //$("#kkk2").css('background-color', '#fff');
 		});
 </script>
 </body>
