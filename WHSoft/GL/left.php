@@ -9,28 +9,82 @@ session_start();
 <link href="images/left.css" rel="stylesheet" type="text/css" />
 <SCRIPT language="javascript" src="images/left.js"></SCRIPT>
 <SCRIPT language="javascript" src="images/jquery-1.4.4.min.js"></SCRIPT>
+<script language="javascript" >
 
+$(function(){
+ 
+$("#main_menubar_left  a ").click(
+    function(){
+      $("#main_menubar_left  a ").each(
+      function(i,domEle)
+      {
+	$(domEle).removeClass("active");
+	$(domEle).css("color","#0000cc");
+      }
+      );
+
+      $(this).addClass("active");
+      $(this).css("color","black");
+      $("body").click();
+    }
+  
+)
+
+});
+
+</script>
+<style type="text/css">
+#main_menubar
+{
+background:none repeat scroll 0 0 #EBEFF9;
+padding:5px 10px 0 5px;
+border-bottom:1px solid #6B90DA;
+white-space:nowrap;
+}
+.tab
+{
+color: #0000cc;
+cursor:pointer;
+  float:left;
+margin: 5px 15px 6px 10px;
+
+}
+.active {
+background:none repeat scroll 0 0 #FFFFFF;
+border-color:#6B90DA #6B90DA -moz-use-text-color;
+border-style:solid solid none;
+border-width:1px 1px 0;
+color:#000000;
+cursor:default;
+font-weight:bold;
+margin:0 5px -1px 0;
+padding:5px 9px 6px;
+text-decoration:none;
+}
+
+</style>
 
 </HEAD>
-<BODY >
-<div id="main_menubar">
+<BODY style="border-bottom:1px solid #6B90DA;" >
+<div id="main_menubar" style=" " >
 <div id="main_menubar_left" style="float:left;padding:5px;font-size:15px;">
-      <span class=""><a href="index.php"   target="mainFrame"  >后台管理菜单</a></span>
+      <a class="tab active" style="color:black;"  href="index.php"   target="mainFrame"  >后台管理菜单</a>
 	<?php
 	if( intval($_SESSION["zz"]) == 1)
 	  {
 	    ?>
-       <span id="kk6"> <a id="menu_item5" href="admin_user2.php" target="mainFrame"><u>帐户修改</u></A> </span>
+        <a class="tab" id="menu_item5" href="admin_user2.php" target="mainFrame">帐户修改</a>
 	      <?php }else
 	  {
 	    ?>
-       <span id="kk6" > <a  id="menu_item5" href="admin_user.php" target="mainFrame"><u>帐户修改</u></A> </span>
+       <a  class="tab"  id="menu_item5" href="admin_user.php" target="mainFrame">帐户修改</A>
 	    <?php   }
 	    ?>
-<span id="kk1"> <a id="menu_item1" href="softManager.php" target=mainFrame>注册用户管理</a> </span>
-<span id="kk2"><a id="menu_item2" href="userManager.php" target=mainFrame>外汇账户管理</A> </span>
-<span id="kk3"> <a id="menu_item3" href="noteSet.php" target=mainFrame>短信内容设置</A> </span>
+ <a class="tab" id="menu_item1" href="softManager.php" target=mainFrame>注册用户管理</a> 
+<a class="tab" id="menu_item2" href="userManager.php" target=mainFrame>外汇账户管理</A> 
+ <a class="tab" id="menu_item3" href="noteSet.php" target=mainFrame>短信内容设置</A> 
 </div>
+
 <div id="main_menubar_right" style="float:right;padding:5px;"
 
 <span id="kk5" ><b><?php echo $_SESSION["yhgl"]; ?></b></span>
@@ -41,6 +95,9 @@ session_start();
 
 </div> <!-- end main_menubar --> 
 <script>
+
+
+	   /*
       	      $("#menu_item1").click(function () {
 		  $(this).parent().css('background-color', '#bbccff');
 		
@@ -80,6 +137,7 @@ session_start();
 		  //$("#kkk1").css('background-color', '#fff');
 		  //$("#kkk2").css('background-color', '#fff');
 		});
+	   */
 </script>
 </body>
 </html>

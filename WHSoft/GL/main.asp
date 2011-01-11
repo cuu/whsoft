@@ -1,6 +1,6 @@
 <?php
-include_once "header.php";
-include_once "cscheck.php";
+//include_once "header.php";
+//include_once "cscheck.php";
 
 ?>
 <html>
@@ -11,12 +11,14 @@ include_once "cscheck.php";
 <title>后台管理</title>
 </head>
 
-<frameset FRAMEBORDER=NO    rows="30,*" cols="*" framespacing="0"   >
+
+
+<frameset FRAMEBORDER=NO  rows="38,*"  cols="*"  framespacing="0"   >
   <frame src="left.php" name="leftFrame" scrolling="no" noresize>
   <frame src="index.php" name="mainFrame">
 </frameset>
-<noframes><body>
-</body></noframes>
+ <NOFRAMES></NOFRAMES>
+
 
 
 </html>

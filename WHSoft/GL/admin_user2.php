@@ -53,8 +53,9 @@ include_once "../../function/xdownpage.php";
 		{
 	    
 ?>
-<div style="background:#e3e9ff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
-		    <span style="font-size:20px;" >&nbsp;&nbsp;</span>
+<br />
+<div style="background:#fff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
+		    <span style="font-size:20px;" >帐户修改</span>
 </div>
 
 
@@ -75,6 +76,8 @@ include_once "../../function/xdownpage.php";
        <td width="150" class="tdbiaoti"></td>
        <td width="120"  class="tdbiaoti"></td>
        <td width="120" class="tdbiaoti"></td>
+       <td width="120" class="tdbiaoti"></td>
+
        <td></td>
      </tr>
 <?php
@@ -85,7 +88,7 @@ include_once "../../function/xdownpage.php";
 ?>
 <tr height='25' style="border-bottom:1px solid #ccc;">
  <td align="center">
-         <a href="http://" class="del" onClick="JavaScript:openScript('admin_user.php?edit=1&name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,383,'no')">修改</a>
+         <a href="http://" class="del" onClick="JavaScript:openScript('admin_user.php?zt=<?php echo trim( $row["zt"]); ?>&type=<?php echo trim($row["type"]); ?>&edit=1&name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,383,'no')">修改</a>
 		    &nbsp;&nbsp;
          <a href="?action=del&name=<?php echo trim($row["username"]);?>" class="del" onClick="return confirm('删除该管理帐号,您确定进行删除操作吗？')" target="delframe">删除</a>
         </td>
@@ -96,13 +99,25 @@ include_once "../../function/xdownpage.php";
 		    <?php
 		    switch( trim($row["type"]))
 		      {
-		      case "1": echo "Super user";break;
-		      case "2": echo "Normal user"; break;
-		      case "0": echo "Invalid user"; break;
+		      case "1": echo "超级管理员";break;
+		      case "2": echo "普通管理员"; break;
+		      case "3": echo "临时管理员"; break;
+		      case "0": echo "不明用户"; break;
 		      default:break;
 		      }
 		    ?>
-</td><td></td>
+</td>
+<td align="center">
+		  <?php 
+		  switch( trim($row["zt"]))
+		    {
+		    case "1": echo "使用中"; break;
+		    case "0": echo "被禁用"; break;
+		    default:break;
+		    }
+		  ?>
+</td>
+<td></td>
 </tr>
 <?php	
                

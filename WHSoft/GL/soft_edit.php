@@ -13,6 +13,18 @@ include_once "../../function/sendNote.php";
 <link rel="stylesheet" type="text/css" href="images/css.css">
 <title>注册用户管理</title>
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
+<script language="javascript" src="images/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script language="javascript">
+
+
+</script>
+<style type="text/css">
+  .selectedRow {
+      background-color: blue;
+      cursor: pointer;
+   }
+
+</style>
 </head>
 <body>
 
@@ -39,63 +51,92 @@ include_once "../../function/sendNote.php";
 
  <TABLE border=0 cellPadding=0 cellSpacing=0 width="500" align="center">
   <tr>
-   <td background="images/admin_bg_1.gif" height="25" colspan="5" class="biaoti">注册用户管理</td>
+   <td  height="25" colspan="5" class="biaoti">注册用户管理</td>
   </tr>
  </TABLE>
  <form name="form1" method="post" action="soft_edit.php" style="margin:0px">
   <input type="hidden" value="save" name="action" />
   <input type="hidden" value="<?php echo $id; ?>" name="id" />
-  <table border="1" cellspacing="0" width="500" cellpadding="2" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="center">
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">软件注册号：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;<?php echo trim($row["diskid"]);?>
+  <table border="0" cellspacing="0" width="500" cellpadding="2" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"  align="center"><tbody>
+    <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">软件注册号：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;<?php echo trim($row["diskid"]);?>
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">用户名称：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">用户名称：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
 	<input name="yhmc" type="text" class="logininput" value="<?php echo trim($row["yhmc"]);?>" size="20" maxlength="15"/>
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">固定电话：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">固定电话：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
 	<input name="gddh" type="text" class="logininput" value="<?php echo trim($row["gddh"]);?>" size="20" maxlength="18"/>
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">移动电话：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">移动电话：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
 	<input name="yddh" type="text" class="logininput" value="<?php echo trim($row["yddh"]);?>" size="20" maxlength="18"/>
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">联系地址：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;
-	<input name="lxdz" type="text" class="logininput" value="<?php echo trim($row["lxdz"]);?>" size="20" maxlength="50"/>
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">联系地址：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
+	<input name="lxdz" type="text" class="logininput" value="<?php echo trim($row["lxdz"]);?>" size="50" maxlength="100" />
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">注册日期：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;<?php echo trim($row["zcrq"]);?>
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">注册日期：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;<?php echo trim($row["zcrq"]);?>
 	</td>
    </tr>   
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">软件截止日期：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">软件截止日期：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
 	<input name="rjjsrq" type="text" class="logininput" value="<?php echo trim($row["rjjsrq"]);?>" size="20" maxlength="10" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly=""/>
 	</td>
    </tr>
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">用户类型：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
+	 <input type="hidden" value="<?php echo intval($row["yhlx"]);?>" name="yhlx1">
+	 <select name="yhlx">
+         <?php
+	    switch( intval($row["yhlx"]))
+	      {
+		case 0:
+		{
+	 ?>
+		<option value="0" >普通用户</option>
+		<option value="1"> VIP用户</option>
+	 <?php
+		}break;
+		case 1:
+		{
+	 ?>
+		<option value="1"> VIP用户</option>
+		<option value="0" >普通用户</option>
+	 <?php
+		}break;
+
+	      }
+?>
+
+	 </select>
+	</td>
+   </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">当前状态：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">当前状态：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
 	 <input type="hidden" value="<?php echo intval($row["zt"]);?>" name="zt1">
 	 <select name="zt">
 	  <option value="1" <?php if( intval($row["zt"])==1) echo "selected";?>>完全使用</option>
@@ -104,28 +145,28 @@ include_once "../../function/sendNote.php";
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">备注：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;
-	 <input name="bz" type="text" class="logininput" value="<?php echo trim($row["bz"]);?>" size="20" maxlength="20"/>
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">备注：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
+	 <input name="bz" type="text" class="logininput" value="<?php echo trim($row["bz"]);?>" size="50" maxlength="100"/>
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">最后上线日期：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;<?php echo trim($row["zhsxrq"]);?>
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">最后上线日期：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;<?php echo trim($row["zhsxrq"]);?>
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">最后上线时间：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;<?php echo trim($row["zhsxsj"]);?>
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">最后上线时间：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;<?php echo trim($row["zhsxsj"]);?>
 	</td>
    </tr>
    
-   <tr height=25 bgcolor="#F1F3F5">
-    <td width="100" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0; padding-right:10px" align="right">是否在线：</td>
-    <td align="left" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">&nbsp;
+   <tr height=25 bgcolor="">
+    <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">是否在线：</td>
+    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
 	<?php
 	  if(DateDiff("n",trim($row["zhsxrq"])." ".trim($row["zhsxsj"]),now())<=60) 
 	    echo "在线";
@@ -135,13 +176,13 @@ include_once "../../function/sendNote.php";
 	?>
 	</td>
    </tr>
-   <tr style="padding-top:10px; padding-bottom:10px" bgcolor="#F1F3F5" height="30">
-    <td align="center" colspan="4" style="border-left-width: 1px; border-right-width: 1px; border-top: 1px dotted #C0C0C0;">
-     <input name="submit1" type="submit" class="buttonStyle" style="cursor:hand" value="确定修改">    </td>
+   <tr style="padding-top:10px; padding-bottom:10px" bgcolor="" height="30">
+    <td align="center" colspan="4" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">
+     <input style="width:80px;"  name="submit1" type="submit" class="buttonStyle" style="cursor:hand" value="确定修改">    </td>
    </tr>
    
    
-   
+</tbody>   
   </table>
  </form>
 

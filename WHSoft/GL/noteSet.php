@@ -30,13 +30,14 @@ include_once "../../function/function.php";
 if($id == "" ) $id=0;
 if($action == "save") save();
 ?>
-<div style="background:#e3e9ff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
-		    <span style="font-size:20px;" class="biaoti" >短信内容设置</span>
+<br />
+<div style="background:;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
+		    <span style="font-size:20px;" class="biaoti_guu" >短信内容设置</span>
 </div>
 
 
  <form action="noteSet.php" method="post" name="formSearch" style="margin:0px" target="saveframe">
- <TABLE border="1" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
+ <TABLE border="0" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
   <tr bgcolor="#FFFFFF" height="30">
    <td>
 <?php

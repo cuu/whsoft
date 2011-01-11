@@ -23,12 +23,12 @@ include_once "../../function/xdownpage.php";
 		case "del"   : del();
 		break;
 		default:
-?>
-<div style="background:#e3e9ff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
-		    <span style="font-size:20px;" class="biaoti" >外汇账户管理</span>
+?> <br />
+<div style="background:;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
+		    <span style="font-size:20px;" class="biaoti_guu" >外汇账户管理</span>
 </div>
  <form action="userManager.php" method="get" name="formSearch" style="margin:0px">
- <TABLE border="1" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
+ <TABLE border="0" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
   <tr bgcolor="#FFFFFF" height="30">
    <td align="left" style="padding-left:10px">
      注 册 号：
@@ -260,7 +260,7 @@ function u_Search()
         {
 
 ?>
-     <TABLE border="1" cellspacing="0" width="1600" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0">
+     <TABLE border="0" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0">
       <tr height='30' bgcolor='#F1F3F5'>
        <td width="100" class="tdbiaoti">确认操作</td>
 	   <td width="140" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("a.diskid",$pxgz_type1);?>')">软件注册号</a>
@@ -313,7 +313,7 @@ function u_Search()
                 {
 
 ?>
-	  <tr height='25' style="cursor:hand; background:#ffffff" onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
+	  <tr height='25' style="border-bottom:1px solid #ccc;cursor:hand; background:#ffffff" onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
 	    <td align="center">
 <?php
 		      if( isset($_SESSION["zz"]) && intval($_SESSION["zz"]) ==1)

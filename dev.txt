@@ -112,5 +112,34 @@ apache/conf/extra/httpd-xampp.conf:
 #-------------------------------
 apache/conf/httpd.conf:
 AddHandler cgi-script .cgi .pl [delete .asp]
+#----- 2011 01 04 在看了panda给的新的计划书之后,增加原有mysql 表的结构单元[用户的类型],还有管理员档次分三等 
+
+ALTER TABLE  `softsetup` ADD  `yhlx` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  '用户类型' AFTER  `yhmc` ;
+ALTER TABLE  `admin` ADD  `jzrq` VARCHAR( 10 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL DEFAULT  '0' COMMENT  '权限截止日期,0为无限' AFTER  `type` ;
+
+ALTER TABLE  `userzhb` ADD  `yhlx` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  '用户类型,分普通和vip' AFTER  `zhmc` ;
+ALTER TABLE  `admin` ADD  `zt` SMALLINT( 1 ) NOT NULL DEFAULT  '1' COMMENT  '管理员状态,默认是开启,可以禁用' AFTER  `jzrq` ;
+
+#---- 2011 01 04 在看了panda给的新的计划书之后,增加原有mysql 表的结构单元[用户的类型],还有管理员档次分三等 
 
 
+
+#----------------------------关于服务器的配置要求
+硬件: 和现有服务器配置相当即可
+操作系统:Red Hat Enterprise Linux 5.5 即centos5.5
+使用老牌强劲的redhat系统,RedHat是一个老牌的linux 公司,历史相当悠久
+并且是真正意义上靠着linux赢利的大公司,值得信赖
+拥有强大的技术服务平台支援,当然,这些服务是收费的,这也是linux的特点,系统免费,服务收费
+它的系统特点是稳定,安全
+redhat是一向以稳定安全为第一前提的公司,其开发的系统也是如此
+可以满足我们对安全上的要求, 并且性能不俗
+http服务器软件:Apache 2.x
+数据库: Mysql 5.x
+
+http服务器和数据库软件具体版本依照redhat系统预装即可
+
+后台管理程序和插件不会受http服务器和数据库软件版本的差异而影响
+由于RedHat Enterprise 系列是商业产品,虽公开源代码却不能下载得到
+必须付费购买其整套商品和服务支持
+我们将采用完全依据 redhat enterprise 系统源代码 重新编译产生的免费版本 centos代替
+两者是完全一样的系统

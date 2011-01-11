@@ -72,13 +72,74 @@ include_once "cscheck.php";
     <font size="2">帐号类型：</font></td>
     <td style="border-left-width: 1px;" width="286" align="left">
     <select name="edit_type" >
-     <option value="1" >Super user </option>
+    <?php
+switch($_GET["type"])
+  {
+case "1":
+  {
+    ?>
+      <option value="1" >Super user </option>
      <option value="2" > Normal user </option>
+     <option value="3" > temp </option>   
+
+    <?php
+  }break;
+case "2":
+{
+?>
+      <option value="2" >Normal user </option>
+     <option value="1" > super user </option>
+     <option value="3" > temp </option>
+    
+<?php
+      }break;
+case "3":
+{
+?>
+  <option value="3" > temp </option>
+      <option value="2" >Normal user </option>
+     <option value="1" > super user </option>
+<?php
+    }break;
+default:break;
+  }
+?>
     </select>
     </td>
    </tr>
+<tr>
+  <td style="border-left-width: 1px; " width="80" align="left">
+    <font size="2">帐号状态：</font></td>
+    <td style="border-left-width: 1px;" width="286" align="left">
+    <select name="edit_zt">
+<?php
+switch($_GET["zt"])
+  {
+  case "1":
+  {
+?>
+   <option value="1"> 使用中 </option>
+<option value="0"> 被禁用 </option>
+<?php
+  }break;
+  case "0":
+  {
+?>
+    <option value="0"> 被禁用 </option>
+     <option value="1"> 使用中 </option>
+<?php
+      }break;
+  default:break;
+
+  }
+?>
+
+    </select>
+</td>
+</tr>
+
 <?php 
-}
+} // end if
 ?>
   </table>
   <p><input type="submit" value="修改" name="B1"></div>

@@ -11,6 +11,7 @@ $serverame = getFormValue("D_serverame");  $zhye = getFormValue("D_zhye"); $rjbb
 
 $nowDate = Format_Date( time() );
 $nowTime = Format_Time( time() );
+$temDate= Format_Date( time() + 86400 *15 );
 
 $returnValue = 0;
 
@@ -28,7 +29,7 @@ if ( strcmp( $action, "SoftSX"   ) == 0)
 
 if ( strcmp( $action, "softin"   ) == 0)
 {
-	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$nowDate,2,"",$nowDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye);
+	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$nowDate,2,"",$temDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye);
 	echo strval($returnValue);
 }
 

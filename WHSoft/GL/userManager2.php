@@ -263,8 +263,8 @@ function  Search()
         {
 
 ?>
-     <TABLE border="1" cellspacing="0" width="1460" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0">
-      <tr height='30' bgcolor='#F1F3F5'>
+     <TABLE border="0" cellspacing="0" width="1460" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0">
+      <tr height='30' bgcolor='#F1F3F5' style="">
        <td width="100" class="tdbiaoti">确认操作</td>
 	   <td width="100" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("diskid",$pxgz_type1);?>')">软件注册号</a>
 	   <?php if( $pxgz =="diskid" && $pxgz_type =="yes")
@@ -328,7 +328,7 @@ function  Search()
 
 ?>
 
-	  <tr height='25' style="cursor:hand; background:#ffffff" onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
+	  <tr height='25' style="border-bottom:1px solid #c0c0c0; cursor:hand; background:#ffffff" onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
 	    <td align="center">
 <?php  
 	if( isset($_SESSION["zz"]) && intval($_SESSION["zz"]) ==1)

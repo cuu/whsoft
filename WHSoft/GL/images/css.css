@@ -1,7 +1,7 @@
 /* CSS */
 body{
 	margin:0px;
-	border-top:px solid #bbccff;
+	/*border-top:px solid #bbccff;*/
 	
 	height:100%;
 
@@ -32,7 +32,8 @@ TEXT-DECORATION: none;
 
 .biaoti_guu
 {
-	color:#000; 
+	
+	padding-top:5px;color:#000; font-size:11pt; font-weight:900; text-align:center
 }
 textarea{
 	border:solid 1px #0080B0;

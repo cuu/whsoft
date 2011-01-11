@@ -16,6 +16,24 @@ include_once "../../function/xdownpage.php";
 <title>注册用户管理</title>
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
+<script language="javascript" src="images/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script language="javascript">
+
+$(function(){
+$("#out_list tbody  tr").hover(
+    function(){
+        $(this).css("background", "#f4f4ff");
+    },
+    function(){
+        $(this).css("background", "transparent");
+    }
+
+);
+
+});
+
+</script>
+
 </head>
 <body style="">
 <?php
@@ -31,13 +49,14 @@ include_once "../../function/xdownpage.php";
 		default:
 
 ?>
-<div style="background:#e3e9ff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
-		    <span style="font-size:20px;" class="biaoti" >注册用户管理</span>
+<br />
+<div style="background:;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
+		    <span style="font-size:20px;" class="biaoti_guu" >注册用户管理</span>
 </div>
 
 <form action="softManager.php" method="get" name="formSearch" style="margin:0px">
- <TABLE border="1" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
-  <tr bgcolor="#FFFFFF" height="30">
+ <TABLE border="0" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
+  <tr bgcolor="" height="30">
    <td align="left" style="padding-left:10px">
      注 册 号：
 	 <input name="diskid" type="text" size="20" maxlength="15" class="logininput">
@@ -269,8 +288,8 @@ function Search()
 	if($num > 0 )
 	{
 ?>
-     <TABLE border="1" cellspacing="0" width="1600" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0">
-      <tr height='30' bgcolor='#F1F3F5'>
+     <TABLE style="margin:8px;border:1px solid #bbb;border-bottom:none;" id="out_list" border="0" cellspacing="0" width="1600" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"><thead>
+      <tr height='30' bgcolor='#ebeff9'>
        <td width="100" class="tdbiaoti">确认操作</td>
        <td width="100" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("yhmc",$pxgz_type1);?>')">用户名称</a>
 	   <?php 
@@ -354,6 +373,19 @@ function Search()
 		 
 	   ?>
 	   </td>
+       <td width="80" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("yhlx",$pxgz_type1); ?>')">用户类型</a>
+	   <?php if ($pxgz =="yhlx" && $pxgz_type =="yes")
+		{
+	       		echo "<img src='images/down.gif'>";
+		}
+		else if( $pxgz =="yhlx")
+		{
+			 echo "<img src='images/up.gif'>";
+		}
+	  //用户类型,普通和vip
+	   ?>
+
+	   </td>
        <td width="80" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("zt",$pxgz_type1); ?>')">当前状态</a>
 	   <?php if ($pxgz =="zt" && $pxgz_type =="yes")
 		{
@@ -402,15 +434,17 @@ function Search()
 	   ?>
 	   </td>
 	  </tr>
+	</thead>
+      <tbody>
 
 <?php
 		$row = mysql_fetch_array($result,MYSQL_ASSOC); 
 		for( $i = 0; $i < $num; $i++)
 		{
 ?>
-	  <tr height='25' style="cursor:hand; background:#ffffff" onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
-	    <td align="center">
-         <a href="http://" class="del" onClick="JavaScript:openScript('soft_edit.php?id=<?php echo trim($row["id"]);?>','注册用户<?php echo trim($row["id"]);?>',500,383,'no')">修改</a>
+	  <tr height='25' style="cursor:hand; " onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
+	    <td align="center" style="border-bottom:1px  solid #ccc;">
+         <a href="http://" class="del" onClick="JavaScript:openScript('soft_edit.php?id=<?php echo trim($row["id"]);?>','注册用户<?php echo trim($row["id"]);?>',500,400,'no')">修改</a>
 <?php  
 		    if( isset($_SESSION["zz"]) && intval($_SESSION["zz"]) ==1)
 		      {
@@ -420,9 +454,9 @@ function Search()
                       }
 ?>
         </td>
-		<td align="center"><?php echo trim($row["yhmc"]);?></td>
-		<td align="center"><a href="http://" class="link" onClick="JavaScript:openScript('userManager2.php?diskid=<?php echo trim($row["diskid"]);?>&pxgz=sfzx&pxgz_type=&action=Search','注册用户<?php echo trim($row["id"]);?>',1000,300,'yes')"><?php echo trim( $row["diskid"]);?></a></td>
-		<td align="center">
+		<td align="center" style="border-bottom:1px  solid #ccc;"><?php echo trim($row["yhmc"]);?></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;" ><a href="http://" class="link" onClick="JavaScript:openScript('userManager2.php?diskid=<?php echo trim($row["diskid"]);?>&pxgz=sfzx&pxgz_type=&action=Search','注册用户<?php echo trim($row["id"]);?>',1000,300,'yes')"><?php echo trim( $row["diskid"]);?></a></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;" >
 		<?php
 		
 		  $sql1="select count(id) from userzhb where diskid='".trim($row["diskid"])."'";
@@ -440,12 +474,22 @@ function Search()
 			
 		?>
 		</td>
-		<td align="center"><?php echo trim($row["gddh"]);?></td>
-		<td align="center"><?php echo trim($row["yddh"]);?></td>
-		<td align="center"><?php echo trim($row["lxdz"]);?></td>
-		<td align="center"><?php echo trim($row["zcrq"]);?></td>
-		<td align="center"><?php echo trim($row["rjjsrq"]);?></td>
-		<td align="center">
+		<td align="center" style="border-bottom:1px  solid #ccc;" ><?php echo trim($row["gddh"]);?></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;"  ><?php echo trim($row["yddh"]);?></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;" ><?php echo trim($row["lxdz"]);?></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;" ><?php echo trim($row["zcrq"]);?></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;" ><?php echo trim($row["rjjsrq"]);?></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;">
+		<?php
+			 switch( intval($row["yhlx"]))
+                        {
+                                case 0: echo "普通用户"; break;
+			        case 1: echo "VIP用户"; break;
+			       default:break;
+			}
+                 ?>
+                </td>												 
+		<td align="center" style="border-bottom:1px  solid #ccc;" >
 		<?php
 			
 		  if( intval($row["zt"])==1) 
@@ -455,9 +499,9 @@ function Search()
 		 
 		?>
 		</td>
-		<td align="center"><?php echo trim($row["zhsxrq"]);?></td>
-		<td align="center"><?php echo trim($row["zhsxsj"]);?></td>
-		<td align="center">
+		<td align="center" style="border-bottom:1px  solid #ccc;"><?php echo trim($row["zhsxrq"]);?></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;" ><?php echo trim($row["zhsxsj"]);?></td>
+		<td align="center" style="border-bottom:1px  solid #ccc;" >
 		<?php
 		if(DateDiff("n",trim($row["zhsxrq"])." ".trim($row["zhsxsj"]),now())<=60) 
 	        	echo "在线";
@@ -466,7 +510,7 @@ function Search()
 	      
 		?>
 		</td>
-		<td align="center"><?php echo trim($row["bz"]);?></td>
+		<td align="center" style="border-bottom:1px solid #ccc;" >&nbsp;<?php echo trim($row["bz"]);?></td>
 	  </tr>
 
 <?php
@@ -475,13 +519,14 @@ function Search()
 		}//end for
 ?>
      </TABLE>
-     <table width="1600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#F1F3F5>
+     <table width="1600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
        <tr><td>
 <?php
 	$a = new Pager($all_num,20);
 	echo $a->thestr."&nbsp;".$a->backstr."&nbsp;".$a->nextstr."&nbsp;&nbsp; 页次：".$a->pg."/".$a->page."&nbsp; 共".$a->countall."条记录&nbsp; ".$a->countlist."条/页";
 			
 ?></td></tr>
+    </tbody>
      </table>
 	 <iframe name="delframe" id="delframe" style="display:none"></iframe>
 
