@@ -16,6 +16,20 @@ include_once "../../function/xdownpage.php";
 <title>后台用户权限管理</title>
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
+
+<?php
+include "jq_ui.php";
+?>
+<script  language="javascript"  >
+
+
+ $(function() {
+  $("#btg_adduser").button();
+
+});
+</script>
+
+
 <style type="text/css">
 #out_list
 {
@@ -76,7 +90,7 @@ include_once "../../function/xdownpage.php";
 		    {
 ?>
 <div style="margin-left:10px;">
-<span style="border:1px solid #ccc;padding:3px;margin-bottom:10px;font-size:12px;" ><a href="add_user.php" >添加管理员</a></span>
+<span id="btg_adduser"  style="border:1px solid #ccc;padding:0px;margin-bottom:10px;font-size:12px;" ><a href="add_user.php" >添加管理员</a></span>
 </div>
 
 <?php
@@ -100,7 +114,7 @@ include_once "../../function/xdownpage.php";
 ?>
 <tr height='25' style="border-bottom:1px solid #ccc;">
  <td align="center"  >
-         <a href="" class="del" onClick="JavaScript:openScript('admin_user.php?zt=<?php echo trim( $row["zt"]); ?>&type=<?php echo trim($row["type"]); ?>&edit=1&name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,383,'no');return false">修改</a>
+         <a href="" class="del" onClick="JavaScript:openScript('admin_user.php?jzrq=<?php echo trim($row["jzrq"]); ?>&zt=<?php echo trim( $row["zt"]); ?>&type=<?php echo trim($row["type"]); ?>&edit=1&name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,399,'no');return false">修改</a>
 		    &nbsp;&nbsp;
          <a href="?action=del&name=<?php echo trim($row["username"]);?>" class="del" onClick="return confirm('删除该管理帐号,您确定进行删除操作吗？')" target="delframe">删除</a>
         </td>

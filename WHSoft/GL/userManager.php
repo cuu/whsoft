@@ -12,6 +12,15 @@ include_once "../../function/xdownpage.php";
 <title>外汇账户管理</title>
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
+<?php
+include "jq_ui.php";
+?>
+<script  language="javascript" >
+  $(function() {
+    $("#btg_confirm_search").button();
+    $("#btg_confirm_reset").button();
+  });
+</script>
 </head>
 <body>
 <?php
@@ -102,7 +111,7 @@ include_once "../../function/xdownpage.php";
 	</td>
    </tr>
    <tr bgcolor="#FFFFFF" height="30">
-	<td align="center" colspan="3"><input type="hidden" value="Search" name="action"><input type="submit" name="searchButton" value="确定搜索" class="buttonStyle">&nbsp;<input name="reset" type="reset" value="重新填写" class="buttonStyle">
+	<td align="center" colspan="3"><input type="hidden" value="Search" name="action"><input id="btg_confirm_search" type="submit" name="searchButton" value="确定搜索" class="buttonStyle">&nbsp;<input id="btg_confirm_reset"  name="reset" type="reset" value="重新填写" class="buttonStyle">
 	</td>
   </tr>
    

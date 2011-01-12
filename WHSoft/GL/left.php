@@ -96,7 +96,7 @@ text-decoration:none;
 
 <div id="main_menubar_right" style="float:right;padding:5px;"
 
-<span id="kk5" ><b><?php echo $_SESSION["yhgl"]; ?></b> - <?php echo "ÄúÊÇ ". return_account_type($_SESSION["zz"]); ?></span>
+<span id="kk5" ><b><?php echo $_SESSION["yhgl"]; ?></b> - ÄúÊÇ <font color="red"><?php echo return_account_type($_SESSION["zz"]); ?></font></span>
 <span id="kk4">  <a id="menu_item4" href="logout.php" target=mainFrame>µÇ³ö</A> </span>
 </div>
 

@@ -14,6 +14,9 @@ include_once "cscheck.php";
 <meta http-equiv="Content-Language" content="zh-cn">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <link rel="stylesheet" type="text/css" href="images/css.css">
+<script language="javascript" src="images/time.js" type="text/javascript"></script>
+<script language="javascript" src="images/js.js" type="text/javascript"></script>
+
 <title>管理员帐号密码修改</title>
 </head>
 
@@ -64,6 +67,19 @@ include_once "cscheck.php";
     <td style="border-left-width: 1px; " width="286" align="left">
     <input type="text" name="xpsw" size="20">&nbsp;<font size="2" color="#FF0000">若不修改请勿填写</font></td>
    </tr>
+<?php
+  if(isset($_GET["jzrq"]))
+    {
+      ?>
+   <tr>
+    <td style="border-left-width: 1px; " width="80" align="left">
+    <font size="2">新时效：</font></td>
+    <td style="border-left-width: 1px; " width="286" align="left">
+      <input type="text" name="xpstime" size="20" value="<?php if(intval($_GET["jzrq"])!=0){ echo $_GET["jzrq"];}else {echo "不限时";} ?>" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly="" >&nbsp;<font  color="#FF0000"  size="2" >若不修改请留空白</font></td>
+   </tr>
+<?php      
+    }
+?>
   <?php if (isset($_SESSION["zz"]) && intval($_SESSION["zz"] )==1)
 { 
 ?>

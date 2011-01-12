@@ -14,6 +14,17 @@ include_once "cscheck.php";
 <link rel="stylesheet" type="text/css" href="images/css.css">
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
+<?php
+include "jq_ui.php";
+?>
+<script  language="javascript"  >
+
+
+ $(function() {
+  $("#btg_confirm_add").button();
+  $("#btg_confirm_add").css("fontSize","14px");
+});
+</script>
 
 <title>添加管理员</title>
 </head>
@@ -62,7 +73,7 @@ include_once "cscheck.php";
 </td>
    </tr>
   </table>
-  <p><input type="submit" style="width:55px;"  value="确定添加" name="2B">
+  <p><input id="btg_confirm_add" type="submit" style=""  value="确定添加" name="2B">
 </div>
 </form>
 </body>

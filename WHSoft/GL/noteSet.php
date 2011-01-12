@@ -13,6 +13,16 @@ include_once "../../function/function.php";
 <title>短信内容设置</title>
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
+<?php
+include "jq_ui.php";
+?>
+
+<script language="javascript">
+  $(function() {
+  $("#btg_confirm_editnote").button();
+
+});
+</script>
 <script language="javascript">
    function TxtChange()
   {  
@@ -90,7 +100,7 @@ if($result != FALSE)
 	   </select>&nbsp;&nbsp;&nbsp;&nbsp;
 	   <input type="hidden" value="save" name="action" />
 	   <input type="hidden" value="<?php echo $id; ?>" name="id"/>
-	   <input name="submit1" type="submit" class="buttonStyle" style="cursor:hand" value="确定修改">
+	   <input id="btg_confirm_editnote"  name="submit1" type="submit" class="buttonStyle" style="cursor:hand" value="确定修改">
 	 </td>
 	</tr>
 
