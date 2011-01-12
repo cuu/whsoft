@@ -40,7 +40,7 @@ include_once "../../function/sendNote.php";
 	{
 		$handle = openConn();
 		if($handle == NULL) die();
-		$sql = "select id,yhmc,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj from softsetup where id=".intval($id);
+		$sql = "select id,yhmc,yhlx,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj from softsetup where id=".intval($id);
 		$result = mysql_query($sql,$handle);
 		if ($result === false) {  closeConn($handle); die();}
 		$num  = mysql_num_rows($result);
@@ -206,6 +206,7 @@ function soft_edit_save()
 	global $id;
 	$yhmc = ""; $gddh=""; $yddh=""; $lxdz=""; $rjjsrq="";$zt=""; $bz=""; $zt1="";
 	$yhmc = getFormValue("yhmc");
+	$yhlx = getFormValue("yhlx");
 	$gddh = getFormValue("gddh");
 	$yddh = getFormValue("gddh");
 	$lxdz = getFormValue("lxdz");
@@ -215,7 +216,7 @@ function soft_edit_save()
 	$bz     = getFormValue("bz"    );
 	
 
-	$sql="update softsetup set yhmc='".$yhmc."',gddh='".$gddh."',yddh='".$yddh."',lxdz='".$lxdz."',rjjsrq='".$rjjsrq."',zt=".$zt.",bz='".$bz."' where id=".intval($id);
+	$sql="update softsetup set yhmc='".$yhmc."',yhlx=".$yhlx.",gddh='".$gddh."',yddh='".$yddh."',lxdz='".$lxdz."',rjjsrq='".$rjjsrq."',zt=".$zt.",bz='".$bz."' where id=".intval($id);
 	$handle = openConn();
 	if($handle == NULL) return;
 	$result = mysql_query($sql,$handle);

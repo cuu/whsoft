@@ -77,6 +77,15 @@ $("#out_list tbody  tr").hover(
 	 <input name="yddh" type="text" size="20" maxlength="18" class="logininput">
    </td>
    <td align="left" style="padding-left:10px">
+     用户类型：
+	 <select name="yhlx">
+	  <option value="">全部用户</option>
+	  <option value="0">普通用户</option>
+	  <option value="1">VIP用户</option>
+	 </select>
+   </td>
+
+   <td align="left" style="padding-left:10px">
      当前状态：
 	 <select name="zt">
 	  <option value="">全部用户</option>
@@ -84,6 +93,9 @@ $("#out_list tbody  tr").hover(
 	  <option value="2">锁定账户</option>
 	 </select>
    </td>
+
+  </tr>
+  <tr bgcolor="#FFFFFF" height="30">
    <td align="left" style="padding-left:10px">
      是否在线：
 	 <select name="sfzx">
@@ -92,8 +104,7 @@ $("#out_list tbody  tr").hover(
 	  <option value="0">离线用户</option>
 	 </select>
    </td>
-  </tr>
-  <tr bgcolor="#FFFFFF" height="30">
+
    <td align="left" style="padding-left:10px" colspan="3">
      注册日期：
 	 <input name="zcrq1" type="text" size="10" maxlength="10" class="logininput" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly=""><b>&nbsp;<=&nbsp;</b>注册日期<b>&nbsp;<=&nbsp;</b>
@@ -146,7 +157,8 @@ function Search()
 	$zhsxrq1= getFormValue("zhsxrq1");    $zhsxrq2     = getFormValue("zhsxrq2");    $sfzx  = getFormValue("sfzx" );
 	$pxgz   = getFormValue("pxgz"   );    $pxgz_type = getFormValue("pxgz_type");	 $pxgz_type1 = "";
 	$pg     = getFormValue("pg");
-
+	$yhlx   = getFormValue("yhlx");
+  
 	$sql = "";
 	$sql .= build_sql_query($diskid  , "diskid", "like", $sql, "", "%");
 	$sql .= build_sql_query($yhmc    , "yhmc"  , "like", $sql, "", "%");
@@ -205,6 +217,15 @@ function Search()
 			$sql .= " where zt =".$zt;
 	}
 
+	if($yhlx != "")
+	{
+		if(strpos($sql,"where"))
+			$sql .= " and yhlx =".$yhlx;
+		else
+			$sql .= " where yhlx =".$yhlx;
+	}
+
+
 	if( $sfzx != "")
 	{
 		if (strpos ($sql, "where"))
@@ -232,7 +253,7 @@ function Search()
 	}
 
 
-	$sql = "select id,yhmc,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj from softsetup ".$sql;
+	$sql = "select id,yhmc,yhlx,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj from softsetup ".$sql;
 	if($pxgz!="")
 	{
 		if($pxgz == "sfzx")
@@ -444,7 +465,7 @@ function Search()
 ?>
 	  <tr height='25' style="cursor:hand; " onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
 	    <td align="center" style="border-bottom:1px  solid #ccc;">
-         <a href="http://" class="del" onClick="JavaScript:openScript('soft_edit.php?id=<?php echo trim($row["id"]);?>','注册用户<?php echo trim($row["id"]);?>',500,400,'no')">修改</a>
+         <a href="" class="del" onClick="JavaScript:openScript('soft_edit.php?id=<?php echo trim($row["id"]);?>','注册用户<?php echo trim($row["id"]);?>',500,400,'no');return false">修改</a>
 <?php  
 		    if( isset($_SESSION["zz"]) && intval($_SESSION["zz"]) ==1)
 		      {
@@ -466,7 +487,7 @@ function Search()
 		{ 
 			  
 		?>
-		（<a href="http:///" class="link" onClick="JavaScript:openScript('userManager2.php?diskid=<?php echo trim($row["diskid"]);?>&pxgz=sfzx&pxgz_type=&action=Search','注册用户<?php echo trim($row["id"]);?>',1000,300,'yes')"><?php echo $row1[0]; ?></a>）
+		（<a href="http:///" class="link" onClick="JavaScript:openScript('userManager2.php?diskid=<?php echo trim($row["diskid"]);?>&pxgz=sfzx&pxgz_type=&action=Search','注册用户<?php echo trim($row["id"]);?>',1000,300,'yes');return false"><?php echo $row1[0]; ?></a>）
 		<?php
 		
 		}
@@ -481,7 +502,7 @@ function Search()
 		<td align="center" style="border-bottom:1px  solid #ccc;" ><?php echo trim($row["rjjsrq"]);?></td>
 		<td align="center" style="border-bottom:1px  solid #ccc;">
 		<?php
-			 switch( intval($row["yhlx"]))
+			 switch( intval($row["yhlx"]) )
                         {
                                 case 0: echo "普通用户"; break;
 			        case 1: echo "VIP用户"; break;

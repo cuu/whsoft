@@ -1,6 +1,15 @@
 <?php
 session_start();
-
+function return_account_type($v)
+{
+  switch(intval($v))
+  {
+      case 1: return "超级管理员"; break;
+      case 2: return "普通管理员"; break;
+      case 3: return "临时管理员"; break;
+      default:break;
+  }
+}
 ?>
 <HTML>
 <HEAD>
@@ -87,7 +96,7 @@ text-decoration:none;
 
 <div id="main_menubar_right" style="float:right;padding:5px;"
 
-<span id="kk5" ><b><?php echo $_SESSION["yhgl"]; ?></b></span>
+<span id="kk5" ><b><?php echo $_SESSION["yhgl"]; ?></b> - <?php echo "您是 ". return_account_type($_SESSION["zz"]); ?></span>
 <span id="kk4">  <a id="menu_item4" href="logout.php" target=mainFrame>登出</A> </span>
 </div>
 

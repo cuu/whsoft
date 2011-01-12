@@ -11,7 +11,7 @@ function CodeIsTrue( $b)
 	
 		if ($b == "")
 		{
-			echo "<script language=JavaScript>" . chr(13) . "alert('验证码错误，请重新输入！');" . "window.location.href='login.asp'" . "</script>" ;
+			echo "<script language=JavaScript>" . chr(13) . "alert('验证码错误，请重新输入！');" . "window.location.href='login.php'" . "</script>" ;
 	
 		}else
 		{
@@ -23,11 +23,11 @@ function CodeIsTrue( $b)
 
 	CodeIsTrue("");
 	if( trim( $_REQUEST["adminname"] ) =="") {
-		echo "<script language=javascript>alert('管理员不能为空');window.location.href='login.asp';</script>";
+		echo "<script language=javascript>alert('管理员不能为空');window.location.href='login.php';</script>";
 		die();
 	}
 	if( trim( $_REQUEST["adminpsw"]) =="") {
-		echo "<script language=javascript>alert('密码不能为空');window.location.href='login.asp';</script>";
+		echo "<script language=javascript>alert('密码不能为空');window.location.href='login.php';</script>";
 		die();
 	}
 ?>
@@ -46,10 +46,10 @@ if($res > 0)
 	//$psw = sprintf("%u",crc32( strval( $_POST['adminpsw']."jc")));
 	$psw = g_CRC32($_POST['adminpsw']);
 
-	while ($row = mysql_fetch_array($result, MYSQL_NUM)) 
-	{
+	$row = mysql_fetch_array($result, MYSQL_NUM);
+	
 		//must %u 
-		if ( strcmp( $psw,  $row[1] ) == 0)
+	  if ( strcmp( $psw,  $row[1] ) == 0 && intval($row[4])==1 && ( intval($row[3]) ==0 || intval(strtotime($row[3])) > time()  ) )
 		{	
 			$_SESSION["yhgl"] = trim( $_POST['adminname'] );
 			//ini_set('session.gc_maxlifetime', 60*20);
@@ -60,23 +60,34 @@ if($res > 0)
 				
 			//mysql_free_result($result);
 			closeConn($handle);
-			echo "<script language=javascript>window.location.href='main.asp';window.parent.mainFrame.location.href='index.php';</script>";
-			//echo "echo main.php";
+			echo "<script language=javascript>window.location.href='main.php';window.parent.mainFrame.location.href='index.php';</script>";
+		       
 			return;
 			
 		}
-	}
-	//mysql_free_result($result);
-	//closeConn($handle);
-	echo "<script language=javascript>alert('密码不正确！');window.location.href='login.asp';</script>";
-	//mysql_free_result($result);
-	//echo "not right passwd";
-	closeConn($handle);
-	die();
+	       else if( strcmp( $psw,  $row[1] ) == 0 && intval($row[3]) !=0 && intval( strtotime($row[3])) < time() )
+	       {
+		  echo "<script language=javascript>alert('此帐号已过期！');window.location.href='login.php';</script>";
+		  closeConn($handle); die();   
+	       }
+	       else if( strcmp( $psw,  $row[1] ) == 0 && intval($row[4]) !=1)
+	       {
+		  echo "<script language=javascript>alert('此帐号已禁用！');window.location.href='login.php';</script>";
+		  closeConn($handle); die();
+	       }
+	       else
+	       {
+		  echo "<script language=javascript>alert('密码不正确！');window.location.href='login.php';</script>";
+
+		  //echo "not right passwd";
+		  closeConn($handle);
+		  die();
+	       }
+
 }else
 {	
 	closeConn($handle);
-	echo "<script language=javascript>alert('管理员不正确！');window.location.href='login.asp';</script>";
+	echo "<script language=javascript>alert('管理员不正确！');window.location.href='login.php';</script>";
 	die('Invalid query: ' . mysql_error());
 }
 

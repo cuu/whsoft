@@ -45,11 +45,12 @@ include_once "cscheck.php";
     <td style="border-left-width: 1px; border-right-width: 1px;" width="80" align="center">
     <font size="2">帐号时效：</font></td>
     <td style="border-left-width: 1px; border-right-width: 1px;" width="286" align="left">
-    <input type="text" name="add_pstime" size="20" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly="" ></td>
+    <input type="text" name="add_pstime" size="20" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly="" > &nbsp;<font size="2" color="#FF0000">默认空白时效为无限</font> </td>
+    
    </tr>
 
    <tr>
-  <td style="border-left-width: 1px; border-right-width: 1px; " width="64" align="center">
+  <td style="border-left-width: 1px; border-right-width: 1px; " width="80" align="center">
  <font size="2">帐号类型：</font></td>
 <td style="border-left-width: 1px; border-right-width: 1px; " width="286" align="left">
   <select name="u_type" style="width:100px;">

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once "header.php";
-include_once "waibu.php";
+//include_once "waibu.php";
 include_once "cscheck.php";
 ?>
 
@@ -17,7 +17,7 @@ include_once "cscheck.php";
 <title>管理员帐号密码修改</title>
 </head>
 
-<body bgcolor="#fff" topmargin="0">
+<body bgcolor="#ffffff" topmargin="0">
 
 <form method="POST" action="admin_user_db.php">
 <?php
@@ -29,7 +29,7 @@ include_once "cscheck.php";
     }
 ?>
  <div align="center"><p>　</p><p>　</p>
-  <table border="0" width="368" cellspacing="0" cellpadding="1" bgcolor="#Fff" style="border: 1px solid #000000; padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
+  <table border="0" width="368" cellspacing="0" cellpadding="1"  style="border: 1px solid #000000; padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
    <tr>
     <td height="25"  width="358" colspan="2" class="biaoti">管理员帐号密码</td>
    </tr>

@@ -16,6 +16,18 @@ include_once "../../function/xdownpage.php";
 <title>后台用户权限管理</title>
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
+<style type="text/css">
+#out_list
+{
+  margin:8px;
+  border:1px solid #bbb;
+  border-bottom:none;
+}
+#out_list td
+{
+  border-bottom:1px solid #ccc;
+}
+</style>
 </head>
 <body>
 
@@ -71,12 +83,12 @@ include_once "../../function/xdownpage.php";
 		    }
 ?>
 
-<TABLE border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#fff" bordercolordark="#fff" style="border-collapse: collapse; table-layout:fixed;width:100%;" bordercolor="#fff" >
-      <tr height='10' >
-       <td width="150" class="tdbiaoti"></td>
-       <td width="120"  class="tdbiaoti"></td>
-       <td width="120" class="tdbiaoti"></td>
-       <td width="120" class="tdbiaoti"></td>
+<TABLE  id ="out_list" border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#fff" bordercolordark="#fff" style="border-collapse: collapse; table-layout:fixed;width:1000px;" bordercolor="#fff"  >
+      <tr height='30' bgcolor='#ebeff9'  >
+       <td width="150" class="tdbiaoti">确认操作</td>
+       <td width="120"  class="tdbiaoti">管理员名称</td>
+       <td width="120" class="tdbiaoti">管理员类型</td>
+       <td width="120" class="tdbiaoti">使用状态</td>
 
        <td></td>
      </tr>
@@ -87,8 +99,8 @@ include_once "../../function/xdownpage.php";
 		  $row = mysql_fetch_array($result,MYSQL_ASSOC); 
 ?>
 <tr height='25' style="border-bottom:1px solid #ccc;">
- <td align="center">
-         <a href="http://" class="del" onClick="JavaScript:openScript('admin_user.php?zt=<?php echo trim( $row["zt"]); ?>&type=<?php echo trim($row["type"]); ?>&edit=1&name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,383,'no')">修改</a>
+ <td align="center"  >
+         <a href="" class="del" onClick="JavaScript:openScript('admin_user.php?zt=<?php echo trim( $row["zt"]); ?>&type=<?php echo trim($row["type"]); ?>&edit=1&name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,383,'no');return false">修改</a>
 		    &nbsp;&nbsp;
          <a href="?action=del&name=<?php echo trim($row["username"]);?>" class="del" onClick="return confirm('删除该管理帐号,您确定进行删除操作吗？')" target="delframe">删除</a>
         </td>
