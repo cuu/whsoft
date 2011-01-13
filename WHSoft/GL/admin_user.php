@@ -68,7 +68,7 @@ include_once "cscheck.php";
     <input type="text" name="xpsw" size="20">&nbsp;<font size="2" color="#FF0000">Èô²»ĞŞ¸ÄÇëÎğÌîĞ´</font></td>
    </tr>
 <?php
-  if(isset($_GET["jzrq"]))
+  if(isset($_GET["jzrq"]) && ( intval($_SESSION["zz"] )==1 || intval($_SESSION["zz"] )==3) )
     {
       ?>
    <tr>

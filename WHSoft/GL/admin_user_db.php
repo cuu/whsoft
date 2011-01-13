@@ -17,17 +17,73 @@ $xpsw      = trim($_POST['xpsw']     );
 //$add_psw      = trim($_POST["add_psw"]);
 $add_new_user = trim($_POST["add_new_user"] );
 $edit_type="2"; /// for normally ,user is normal ,2
-if( isset($_SESSION["zz"]) && intval( trim($_SESSION["zz"])) == 1)
+$xpstime = "0";
+
+if ( isset($_POST["xpstime"]) )
+{
+    if ( strcmp($_POST["xpstime"], "不限时") !=0  && strlen($_POST["xpstime"]) == 10)
+      $xpstime= $_POST["xpstime"];
+}
+
+if( isset($_SESSION["zz"]) && intval( trim($_SESSION["zz"]) ) == 1)
   {
     $edit_type = trim($_POST["edit_type"]);
   }
 
-if ( isset ($_POST["sedit"] ) && $_POST["sedit"] == "1")
-  {
+if ( isset($_POST["sedit"] ) && $_POST["sedit"] == "1" )
+{// sedit ,from super user edit mode
+   
+    if( strlen($ypsw) ==0 && strlen($xusername)==0 && strlen($xpsw)==0  && strlen($yusername)!=0 ) //表示不修改 帐号和密码
+    {
+      // only update 时效,状态和帐号类型
+      $s_none=1;
+    }
+
+   if ( strlen($ypsw) == 0 && strlen($xpsw)!=0)
+    {
+	echo "<script language=javascript>alert('请填写原帐号密码！');window.history.back();</script>";
+	die();        
+    }
+
+    if ( strlen($ypsw) != 0 && strlen($xpsw)==0)
+    {
+	echo "<script language=javascript>alert('请填写新帐号密码！');window.history.back();</script>";
+	die();        
+    }
+
+ 
+    if ( ( strlen($yusername)!= 0 ) && ( strlen($xusername)!=0 )  && ( strlen($ypsw)==0 || strlen($xpsw) == 0 ) )
+    {
+	echo "<script language=javascript>alert('请填写帐号密码！');window.history.back();</script>";
+	die();        
+    } 
     
 
-    
-  }
+    if( strlen($ypsw) !=0 && strlen($xusername)!=0 && strlen($xpsw)!=0  && strlen($yusername)!=0 )  //表示全修改
+    {
+      // all update
+      $s_none=2;
+    }
+
+
+
+    $sql = "";
+
+    switch($s_none)
+    {
+        case 1:
+        {
+        
+        }break;
+        case 2:
+        {
+   
+        }break;
+        default:break;
+    }
+  
+  return;
+} // end sedit
 
 if(strcmp($add_new_user,"add") == 0)
   {
@@ -36,6 +92,7 @@ if(strcmp($add_new_user,"add") == 0)
     $add_username = trim($_POST["add_username"] );
     $add_psw      = trim($_POST["add_psw"]);
     $u_type       = trim($_POST["u_type"] );
+    $u_time       = trim($_POST["add_pstime"]);
     if( strlen( trim($add_username)) < 1) 
       {
       	echo "<script language=javascript>alert('帐号名称不能为空！');window.history.back();</script>";
@@ -46,6 +103,23 @@ if(strcmp($add_new_user,"add") == 0)
         echo "<script language=javascript>alert('帐号密码不能为空！');window.history.back();</script>";
 	die();
       }
+    if( strlen( $u_time) ==0)
+      {
+          $u_time="0";
+      }
+      
+    if( strlen( $u_time) >10)
+      {
+          echo "<script language=javascript>alert('帐号时限不对！');window.history.back();</script>";
+	  die();          
+      }
+
+     if( strlen($u_time) >5 && strtotime($u_time) < time() )
+      {
+         echo "<script language=javascript>alert('帐号时限不对！');window.history.back();</script>";
+	 die();         
+      }
+
     $handle = openConn();
     if($handle == NULL) die("openConn error".mysql_error());
     $sql = "select * from admin where username='".$add_username."'";
@@ -63,7 +137,7 @@ if(strcmp($add_new_user,"add") == 0)
 	  }
 	else
 	  {
-	    $sql = "insert into admin(username,passwd,type) values('".$add_username."','".g_CRC32($add_psw)."',".intval($u_type).")";
+	    $sql = "insert into admin(username,passwd,type,jzrq) values('".$add_username."','".g_CRC32($add_psw)."',".intval($u_type).",'".$u_time."')";
 	    // echo "insert sql =".$sql;
 	    $result1 = mysql_query($sql,$handle);
 	    //echo "<br />".gettype($result1)." ".mysql_error();
@@ -152,7 +226,7 @@ else
 			}	
 
 		}
-		else if( intval($_SESSION["zz"]) > $row['type'] ) // IF USER IS BLEW  
+		else if(  strcmp( strval($row['type']), $_SESSION["zz"] ) !=0 ) // IF USER IS BLEW  
 		  {
 		    closeConn($handle);
 		    echo "<script language=javascript>alert('帐号类型有误！');window.history.back();</script>";

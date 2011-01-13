@@ -10,11 +10,13 @@ if( $_SESSION["yhgl"]=="" )
 }
 else
 {
-        if( strcmp( strval($_COOKIE["yhgl"]) , "jcok")!=0 /*|| $_COOKIE["login"]!="jcok"*/ )
+        if( strcmp( strval($_COOKIE["yhgl"]) , "jcok")!=0 )
         {
+ /*|| $_COOKIE["login"]!="jcok"*/ 
                 echo "<script language=javascript>alert('ÇëÏÈµÇÂ½!');window.parent.location.href='login.asp';</script>";
 		//echo"cookie error";
                 die();
         }
 }
 
+?>

@@ -7,6 +7,22 @@ $len = mb_strlen($_GET["s_q"]);
 $s_q = $_GET["s_q"];
 if( is_numeric ( $s_q ))
   {
+     if( strlen($s_q) ==3 && $s_q[0]=="1" && $s_q[1]=="3")
+  {
+	  echo "<script  language='javascript'>"." location='softManager.php?action=Search&yddh=".$s_q."';"."</script>";
+	  return;      
+  }
+     if( strlen($s_q) ==3 && $s_q[0]=="1" && $s_q[1]=="5"  )
+  {
+	  echo "<script  language='javascript'>"." location='softManager.php?action=Search&yddh=".$s_q."';"."</script>";
+	  return;      
+  }
+     if( strlen($s_q) ==3 && $s_q[0]=="1" && $s_q[1]=="8"  )
+  {
+	  echo "<script  language='javascript'>"." location='softManager.php?action=Search&yddh=".$s_q."';"."</script>";
+	  return;      
+  }
+        
     if (strlen( $s_q) >= 10) // maybe the cell phone number
       {
 	if( $s_q[0] =="1" && $s_q[1]=="3")
