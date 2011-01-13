@@ -19,10 +19,16 @@ $add_new_user = trim($_POST["add_new_user"] );
 $edit_type="2"; /// for normally ,user is normal ,2
 $xpstime = "0";
 
-if ( isset($_POST["xpstime"]) )
+if ( isset($_POST["xpstime"]) )// 修改
 {
     if ( strcmp($_POST["xpstime"], "不限时") !=0  && strlen($_POST["xpstime"]) == 10)
       $xpstime= $_POST["xpstime"];
+}
+
+if ( isset($_POST["add_pstime"]) ) // 添加
+{
+    if ( strcmp($_POST["add_pstime"], "不限时") !=0  && strlen($_POST["add_pstime"]) == 10)
+      $xpstime= $_POST["add_pstime"];
 }
 
 if( isset($_SESSION["zz"]) && intval( trim($_SESSION["zz"]) ) == 1)
@@ -32,7 +38,7 @@ if( isset($_SESSION["zz"]) && intval( trim($_SESSION["zz"]) ) == 1)
 
 if ( isset($_POST["sedit"] ) && $_POST["sedit"] == "1" )
 {// sedit ,from super user edit mode
-   
+     $edit_zt = $_POST["edit_zt"];
     if( strlen($ypsw) ==0 && strlen($xusername)==0 && strlen($xpsw)==0  && strlen($yusername)!=0 ) //表示不修改 帐号和密码
     {
       // only update 时效,状态和帐号类型
@@ -71,18 +77,33 @@ if ( isset($_POST["sedit"] ) && $_POST["sedit"] == "1" )
 
     switch($s_none)
     {
-        case 1:
+        case 1: // only update 时效,状态,类型
         {
-        
+            $sql  = "update admin set jzrq='".$xpstime."',type=".$edit_type.",zt=".$edit_zt." where username='".$yusername."'";
+            $handle = openConn();
+            if($handle == NULL) die("openConn error".mysql_error());  
+            $result = mysql_query($sql,$handle);
+            if($result !== false)
+            {
+ 		closeConn($handle);
+		echo "<script language=javascript>alert('管理员帐号修改成功;请记住您修改后的信息!');window.location.href='admin_user2.php'</script>";
+		die();               
+            }
+            else
+            {
+ 		closeConn($handle);
+		echo "<script language=javascript>alert('管理员帐号修改有错 '".mysql_error().");</script>";
+		die();
+            }
         }break;
         case 2:
         {
-   
+            
         }break;
         default:break;
     }
   
-  return;
+ 
 } // end sedit
 
 if(strcmp($add_new_user,"add") == 0)
@@ -179,6 +200,8 @@ if(strlen( trim($xpsw ) )< 1)
 	die();
 }
 
+
+
 $sql = "select * from admin where username='".$yusername."'";
 
 $handle = openConn();
@@ -202,7 +225,7 @@ else
 	else
 	{
 		$row = mysql_fetch_array($result,MYSQL_ASSOC);
-		if( strcmp( strval($row['type']), $_SESSION["zz"] ) == 0 && strcmp( $row['passwd'] , g_CRC32( $ypsw ) ) == 0) // yuan pass is right
+		if( ( $_SESSION["zz"]=="1" || strcmp( strval($row['type']), $_SESSION["zz"] ) == 0 ) && strcmp( $row['passwd'] , g_CRC32( $ypsw ) ) == 0) // yuan pass is right and user type is equal
 		{
 			if($xusername == "")
 				$xusername = $yusername;
@@ -210,8 +233,13 @@ else
 				$xpsw = g_CRC32($xpsw);
 			else
 				$xpsw = $ypsw;
-
-			$sql2 = "update admin set username='".$xusername."', passwd='".$xpsw."', type=".intval($edit_type)."  where username='".$yusername."'";
+                        if($_SESSION["zz"]=="1") // super
+                        {
+                          $sql2 = "update admin set zt=".$_POST["edit_zt"].",jzrq='".$xpstime."',username='".$xusername."', passwd='".$xpsw."', type=".intval($edit_type)."  where username='".$yusername."'";
+                        } else
+                        {
+                          $sql2 = "update admin set username='".$xusername."', passwd='".$xpsw."'  where username='".$yusername."'";
+                        }
 			$result = mysql_query($sql2,$handle);
 			if($result===false)
 			{  
@@ -226,7 +254,7 @@ else
 			}	
 
 		}
-		else if(  strcmp( strval($row['type']), $_SESSION["zz"] ) !=0 ) // IF USER IS BLEW  
+		else if(  $_SESSION["zz"] != "1" && strcmp( strval($row['type']), $_SESSION["zz"] ) !=0 ) // IF USER IS BLEW  
 		  {
 		    closeConn($handle);
 		    echo "<script language=javascript>alert('帐号类型有误！');window.history.back();</script>";

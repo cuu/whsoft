@@ -86,7 +86,7 @@ include "jq_ui.php";
 
 
 		    <?php  
-		    if( intval($_SESSION["zz"]) == 1 || intval($_SESSION["zz"]) == 3 ) // super user or temp super user 
+		    if( intval($_SESSION["zz"]) == 1  ) // super user 
 		    {
 ?>
 <div style="margin-left:10px;">
@@ -123,14 +123,11 @@ include "jq_ui.php";
 </td>
 <td align="center">
 		    <?php
-		    switch( trim($row["type"]))
-		      {
-		      case "1": echo "超级管理员";break;
-		      case "2": echo "普通管理员"; break;
-		      case "3": echo "临时管理员"; break;
-		      case "0": echo "不明用户"; break;
-		      default:break;
-		      }
+                       $t_type = intval( trim($row["type"])) + intval( strtotime( trim($row["jzrq"])));
+                       if ($t_type ==1) echo "超级管理员"; 
+                       else if ($t_type ==2)  echo "普通管理员";
+                       else if( $t_type - ( intval( strtotime( trim($row["jzrq"]) ))) ==1) echo "临时管理员";
+                       
 		    ?>
 </td>
 <td align="center">
