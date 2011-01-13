@@ -16,6 +16,35 @@ include_once "cscheck.php";
 <link rel="stylesheet" type="text/css" href="images/css.css">
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
+<?php
+include "jq_ui.php";
+?>
+<script language="javascript">
+  $(function() {
+    $("#mgr_table").draggable();
+    $("#mgr_table").resizable();
+    $("table, tr, td").disableSelection();
+
+    $("#btg_confirm_edit").button();
+    $("#btg_confirm_edit").css("fontSize","14px");
+    $("#btg_confirm_edit").click(
+      function()
+      {
+         var str="";
+       str = $("#edit_type option:selected").text();
+       str = jQuery.trim(str);
+      
+      if( strcmp( str ,"临时管理员") == 0 && strlen( jQuery.trim( $("#xpstime").val()) ) ==0  )
+       {
+          alert("添加[临时管理员]必须设定有限时效!");
+          return false;
+       }
+       else 
+       { }      
+      }
+      );//end click() 
+  });
+</script>
 
 <title>管理员帐号密码修改</title>
 </head>
@@ -32,7 +61,7 @@ include_once "cscheck.php";
     }
 ?>
  <div align="center"><p>　</p><p>　</p>
-  <table border="0" width="368" cellspacing="0" cellpadding="1"  style="border: 1px solid #000000; padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
+  <table id="mgr_table" class="g_input" border="0" width="368" cellspacing="4" cellpadding="1"  style=" padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
    <tr>
     <td height="25"  width="358" colspan="2" class="biaoti">管理员帐号密码</td>
    </tr>
@@ -41,12 +70,7 @@ include_once "cscheck.php";
     <font size="2">原帐号：
    </font></td>
     <td style="border-left-width: 1px;" width="286" align="left">
-    <input type="text" name="yusername" size="20" value="
-<?php
-  if( isset($_GET['name']))
-    echo $_GET["name"];
-?>
-" >
+    <input type="text" name="yusername" size="20" value="<?php if( isset($_GET['name']))  echo $_GET["name"];?>" />
    </td>
    </tr>
    <tr>
@@ -68,14 +92,14 @@ include_once "cscheck.php";
     <input type="text" name="xpsw" size="20">&nbsp;<font size="2" color="#FF0000">若不修改请勿填写</font></td>
    </tr>
 <?php
-  if(isset($_GET["jzrq"]) && ( intval($_SESSION["zz"] )==1 || intval($_SESSION["zz"] )==3) )
+  if(isset($_GET["jzrq"]) && ( intval($_SESSION["zz"] )==1 )) 
     {
       ?>
    <tr>
     <td style="border-left-width: 1px; " width="80" align="left">
     <font size="2">新时效：</font></td>
     <td style="border-left-width: 1px; " width="286" align="left">
-      <input type="text" name="xpstime" size="20" value="<?php if(intval($_GET["jzrq"])!=0){ echo $_GET["jzrq"];}else {echo "不限时";} ?>" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly="" >&nbsp;<font  color="#FF0000"  size="2" >若不修改请留空白</font></td>
+      <input type="text" id="xpstime" name="xpstime" size="20" value="<?php if(intval($_GET["jzrq"])!=0){ echo $_GET["jzrq"];}else {echo "不限时";} ?>" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly="" >&nbsp;<font  color="#FF0000"  size="2" >若不修改请留空白</font></td>
    </tr>
 <?php      
     }
@@ -87,38 +111,36 @@ include_once "cscheck.php";
     <td style="border-left-width: 1px; " width="80" align="left">
     <font size="2">帐号类型：</font></td>
     <td style="border-left-width: 1px;" width="286" align="left">
-    <select name="edit_type" >
+    <select id="edit_type" name="edit_type" >
     <?php
-switch($_GET["type"])
-  {
-case "1":
-  {
+    $rt= intval($_GET["type"]) ;
+    $rs = $rt + intval( strtotime($_GET["jzrq"]));
+    $rv  =  intval( strtotime($_GET["jzrq"]));
+    if( $rs ==1 )
+    {
+
     ?>
-      <option value="1" >Super user </option>
-     <option value="2" > Normal user </option>
-     <option value="3" > temp </option>   
+      <option value="1" >超级管理员</option>
+     <option value="2" > 普通管理员</option>
+     <option value="1" > 临时管理员</option>   
 
     <?php
-  }break;
-case "2":
-{
+  }else if ($rs ==2 )
+   {
 ?>
-      <option value="2" >Normal user </option>
-     <option value="1" > super user </option>
-     <option value="3" > temp </option>
+      <option value="2" >普通管理员 </option>
+     <option value="1" > 超级管理员</option>
+     <option value="1" > 临时管理员 </option>
     
 <?php
-      }break;
-case "3":
-{
+      }else if ( ($rs-$rv) == 1)
+      {
 ?>
-  <option value="3" > temp </option>
-      <option value="2" >Normal user </option>
-     <option value="1" > super user </option>
+      <option value="1" > 临时管理员</option>
+        <option value="2" >普通管理员</option>
+      <option value="1" > 超级管理员 </option>
 <?php
-    }break;
-default:break;
-  }
+      }
 ?>
     </select>
     </td>
@@ -157,8 +179,15 @@ switch($_GET["zt"])
 <?php 
 } // end if
 ?>
+
+<tr>
+<td>&nbsp;</td>
+<td width="186" >
+  <input id="btg_confirm_edit" type="submit" value="确认修改" name="B1">
+</td>
+</tr>
+
   </table>
-  <p><input type="submit" value="修改" name="B1"></div>
 </form>
 </body>
 </html>

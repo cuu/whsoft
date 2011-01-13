@@ -86,7 +86,7 @@ if ( isset($_POST["sedit"] ) && $_POST["sedit"] == "1" )
             if($result !== false)
             {
  		closeConn($handle);
-		echo "<script language=javascript>alert('管理员帐号修改成功;请记住您修改后的信息!');window.location.href='admin_user2.php'</script>";
+		echo "<script language=javascript>alert('管理员帐号修改成功;请记住您修改后的信息!');window.location.href='admin_user2.php' </script>";
 		die();               
             }
             else
@@ -95,10 +95,6 @@ if ( isset($_POST["sedit"] ) && $_POST["sedit"] == "1" )
 		echo "<script language=javascript>alert('管理员帐号修改有错 '".mysql_error().");</script>";
 		die();
             }
-        }break;
-        case 2:
-        {
-            
         }break;
         default:break;
     }

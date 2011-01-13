@@ -1,5 +1,5 @@
 <?php
-/// this is for root opers, add normal users, delete ,change passwd...
+/// this is for root opers,  delete ,change passwd...
 session_start();
 include_once "header.php";
 //include_once "cscheck.php";
@@ -86,16 +86,16 @@ include "jq_ui.php";
 
 
 		    <?php  
-		    if( intval($_SESSION["zz"]) == 1  ) // super user 
+		    if( intval($_SESSION["zz"]) != 1  ) // super user 
 		    {
+                          echo "You are not supposed to be here";
+                            die();
+                    }
 ?>
 <div style="margin-left:10px;">
 <span id="btg_adduser"  style="border:1px solid #ccc;padding:0px;margin-bottom:10px;font-size:12px;" ><a href="add_user.php" >添加管理员</a></span>
 </div>
 
-<?php
-		    }
-?>
 
 <TABLE  id ="out_list" border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#fff" bordercolordark="#fff" style="border-collapse: collapse; table-layout:fixed;width:600px;" bordercolor="#fff"  >
       <tr height='30' bgcolor='#ebeff9'  >
@@ -114,7 +114,7 @@ include "jq_ui.php";
 ?>
 <tr height='25' style="border-bottom:1px solid #ccc;">
  <td align="center"  >
-         <a href="" class="del" onClick="JavaScript:openScript('admin_user.php?jzrq=<?php echo trim($row["jzrq"]); ?>&zt=<?php echo trim( $row["zt"]); ?>&type=<?php echo trim($row["type"]); ?>&edit=1&name=<?php echo trim($row["username"]);?>','注册用户<?php echo trim($row["username"]);?>',500,399,'no');return false">修改</a>
+         <a  class="del" href="admin_user.php?jzrq=<?php echo trim($row["jzrq"]); ?>&zt=<?php echo trim( $row["zt"]); ?>&type=<?php echo trim($row["type"]); ?>&edit=1&name=<?php echo trim($row["username"]);?>" >修改</a>
 		    &nbsp;&nbsp;
          <a href="?action=del&name=<?php echo trim($row["username"]);?>" class="del" onClick="return confirm('删除该管理帐号,您确定进行删除操作吗？')" target="delframe">删除</a>
         </td>

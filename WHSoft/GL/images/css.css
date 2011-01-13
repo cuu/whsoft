@@ -192,3 +192,10 @@ A.tdbiaoti:hover {
 	border-right:1px solid #999;
 	border-bottom:1px solid #999;
 }
+.g_input 
+{
+	border-top:1px solid #ccc;
+	border-left:1px solid #ccc;
+	border-right:1px solid #999;
+	border-bottom:1px solid #999;
+}
