@@ -221,7 +221,7 @@ else
 	else
 	{
 		$row = mysql_fetch_array($result,MYSQL_ASSOC);
-		if( ( $_SESSION["zz"]=="1" || strcmp( strval($row['type']), $_SESSION["zz"] ) == 0 ) && strcmp( $row['passwd'] , g_CRC32( $ypsw ) ) == 0) // yuan pass is right and user type is equal
+		if( ( strcmp( strval($row['type']), $_SESSION["zz"] ) == 0 ) && strcmp( $row['passwd'] , g_CRC32( $ypsw ) ) == 0) // yuan pass is right and user type is equal
 		{
 			if($xusername == "")
 				$xusername = $yusername;
