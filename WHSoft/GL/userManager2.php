@@ -337,7 +337,7 @@ function  Search()
          <a href="?action=del&id=<?php echo trim($row["id"]);?>" class="del" onClick="return confirm('删除该账户将无法恢复,您确定进行删除操作吗？')" target="delframe">删除</a>
 <?php
 	  }else
-	  echo "?";
+	   echo "<span style='color:#F2F2F2;'>无法操作</span>";
 ?>
         </td>
 		<td align="center"><?php echo trim($row["diskid"]);?></td>
