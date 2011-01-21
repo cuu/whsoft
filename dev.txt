@@ -143,3 +143,16 @@ http服务器和数据库软件具体版本依照redhat系统预装即可
 必须付费购买其整套商品和服务支持
 我们将采用完全依据 redhat enterprise 系统源代码 重新编译产生的免费版本 centos代替
 两者是完全一样的系统
+#----------------------------关于服务器的配置要求
+
+#$$$$$-----$$$$ 2011 01 21 关于多播消息
+
+CREATE TABLE  `sq_whsoft`.`vipmsg` (
+`id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT  '每次更新时间',
+`title` VARCHAR( 512 ) NULL COMMENT  '标题',
+`content` TEXT NULL COMMENT  '内容',
+`sfqy` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  '是否发送手机',
+PRIMARY KEY (  `id` )
+) ENGINE = MYISAM CHARACTER SET gb2312 COLLATE gb2312_chinese_ci COMMENT =  'VIP用户的多播消息'
+

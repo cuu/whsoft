@@ -91,7 +91,15 @@ text-decoration:none;
 	    ?>
  <a class="tab" id="menu_item1" href="softManager.php" target=mainFrame>注册用户管理</a> 
 <a class="tab" id="menu_item2" href="userManager.php" target=mainFrame>外汇账户管理</A> 
- <a class="tab" id="menu_item3" href="noteSet.php" target=mainFrame>短信内容设置</A> 
+ <a class="tab" id="menu_item3" href="noteSet.php" target=mainFrame>短信内容设置</A>
+<?php
+  if( intval($_SESSION["zz"]) == 1)
+  {
+?> 
+<a class="tab"  id="menu_item4" href="msgSet.php" target=mainFrame>多播消息设置</a>
+<?php
+  }
+?>
 </div>
 
 <div id="main_menubar_right" style="float:right;padding:5px;"

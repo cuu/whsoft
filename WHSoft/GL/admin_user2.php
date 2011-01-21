@@ -24,7 +24,7 @@ include "jq_ui.php";
 
 
  $(function() {
-  $("#btg_adduser").button();
+ // $("#btg_adduser").button();
 
 });
 </script>
@@ -80,11 +80,6 @@ include "jq_ui.php";
 	    
 ?>
 <br />
-<div style="background:#fff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
-		    <span style="font-size:20px;" >帐户修改</span>
-</div>
-
-
 		    <?php  
 		    if( intval($_SESSION["zz"]) != 1  ) // super user 
 		    {
@@ -92,8 +87,15 @@ include "jq_ui.php";
                             die();
                     }
 ?>
-<div style="margin-left:10px;">
-<span id="btg_adduser"  style="border:1px solid #ccc;padding:0px;margin-bottom:10px;font-size:12px;" ><a href="add_user.php" >添加管理员</a></span>
+
+<div style="background:#fff;font-weight:bold; padding-bottom:2px;padding-left:10px;margin-bottom:14px;" >
+		    <span style="font-size:20px;" >帐户修改</span>
+                  &nbsp; &nbsp; &nbsp;
+
+</div>
+
+<div>
+<a style="font-family:simhei;width:auto;height:auto;margin-left:10px;font-size:12px;color:blue;text-decoration:underline;" href="add_user.php" >添加管理员</a>
 </div>
 
 
@@ -150,7 +152,7 @@ include "jq_ui.php";
 </table>
 
 <?php		  
-		}
+		}else echo "没有管理员";
 ?>
 
 <?php          }break; //end default;
