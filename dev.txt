@@ -156,3 +156,4 @@ CREATE TABLE  `sq_whsoft`.`vipmsg` (
 PRIMARY KEY (  `id` )
 ) ENGINE = MYISAM CHARACTER SET gb2312 COLLATE gb2312_chinese_ci COMMENT =  'VIP用户的多播消息'
 
+ALTER TABLE `vipmsg` CHANGE `time` `time` VARCHAR( 19 ) CHARACTER SET gb2312 COLLATE gb2312_chinese_ci NOT NULL DEFAULT 'NOW()' COMMENT '每次更新时间'

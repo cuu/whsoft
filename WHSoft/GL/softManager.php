@@ -544,7 +544,7 @@ function Search()
 		}//end for
 ?>
      </TABLE>
-     <table width="1600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
+     <table style="margin-left:8px;" width="1600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
        <tr><td>
 <?php
 	$a = new Pager($all_num,20);

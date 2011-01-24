@@ -169,6 +169,24 @@ function build_sql_query($c, $s,$o,$sql,$t1,$t2)  // $yhmc ,"yhmc" ,"like" $sql,
 
 }
 
+function check_root()
+{
+  if(isset($_SESSION["zz"]))
+  {
+        if( intval($_SESSION["zz"]) != 1)
+        {
+          echo "<script language=javascript>alert('用户权限错误,您不是超级管理员！');window.parent.location.reload();</script>";
+          die();
+  
+        }
+  }
+  else
+  {
+    	echo "<script language=javascript>alert('会话错误！');window.parent.location.reload();</script>";
+        die();
+  }
+}
+
 
 
 

@@ -62,7 +62,7 @@ overflow:hidden;white-space: nowrap;
 	$noteContent = getFormValue("noteContent");
 	$sfqy        = getFormValue("sfqy")       ;
 	$id          = getFormValue("id")         ;
-
+        $pg          = getFormValue("pg");
 if($id == "" ) $id=0;
 if($action == "save") vip_save();
 else if($action == "del")  vip_del();
@@ -76,8 +76,28 @@ else
 
 		   */
 		$sql = "select * from vipmsg";
+                if( $pg!="")
+                {
+                  $sql2 = $sql;
+                  $sql .= " LIMIT ".((intval($pg)-1)*20).", 20";	
+	 
+                }
+                else
+                {
+                  $sql2 = $sql; 
+                  $sql .= " LIMIT 0 , 20";
+                }
+	
 		$handle = openConn();
 		if($handle ==NULL) die( "mysql error". mysql_error() );
+                $result = mysql_query($sql2,$handle);
+                if( $result !== false)
+                {
+                    $all = mysql_num_rows($result);
+                    $all_num = $all;
+                }
+                else { die("mysql error".mysql_error()); }
+
 		$result = mysql_query($sql,$handle);
 		if($result ===false)
 		{
@@ -115,7 +135,7 @@ else
 ?>    
                       <tr height='25' style="overflow:hidden;border-bottom:1px solid #ccc;">
                        <td align="center"  >
-                         <a  class="del" href="?action=edit&id=<?php echo trim($row["id"]);?>" >修改</a>
+                         <a  class="del" href="add_vip_msg.php?action=edit&id=<?php echo trim($row["id"]);?>" >修改</a>
 		    &nbsp;&nbsp;
                          <a href="?action=del&id=<?php echo trim($row["id"]);?>" class="del" onClick="return confirm('删除该管理帐号,您确定进行删除操作吗？')" target="delframe">删除</a>
                        </td>
@@ -133,6 +153,17 @@ else
                   }
 ?>
 </table>
+<table style="margin-left:10px;" width="600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
+       <tr><td>
+<?php
+	$a = new Pager($all_num,20);
+	echo $a->thestr."&nbsp;".$a->backstr."&nbsp;".$a->nextstr."&nbsp;&nbsp; 页次：".$a->pg."/".$a->page."&nbsp; 共".$a->countall."条记录&nbsp; ".$a->countlist."条/页";
+			
+?></td></tr>
+    </tbody>
+     </table>
+	 <iframe name="delframe" id="delframe" style="display:none"></iframe>
+
 <?php
                }else
                {
@@ -156,23 +187,7 @@ else
 </html>
 
 <?php
-function check_root()
-{
-  if(isset($_SESSION["zz"]))
-  {
-        if( intval($_SESSION["zz"]) != 1)
-        {
-          echo "<script language=javascript>alert('用户权限错误,您不是超级管理员！');window.parent.location.reload();</script>";
-          die();
-  
-        }
-  }
-  else
-  {
-    	echo "<script language=javascript>alert('会话错误！');window.parent.location.reload();</script>";
-        die();
-  }
-}
+
 function js_show_error($str)
 {
 	echo "<script language=javascript>alert('".$str."！');window.parent.location.reload();</script>";
@@ -214,13 +229,51 @@ function vip_save()
   else
   {
       	echo "<script language=javascript>alert('创建消息成功！');window.parent.location.reload();</script>";
+        closeConn($handle);
   }
    
   return;
 }
 function vip_del()
 {
-
+    var_dump($_GET);
 }
 
+function vip_edit()
+{
+    check_root();
+  
+   
+    $id = trim($_POST["edit_msg_id"]);
+    $content = trim($_POST["txt_msg_body"]);
+    if( strlen($content) < 3)
+    {
+       js_show_error("多播消息内容长度不正确,请重新填写!");
+        die();
+    }
+
+  
+    $time = trim($_POST["vip_putime"]);
+    $vip_putime = date('Y-m-d H:i:s', strtotime($time));
+    
+
+    $sql = "update vipmsg set content='".$content."',time='".$vip_putime."'  where id=".$id;
+  
+    $handle = openConn();
+    if($handle ==NULL) die( "mysql error". mysql_error() );
+    $result = mysql_query($sql,$handle);
+    if($result ===false)
+    {
+        echo "Edit mysql error()".mysql_error()."<br />";
+        closeConn($handle);
+        die();	
+    }
+    else
+    {
+      	echo "<script language=javascript>alert('修改消息成功！');window.parent.location.reload();</script>";
+        closeConn($handle);
+    }
+
+  return;   
+}
 ?>
