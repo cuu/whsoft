@@ -90,7 +90,7 @@ div.ui-datepicker
 
 <body  topmargin="0">
 
-<form method="POST" action="add_vip_msg.php">
+<form method="POST" action="msgSet.php">
  <div align="center"><p>　</p><p>　</p>
 <input name="add_new_vip_msg" type="hidden" value="add" >
   <table id="container" border="0" width="468" cellspacing="4" cellpadding="1"  style="border: 1px solid #ccc;border-right:1px solid #999;border-bottom:1px solid #999;  padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
@@ -103,7 +103,7 @@ div.ui-datepicker
     <font size="2">消息内容：
    </font></td>
     <td style="border-left-width: 1px; border-right-width: 1px;" width="286" align="left">
-      <textarea id="content_styled"  cols="30" rows="5"></textarea>
+      <textarea name="txt_msg_body"  id="content_styled"  cols="30" rows="5"></textarea>
 
    </td>
    </tr>
@@ -118,7 +118,9 @@ div.ui-datepicker
 
 <tr>
 <td style="margin-top:9px;" width="80" >&nbsp;</td>
-<td  style="margin-top:9px;"> <input id="btg_confirm_add" type="submit" style=""  value="确定创建" name="U2B"> </td>
+<td  style="margin-top:9px;">
+ <input type="hidden" value="save" name="action">
+ <input id="btg_confirm_add" type="submit" style=""  value="确定创建" name="U2B"> </td>
 </tr>
 
 
