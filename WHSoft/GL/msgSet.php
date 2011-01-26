@@ -234,9 +234,29 @@ function vip_save()
    
   return;
 }
+
 function vip_del()
 {
-    var_dump($_GET);
+    check_root();
+    $id = trim($_GET["id"]);
+    $sql = "delete from  vipmsg  where id=".$id;
+  
+    $handle = openConn();
+    if($handle ==NULL) die( "mysql error". mysql_error() );
+    $result = mysql_query($sql,$handle);
+    if($result ===false)
+    {
+        echo "Edit mysql error()".mysql_error()."<br />";
+        closeConn($handle);
+        die();	
+    }
+    else
+    {
+      	echo "<script language=javascript>alert('É¾³ý³É¹¦£¡');window.parent.location.reload();</script>";
+        closeConn($handle);
+    }
+
+  return;     
 }
 
 function vip_edit()
