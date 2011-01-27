@@ -17,6 +17,16 @@ include "jq_ui.php";
 ?>
 <script  language="javascript" >
   $(function() {
+$("#out_list tbody  tr").hover(
+    function(){
+        $(this).css("background", "#f4f4ff");
+    },
+    function(){
+        $(this).css("background", "transparent");
+    }
+
+);
+
     $("#btg_confirm_search").button();
     $("#btg_confirm_reset").button();
   });
@@ -37,7 +47,7 @@ include "jq_ui.php";
 		    <span style="font-size:20px;" class="biaoti_guu" >外汇账户管理</span>
 </div>
  <form action="userManager.php" method="get" name="formSearch" style="margin:0px">
- <TABLE border="0" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
+ <TABLE  border="0" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0" align="left">
   <tr bgcolor="#FFFFFF" height="30">
    <td align="left" style="padding-left:10px">
      注 册 号：
@@ -269,7 +279,7 @@ function u_Search()
         {
 
 ?>
-     <TABLE border="0" cellspacing="0" width="100%" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0">
+     <TABLE border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="margin:8px;border:1px solid #bbb;border-bottom:none;border-collapse: collapse" bordercolor="#C0C0C0"  id="out_list" >
       <tr height='30' bgcolor='#F1F3F5'>
        <td width="100" class="tdbiaoti">确认操作</td>
 	   <td width="140" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("a.diskid",$pxgz_type1);?>')">软件注册号</a>
@@ -386,7 +396,7 @@ function u_Search()
 		} // end for
 ?>
      </TABLE>
-     <table width="1600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#F1F3F5>
+     <table  style="margin-left:8px;margin-right:8px;" width="100%" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#F1F3F5>
        <tr><td>
 	<?php
 	$a = new Pager($all_num,20);

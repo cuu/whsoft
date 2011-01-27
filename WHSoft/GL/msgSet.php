@@ -213,7 +213,7 @@ function vip_save()
   }
   else
   {
-    $vip_putime = date('Y-m-d H:i:s', strtotime($vip_putime));
+    $vip_putime = date('Y-m-d H:i:s', strtotime($vip_putime." ".date("H:i:s")));
     $sql = "insert into vipmsg(time,title,content) values('".$vip_putime."','".$title."','".$txt_msg_body."')";
   }
   
@@ -274,7 +274,7 @@ function vip_edit()
 
   
     $time = trim($_POST["vip_putime"]);
-    $vip_putime = date('Y-m-d H:i:s', strtotime($time));
+    $vip_putime = date('Y-m-d H:i:s', strtotime($time." ".date("H:i:s")));
     
 
     $sql = "update vipmsg set content='".$content."',time='".$vip_putime."'  where id=".$id;
