@@ -77,7 +77,7 @@ text-decoration:none;
 <BODY style="border-bottom:1px solid #6B90DA;" >
 <div id="main_menubar" style=" " >
 <div id="main_menubar_left" style="float:left;padding:5px;font-size:15px;">
-      <a class="tab active" style="color:black;"  href="index.php"   target="mainFrame"  >后台管理菜单</a>
+      <a class="tab active" style="color:black;"  href="index.php?n=Index"   target="mainFrame"  >后台管理菜单</a>
 	<?php
 	if( intval($_SESSION["zz"]) == 1)
 	  {

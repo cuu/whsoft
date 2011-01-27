@@ -196,7 +196,7 @@ function vip_save()
 {
   check_root();
   $txt_msg_body = trim($_POST["txt_msg_body"]);
-
+  $status       = trim($_POST["pub_stat"]);
   if( strlen($txt_msg_body) < 3)
   {
       js_show_error("多播消息内容长度不正确,请重新填写!");
@@ -209,12 +209,12 @@ function vip_save()
   if( strlen($vip_putime)== 0) 
   {
        $vip_putime = 0;
-       $sql = "insert into vipmsg(time,title,content) values(NOW(),'".$title."','".$txt_msg_body."')";
+       $sql = "insert into vipmsg(time,title,content,sfqy) values(NOW(),'".$title."','".$txt_msg_body."',".$status.")";
   }
   else
   {
     $vip_putime = date('Y-m-d H:i:s', strtotime($vip_putime." ".date("H:i:s")));
-    $sql = "insert into vipmsg(time,title,content) values('".$vip_putime."','".$title."','".$txt_msg_body."')";
+    $sql = "insert into vipmsg(time,title,content,sfqy) values('".$vip_putime."','".$title."','".$txt_msg_body."',".$status.")";
   }
   
   $handle = openConn();
@@ -264,8 +264,10 @@ function vip_edit()
     check_root();
   
    
-    $id = trim($_POST["edit_msg_id"]);
-    $content = trim($_POST["txt_msg_body"]);
+    $id       = trim($_POST["edit_msg_id"] );
+    $content  = trim($_POST["txt_msg_body"]);
+    $status   = trim($_POST["pub_stat"]    );
+    $ori_date = trim($_POST["ori_date"]    );
     if( strlen($content) < 3)
     {
        js_show_error("多播消息内容长度不正确,请重新填写!");
@@ -274,11 +276,15 @@ function vip_edit()
 
   
     $time = trim($_POST["vip_putime"]);
-    $vip_putime = date('Y-m-d H:i:s', strtotime($time." ".date("H:i:s")));
     
-
-    $sql = "update vipmsg set content='".$content."',time='".$vip_putime."'  where id=".$id;
-  
+    $vip_putime = date('Y-m-d H:i:s', strtotime($time." ".date("H:i:s")));
+    if( strcmp($time, trim($ori_date)) == 0)
+    {
+        $sql = "update vipmsg set content='".$content."',sfqy=".$status."   where id=".$id;
+    }else
+    {
+        $sql = "update vipmsg set content='".$content."',time='".$vip_putime."',sfqy=".$status."   where id=".$id;
+    }
     $handle = openConn();
     if($handle ==NULL) die( "mysql error". mysql_error() );
     $result = mysql_query($sql,$handle);

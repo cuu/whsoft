@@ -1,0 +1,12 @@
+version=pmwiki-2.2.17 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)
+author=SchreyP
+charset=UTF-8
+csum=de-sandbox
+ctime=1273698945
+host=91.177.59.196
+name=PmWikiZhCn.WikiSandbox
+rev=7
+targets=PmWikiZhCn.BasicEditing
+text=想要了解更多在 Wiki 中撰写网页的方法，请参考 [[BasicEditing | 基本编辑]] , 试 '''编辑'''%0a----%0a%0a
+time=1278056244

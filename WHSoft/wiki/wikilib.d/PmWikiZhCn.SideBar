@@ -1,0 +1,11 @@
+version=pmwiki-2.2.16 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows; U; Windows NT 5.1; nl; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)
+author=SchreyP
+charset=UTF-8
+csum=auto-translate StateOfTranslation link
+host=81.242.207.241
+name=PmWikiZhCn.SideBar
+rev=21
+targets=PmWikiZhCn.PmWikiZhCn,PmWikiZhCn.WikiSandbox,Site.AllRecentChanges,Site.AllRecentChangesShort,PmWiki.PmWiki,PmWiki.FAQ,PmWikiZhCn.Questions,PmWiki.PmWikiFeatures,PmWikiZhCn.Download,PmWikiZhCn.Installation,PmWikiZhCn.BasicEditing,PmWiki.DocumentationIndex,PmWiki.PmWikiPhilosophy,PmWiki.ReleaseNotes,PmWiki.ChangeLog,PmWikiZhCn.StateOfTranslation,Cookbook.Cookbook,Cookbook.Skins,PITS.PITS,PmWiki.MailingLists,PmWiki.PmWikiUsers,PmWiki.SuccessStories,Site.Site,PmWiki.SendPmMoney,PmWiki.OtherLanguages,PmWikiZhCn.SideBar
+text=* [[PmWikiZhCn/PmWikiZhCn | 首页]]%0a* [[WikiSandbox | +]]%0a* [[Site/AllRecentChanges | 最新更新(全)]]%0a* [[Site/AllRecentChangesShort | 最新更新(短)]]%0a%0a%25sidehead%25 [[PmWiki/PmWiki]]%0a* [[PmWiki/FAQ | PmWiki 常见问答]] (en)%0a* [[Questions | +]]%0a* [[(PmWiki/PmWiki)Features | 特点]] (en)%0a* [[Download | +]]%0a* [[Installation | +]]%0a* [[Basic Editing | +]]%0a* [[PmWiki/Documentation Index | 说明文档]] (en)%0a* [[PmWiki/PmWiki Philosophy | PmWiki 观点]] (en)%0a* [[PmWiki/Release Notes | 发布说明]] (en)%0a* [[PmWiki/ChangeLog | 版本变迁]] (en)%0a%0a%25sidehead%25 帮忙翻译%0a* [[http://www.pmwiki.org/wiki/Localization/Localization |翻译说明]]%0a* [[StateOfTranslation |+]]%0a%0a%25sidehead%25 [[http://www.pmwiki.org | pmwiki.org]]%0a* [[(Cookbook:)Cookbook | 增强功能]]%0a* [[(Cookbook:)Skins | 皮肤界面 (主题)]]%0a* [[PITS:PITS | 故障报告与跟踪]]%0a* [[PmWiki/Mailing Lists | 邮件列表]]%0a* [[PmWiki:PmWikiUsers | PmWiki 用户]]%0a* [[PmWiki:Success stories | 成功故事]]%0a* [[Site/Site | 系统管理]]%0a%0a* [[PmWiki:SendPmMoney | 赞助Pm]]%0a%0a%25sidehead%25 [[PmWiki:Other Languages | 其他语言]]%0a%0a%25right%25 [-[[PmWikiZhCn.SideBar?action=edit | (edit SideBar)]]-]
+time=1273906635

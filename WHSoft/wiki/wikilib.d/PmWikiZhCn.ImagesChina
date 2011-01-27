@@ -1,0 +1,12 @@
+version=pmwiki-2.2.16 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows; U; Windows NT 5.1; nl; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)
+author=SchreyP
+charset=UTF-8
+csum=add summary
+ctime=1175676931
+host=80.200.19.207
+name=PmWikiZhCn.ImagesChina
+rev=3
+targets=
+text=(:Summary: Redirect to [[PmWikiZhCn.Images]]:)%0a(:redirect PmWikiZhCn.Images:)
+time=1273744808

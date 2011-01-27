@@ -15,7 +15,7 @@
 
 <frameset FRAMEBORDER=NO  rows="38,*"  cols="*"  framespacing="0"   >
   <frame src="left.php" name="leftFrame" scrolling="no" noresize>
-  <frame src="index.php" id="RSframe" name="mainFrame">
+  <frame src="index.php?n=Index" id="RSframe" name="mainFrame">
 </frameset>
  <NOFRAMES></NOFRAMES>
 

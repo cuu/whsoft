@@ -11,6 +11,7 @@ include_once "../../function/xdownpage.php";
 <?php
       $content="";
       $date = "";
+      $status = "";
       if(isset($_GET["id"]))
       {
           $sql = "select *  from vipmsg where id=".trim($_GET["id"]);
@@ -25,6 +26,7 @@ include_once "../../function/xdownpage.php";
                      $row = mysql_fetch_array($result,MYSQL_ASSOC);
                      $content = trim( $row["content"]);
                      $date =  trim( date("Y-m-d",strtotime($row["time"])) );
+                     $status = strval( trim($row["sfqy"]) );
                      closeConn($handle);
                     
                 }else die("not exists!");
@@ -131,6 +133,7 @@ div.ui-datepicker
 ?>
 <input name="edit_msg_id" type="hidden" value="<?php echo $_GET["id"]; ?>" />
 <input name="edit_vip_msg" type="hidden" value="yes" >
+<input name="ori_date" type="hidden" value="<?php echo $date; ?>" >
 <?php }else { ?>
 <input name="add_new_vip_msg" type="hidden" value="add" > <?php } ?>
   <table id="container" border="0" width="468" cellspacing="4" cellpadding="1"  style="border: 1px solid #ccc;border-right:1px solid #999;border-bottom:1px solid #999;  padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
@@ -162,6 +165,43 @@ div.ui-datepicker
     <td style="font-size:12px;border-left-width: 1px; border-right-width: 1px;" width="286" align="left">
     <input class="g_input"  type="text" id="ipt_putime"  name="vip_putime" size="20"  style="cursor:pointer;font-size:12px;" readonly=""  value="<?php echo $date; ?>"> &nbsp;<font size="2" color="#FF0000">默认为当天立即发布</font> </td>
     
+   </tr>
+   <tr>
+    <td style="border-left-width: 1px; border-right-width: 1px;" width="80" align="center">
+    <font size="2">发布状态：</font></td>
+    <td style="font-size:12px;border-left-width: 1px; border-right-width: 1px;" width="186" align="left">
+<?php
+      if($status != "")
+       {
+            if($status =="0")
+            {
+?>
+              <select name="pub_stat" >
+              <option value="0">禁止发布</option>
+              <option value="1">允许发布</option>
+              </select>
+<?php
+            }else if ($status == "1")
+            {
+?>
+              <select name="pub_stat" >
+              <option value="1">允许发布</option>
+              <option value="0">禁止发布</option>
+              </select>
+<?php
+            }
+      }else
+      {
+?>
+      <select name="pub_stat" >
+      <option value="0">禁止发布</option>
+      <option value="1">允许发布</option>
+      </select>
+<?php
+      }
+?>
+       &nbsp;<font size="2" color="#FF0000">请确认消息内容是否正确再允许发布</font>
+    </td>
    </tr>
 
 <tr>

@@ -1,0 +1,12 @@
+version=pmwiki-2.2.16 ordered=1 urlencoded=1
+agent=Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; GTB6.4; .NET CLR 1.0.3705; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MS-RTC LM 8)
+author=SchreyP
+charset=UTF-8
+csum=add summary
+ctime=1135221526
+host=81.245.45.88
+name=PmWikiZhCn.Editing
+rev=23
+targets=
+text=(:Summary: Redirect to [[PmWikiZhCn.BasicEditing]]:)%0a(:redirect PmWikiZhCn.BasicEditing:)
+time=1273701905
