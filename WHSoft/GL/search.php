@@ -106,5 +106,5 @@ switch( $len)
   }//end switch
 
 echo "<span style='font-size:20px;' >没有找到您想要的信息</span><br />";
-echo "<a href='index.php' target='mainFrame' >返回</a>";
+echo "<a href=\"index.php?n=Index\"   >返回</a>";
 ?>

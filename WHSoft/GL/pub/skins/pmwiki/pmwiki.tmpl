@@ -9,6 +9,36 @@
   <link rel="stylesheet" href='$SkinDirUrl/redmond/jquery-ui-1.8.7.custom.css' />
   <script src='$SkinDirUrl/jquery-1.4.4.min.js'></script>
   <script src='$SkinDirUrl/jquery-ui-1.8.7.custom.min.js'></script>
+
+<script>
+
+
+  $(function() {
+       $('.rmv-dft-val').val("请输入相关名子手机电话进行快速查找");
+      $('.rmv-dft-val').css("color","#ccc");
+      $('.rmv-dft-val').click(
+        function() {
+            if (this.value == "请输入相关名子手机电话进行快速查找")
+           {
+              this.value = '';
+              $(this).css("color","#000");
+           }
+        });
+
+      $('.rmv-dft-val').blur(
+        function() {
+              if (this.value == '') {
+              $(this).css("color","#ccc");
+              this.value ="请输入相关名子手机电话进行快速查找" ;
+            }
+        }
+      );
+
+    $("#btg_search").button();
+
+  });
+</script>
+
   <!--HTMLHeader-->
 </head>
 <body>

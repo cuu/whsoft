@@ -9,12 +9,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <link href="images/css.css" type="text/css" rel="stylesheet"/>
 <title>后台管理</title>
+<?php
+include "jq_ui.php";
+?>
 </head>
 
 
 
 <frameset FRAMEBORDER=NO  rows="38,*"  cols="*"  framespacing="0"   >
-  <frame src="left.php" name="leftFrame" scrolling="no" noresize>
+  <frame src="left.php" id="leftFrame" name="leftFrame" scrolling="no" noresize>
   <frame src="index.php?n=Index" id="RSframe" name="mainFrame">
 </frameset>
  <NOFRAMES></NOFRAMES>

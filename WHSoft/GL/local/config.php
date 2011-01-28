@@ -6,7 +6,7 @@ include_once("$FarmD/cookbook/enablehtml.php");
 
 
 
-EnableHtml('img');
+EnableHtml('table|tr|td|tbody|thead|img');
 EnableHtml('div|input|span|form|b|i|u|sup|sub|a|iframe|small');
   
 
