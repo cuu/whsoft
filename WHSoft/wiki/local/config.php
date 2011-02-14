@@ -1,10 +1,15 @@
 <?php if (!defined('PmWiki')) exit();
-$DefaultPasswords['admin'] = ' $1$qQGNSrdQ$9GbYU7pw8xe6T8bSFPpYB.';
+$DefaultPasswords['admin'] = 'twTneNCtNHgl6';
+$DefaultPasswords['edit'] = $DefaultPasswords['admin'];
+$EnableGUIButtons = 1;
+
+include_once($FarmD.'/scripts/xlpage-utf-8.php');
+include_once("$FarmD/scripts/authuser.php");
 include_once("$FarmD/cookbook/enablehtml.php");
 
 
 
-EnableHtml('img|table|tbody|tr|td');
+EnableHtml('table|tr|td|tbody|thead|img');
 EnableHtml('div|input|span|form|b|i|u|sup|sub|a|iframe|small');
   
 

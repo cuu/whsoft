@@ -1,0 +1,18 @@
+version=pmwiki-2.2.23 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/8.0.552.237 Safari/534.10
+author=
+charset=UTF-8
+csum=
+ctime=1296219570
+host=127.0.0.1
+name=Index.Indexhelp4
+rev=2
+targets=
+text=点击菜单栏中的:\\%0a\\%0a%25bgcolor=#EBEFF9  blue%25  [++{+多播消息设置+}  ++]  \\%0a\\%0a%0a%25red%25 {+超级管理员+} %25%25 可以创建新的多播消息,修改现有的消息内容,删除已创建或废弃了的多播消息\\%0a每条多播消息默认是当天发布\\%0a如果确认消息内容无误,可修改这条消息的状态为[允许发布],即可\\%0a%0a%0a\\%0a%3ca href=index.php?n=Index" >返回%3c/a>
+time=1296219654
+author:1296219654=
+diff:1296219654:1296219570:=7,9d6%0a%3c 每条多播消息默认是当天发布\\%0a%3c 如果确认消息内容无误,可修改这条消息的状态为[允许发布],即可\\%0a%3c %0a
+host:1296219654=127.0.0.1
+author:1296219570=
+diff:1296219570:1296219570:=1,9d0%0a%3c 点击菜单栏中的:\\%0a%3c \\%0a%3c %25bgcolor=#EBEFF9  blue%25  [++{+多播消息设置+}  ++]  \\%0a%3c \\%0a%3c %0a%3c %25red%25 {+超级管理员+} %25%25 可以创建新的多播消息,修改现有的消息内容,删除已创建或废弃了的多播消息\\%0a%3c %0a%3c \\%0a%3c %3ca href=index.php?n=Index" >返回%3c/a>%0a\ No newline at end of file%0a
+host:1296219570=127.0.0.1

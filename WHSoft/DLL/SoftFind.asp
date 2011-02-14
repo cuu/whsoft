@@ -8,13 +8,19 @@ $DiskId = lcase( getFormValue("DiskId"));
 $zhmc = getFormValue("D_zhmc"); $zh   = getFormValue("D_zh"  ); $zhlx = getFormValue("D_zhlx"); $zcfsm = getFormValue("D_zcfsm");
 $serverame = getFormValue("D_serverame");  $zhye = getFormValue("D_zhye"); $rjbb = getFormValue("D_rjbb");
 //zh is mt4 trader account number
+$msgtime = getFormValue("D_msgtime"); // vip msg timestamp,like xxxx-xx-xx xx:xx:xx
+
 
 $nowDate = Format_Date( time() );
 $nowTime = Format_Time( time() );
-$temDate= Format_Date( time() + 86400 *15 );
+$temDate= Format_Date( time() + 86400 *15 ); //默认试用期限15天
 
 $returnValue = 0;
-
+if ( strcmp( $action, "vipnews"  ) == 0)
+{
+	$returnMsg = VipMsg($DiskId,$msgtime);
+	echo $returnMsg;
+}
 if ( strcmp( $action, "softfind" ) == 0)
 {
 	$returnValue = SoftFind($DiskId);
@@ -32,6 +38,32 @@ if ( strcmp( $action, "softin"   ) == 0)
 	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$nowDate,2,"",$temDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye);
 	echo strval($returnValue);
 }
+
+function VipMsg( $f_DiskId,$f_time )
+{
+	$ret = "";
+	$sql = "select * from vipmsg order by time";
+	$handle = openConn();  if ($handle ==NULL) {  /* 数据库　连接失败　*/ return "3";}
+	
+	$result = mysql_query($sql, $handle);
+	$num = mysql_num_rows($result);
+	if($num > 0)
+	{
+		for($i = 0; $i < $num ; $i++)
+		{
+			$row = mysql_fetch_array($result,MYSQL_NUM);
+		
+			$ret .= strval($row);
+		}
+		closeConn($handle);
+		return $ret;	
+	}else 
+	{
+		closeConn($handle);	
+		return $ret;
+	}
+ 
+}// end VipMsg( $f_DiskId )
 
 function SoftFind( $f_DiskId )
 {

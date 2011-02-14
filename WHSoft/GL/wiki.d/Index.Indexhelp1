@@ -6,10 +6,13 @@ csum=
 ctime=1296212452
 host=127.0.0.1
 name=Index.Indexhelp1
-rev=3
+rev=4
 targets=
 text=点击顶部菜单栏中的 ^ :\\%0a\\%0a%25bgcolor=#EBEFF9  blue%25  [++{+注册用户管理+}  ++]  \\%0a\\%0a%0a在出现的界面中输入 必要的搜索条件,如果没有条件,即表示列出全部用户\\%0a%25red%25 {+超级管理员+} %25%25 可以修改注册用户的基本信息和删除用户\\%0a%25red%25 {+普通管理员+} %25%25 只可以修改注册用户的使用状态,锁定或允许 \\%0a%0a\\%0a%3ca href=index.php?n=Index" >返回%3c/a>
-time=1296214960
+time=1296218964
+author:1296218964=
+diff:1296218964:1296214960:=
+host:1296218964=127.0.0.1
 author:1296214960=
 diff:1296214960:1296212503:=10,11d9%0a%3c \\%0a%3c %3ca href=index.php?n=Index" >返回%3c/a>%0a\ No newline at end of file%0a
 host:1296214960=127.0.0.1
