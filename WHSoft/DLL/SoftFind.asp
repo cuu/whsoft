@@ -53,7 +53,7 @@ function VipMsg( $f_DiskId,$f_time )
 		{
 			$row = mysql_fetch_array($result,MYSQL_NUM);
 		
-			$ret .= strval($row);
+			$ret .= implode($row);
 		}
 		closeConn($handle);
 		return $ret;	

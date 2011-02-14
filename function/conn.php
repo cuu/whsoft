@@ -61,11 +61,13 @@ function StopInjection($var)
 
 function openConn()
 {
+        // 如果my.cnf中启用了skip-networking,即表示拒绝tcp/ip的mysql连接,就要用sqlsockect来处理,这样更安全
 	$SqlServer = "127.0.0.1";
+        $sqlsocket = "localhost:/Applications/xampp/xamppfiles/var/mysql/mysql.sock";
 	$SqlUser="root";
 	$SqlPasswd="";
 	$SqlDatabase = "sq_whsoft";
-	$link = mysql_connect($SqlServer, $SqlUser, $SqlPasswd);
+	$link = mysql_connect($sqlsocket, $SqlUser, $SqlPasswd);
 	if (!$link) {
 		echo "<script>window.status=\"SQL Server 数据库连接失败 ".mysql_error()."\";</script>";
 		return NULL;
