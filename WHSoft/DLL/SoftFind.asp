@@ -51,9 +51,15 @@ function VipMsg( $f_DiskId,$f_time )
 	{
 		for($i = 0; $i < $num ; $i++)
 		{
-			$row = mysql_fetch_array($result,MYSQL_NUM);
-		
-			$ret .= implode($row);
+			$row = mysql_fetch_array($result,MYSQL_ASSOC);
+			$time = strtotime($row["time"]);
+			if( $time > strtotime( $f_time ) )
+			{
+				$ret = implode("|",$row);
+				closeConn($handle);
+				return $ret;
+			}
+			
 		}
 		closeConn($handle);
 		return $ret;	

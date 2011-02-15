@@ -6,5 +6,5 @@ curl -d "action=softin&DiskId=2a9b&D_rjbb=1&D_yhmc=Ã«Ôó¶«2a&D_lxdz=hunan&D_zh=10
 
 curl -d "action=softsx&DiskId=2a9b&D_rjbb=1&D_yhmc=Ã«Ôó¶«&D_zh=1020428&D_zhlx=0&D_zcfsm=International Gold Rock Ltd&D_serverame=Goldrockfx-Server&D_zhye=2929.99" -k https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp
 
-curl -d "action=vipnews&DiskId=2a9b&D_msgtime=2011-01-20 12:33:13" -k https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp
+curl -s -d "action=vipnews&DiskId=2a9b&D_msgtime=2011-01-20 12:33:13" -k https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp
 
