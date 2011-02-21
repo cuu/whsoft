@@ -1,0 +1,18 @@
+version=pmwiki-2.2.23 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Chrome/9.0.597.102 Safari/534.13
+author=
+charset=UTF-8
+csum=
+ctime=1297761122
+host=127.0.0.1
+name=Index.WebChrome
+rev=2
+targets=
+text='''谷歌浏览器'''是谷歌(Google) 开发的一款高速简洁高效安全的网络浏览器  \\%0a%0a详细介绍请登录: [[http://www.google.com/chrome/intl/zh-CN/more/index.html | 谷歌浏览器中文官方网站 ]] \\%0a\\%0a下载地址: \\%0a[[http://www.google.com/chrome | www.google.com/chrome]]%0a%0a%3ca href=index.php?n=Index" >返回%3c/a>
+time=1297761249
+author:1297761249=
+diff:1297761249:1297761122:=6,8c6%0a%3c [[http://www.google.com/chrome | www.google.com/chrome]]%0a%3c %0a%3c %3ca href=index.php?n=Index" >返回%3c/a>%0a\ No newline at end of file%0a---%0a> [[http://www.google.com/chrome | www.google.com/chrome]]%0a\ No newline at end of file%0a
+host:1297761249=127.0.0.1
+author:1297761122=
+diff:1297761122:1297761122:=1,6d0%0a%3c '''谷歌浏览器'''是谷歌(Google) 开发的一款高速简洁高效安全的网络浏览器  \\%0a%3c %0a%3c 详细介绍请登录: [[http://www.google.com/chrome/intl/zh-CN/more/index.html | 谷歌浏览器中文官方网站 ]] \\%0a%3c \\%0a%3c 下载地址: \\%0a%3c [[http://www.google.com/chrome | www.google.com/chrome]]%0a\ No newline at end of file%0a
+host:1297761122=127.0.0.1
