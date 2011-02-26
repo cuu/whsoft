@@ -161,4 +161,7 @@ ALTER TABLE `vipmsg` CHANGE `time` `time` VARCHAR( 19 ) CHARACTER SET gb2312 COL
 ALTER TABLE  `vipmsg` CHANGE  `time`  `time` TIMESTAMP( 19 ) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT  '每次更新时间'
 ## 搞定sql语句错误之后,仍然选择改因timestamp 类型,方便order 
 
+#$ 2011-02-25 关于完善某阶段
+用户编组与消息发布的更新
+用户编组单独一个地方设置,然后在消息发布的界面,增加选择哪个组,默认是全部VIP,或是全部普通用户
 

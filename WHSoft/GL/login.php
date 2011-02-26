@@ -12,7 +12,7 @@
 <script >
 function reflash(img)
 {
-	img.src="getcode.php";
+	img.src="GetCode.php";
 }
 </script>
 </HEAD>
@@ -21,7 +21,7 @@ function reflash(img)
 function  GetCode()
 {
 	echo
-	 "<img src=\"getcode.php\"  alt=\"验证码,看不清楚?请点击刷新验证码\" style=\"cursor:pointer;height:30px;\"  onclick=\"this.src='getcode.php'\" /> " ;
+	 "<img src=\"GetCode.php\"  alt=\"验证码,看不清楚?请点击刷新验证码\" style=\"cursor:pointer;height:30px;\"  onclick=\"this.src='GetCode.php'\" /> " ;
 
 }
 ?>
