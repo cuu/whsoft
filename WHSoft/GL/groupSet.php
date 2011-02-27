@@ -51,7 +51,7 @@ include "jq_ui.php";
 
 </head>
 <body>
-<?php
+
 <?php
 	$action      = getFormValue("action")     ;
 	$noteContent = getFormValue("noteContent");
@@ -140,3 +140,18 @@ else
 ?>
 </body>
 </html>
+<?php
+function group_save()
+{
+
+}
+
+function group_edit()
+{
+
+}
+function group_del()
+{
+
+}
+?>
