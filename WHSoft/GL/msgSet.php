@@ -120,10 +120,11 @@ else
 </div>
 
 <table  id ="vip_out_list" border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#fff" bordercolordark="#fff" style="border-collapse: collapse; table-layout:fixed;width:600px;WORD-BREAK: break-all;" bordercolor="#fff"  >
-      <tr height='30' bgcolor='#ebeff9'  >
+      <tr height='30' bgcolor='#000000'  >
        <td width="150" class="tdbiaoti">确认操作</td>
        <td width="240" height="30"  class="tdbiaoti">消息内容</td>
        <td width="120" class="tdbiaoti">消息最后发布时间</td>
+       <td width="120" class="tdbiaoti">此消息目前状态</td>
       <!--  <td width="120" class="tdbiaoti">使用设置</td> -->
 
        <td></td>
@@ -142,9 +143,17 @@ else
                        <td nowrap  style=" overflow:hidden;width:240px;height:25px;" align="center">
                             <?php echo trim($row["content"]); ?>
                        </td>
-                       <td align="left">
+                       <td align="center">
                             <?php echo trim( date("Y年n月j日",strtotime($row["time"])) ); ?>
                        </td>
+		      <td align="center">
+		      <?php
+			      if( intval( $row["sfqy"] ) ==1)
+				  echo "允许发布";
+			      else
+				  echo "禁止发布"; 
+		      ?>
+		      </td>
                        <td align="center"></td>
                       </tr>
 

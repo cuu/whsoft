@@ -314,7 +314,7 @@ function Search()
 	{
 ?>
      <TABLE style="margin:8px;border:1px solid #bbb;border-bottom:none;" id="out_list" border="0" cellspacing="0" width="1600" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"><thead>
-      <tr height='30' bgcolor='#ebeff9'>
+      <tr height='30' bgcolor='#000000'>
        <td width="100" class="tdbiaoti">确认操作</td>
        <td width="100" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("yhmc",$pxgz_type1);?>')">用户名称</a>
 	   <?php 

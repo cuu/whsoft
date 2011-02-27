@@ -165,3 +165,9 @@ ALTER TABLE  `vipmsg` CHANGE  `time`  `time` TIMESTAMP( 19 ) NOT NULL DEFAULT CU
 用户编组与消息发布的更新
 用户编组单独一个地方设置,然后在消息发布的界面,增加选择哪个组,默认是全部VIP,或是全部普通用户
 
+#2011-02-27 关于在centos上的发现
+centos上的php5 没有bcdiv,(bcmath) 这个模块,导致工程错误
+yum install php-bcmath? 
+and 修改了vipmsg 的结构
+ALTER TABLE `vipmsg` ADD `ingroup` TEXT CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT '设定在哪些group中';
+

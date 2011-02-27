@@ -100,7 +100,7 @@ include "jq_ui.php";
 
 
 <TABLE  id ="out_list" border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#fff" bordercolordark="#fff" style="border-collapse: collapse; table-layout:fixed;width:600px;" bordercolor="#fff"  >
-      <tr height='30' bgcolor='#ebeff9'  >
+      <tr height='30' bgcolor='#000000'  >
        <td width="150" class="tdbiaoti">确认操作</td>
        <td width="120"  class="tdbiaoti">管理员名称</td>
        <td width="120" class="tdbiaoti">管理员类型</td>

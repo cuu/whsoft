@@ -279,8 +279,8 @@ function u_Search()
         {
 
 ?>
-     <TABLE border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="margin:8px;border:1px solid #bbb;border-bottom:none;border-collapse: collapse" bordercolor="#C0C0C0"  id="out_list" >
-      <tr height='30' bgcolor='#F1F3F5'>
+     <TABLE border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="margin:8px;border:1px solid #bbb;border-bottom:none;border-collapse: collapse" bordercolor="#C0C0C0"  id="out_list" ><thead>
+      <tr height='30' bgcolor='#000000'>
        <td width="100" class="tdbiaoti">确认操作</td>
 	   <td width="140" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("a.diskid",$pxgz_type1);?>')">软件注册号</a>
 	   <?php
@@ -324,7 +324,7 @@ function u_Search()
 		<?php stf("a.sfzx",$pxgz,$pxgz_type); ?>	   
 	   </td>
 	  </tr>
-
+	</thead>
 <?php 
 	
                 $row = mysql_fetch_array($result,MYSQL_ASSOC);
