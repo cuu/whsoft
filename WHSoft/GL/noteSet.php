@@ -11,6 +11,10 @@ include_once "../../function/function.php";
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <link rel="stylesheet" type="text/css" href="images/css.css">
+<!--[if IE]>
+  <link rel="stylesheet" type="text/css" href="images/all-ie.css" />
+<![endif]-->
+
 <title>短信内容设置</title>
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>

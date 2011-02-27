@@ -14,6 +14,10 @@ include_once "cscheck.php";
 <meta http-equiv="Content-Language" content="zh-cn">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <link rel="stylesheet" type="text/css" href="images/css.css">
+<!--[if IE]>
+  <link rel="stylesheet" type="text/css" href="images/all-ie.css" />
+<![endif]-->
+
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
 <?php

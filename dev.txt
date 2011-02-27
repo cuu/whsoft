@@ -167,7 +167,28 @@ ALTER TABLE  `vipmsg` CHANGE  `time`  `time` TIMESTAMP( 19 ) NOT NULL DEFAULT CU
 
 #2011-02-27 关于在centos上的发现
 centos上的php5 没有bcdiv,(bcmath) 这个模块,导致工程错误
-yum install php-bcmath? 
-and 修改了vipmsg 的结构
+@yum install php-bcmath? 
+@and 修改了vipmsg 的结构
 ALTER TABLE `vipmsg` ADD `ingroup` TEXT CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT '设定在哪些group中';
+@同时,新建了关于群的mysql table
+CREATE TABLE `sq_whsoft`.`usergroup` (
+`id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+`groupname` VARCHAR( 256 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT '群名子',
+`groupusers` TEXT CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT '群中用户们',
+`date` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY ( `id` )
+) ENGINE = MYISAM CHARACTER SET gbk COLLATE gbk_chinese_ci COMMENT = '编制用户的群,用以发布消息,有些默认的设定' 
+@在pmwiki移动过程中,发现原有的Indexhelp1 变成 IndexHelp1 ,php或是pmwiki注意了大小写,这个现象值得注意
+[root@cent wiki.d]# ls -l
+total 48
+-rwxrwxrwx 1 apache     80 10868 Feb 15 04:00 Index.Index
+-rwxrwxrwx 1 apache     80  1700 Jan 28 07:49 Index.Indexhelp1
+-rw-rw-rw- 1 apache apache  1364 Feb 27 08:58 Index.IndexHelp1
+-rw-rw-r-- 1 apache     80  1416 Jan 28 08:00 Index.Indexhelp4
+-rw-rw-rw- 1 apache apache  1314 Feb 27 08:59 Index.IndexHelp4
+-rw-rw-rw- 1 apache apache   750 Feb 27 08:59 Index.RecentChanges
+-rw-rw-r-- 1 apache     80  1435 Feb 15 04:14 Index.WebChrome
+-rw-rw-r-- 1 apache     80  1702 Feb 15 04:17 Index.WebFirefox
+-rw-rw-r-- 1 apache     80   543 Jan 27 07:54 SiteAdmin.Status
+-rw-rw-rw- 1 apache apache   752 Feb 27 08:59 Site.AllRecentChanges
 

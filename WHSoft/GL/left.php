@@ -17,6 +17,10 @@ function return_account_type($v)
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <META http-equiv="Content-Type" content="text/html; charset=gb2312">
 <link href="images/left.css" rel="stylesheet" type="text/css" />
+<!--[if IE]>
+  <link rel="stylesheet" type="text/css" href="images/all-ie.css" />
+<![endif]-->
+
 <SCRIPT language="javascript" src="images/left.js"></SCRIPT>
 <SCRIPT language="javascript" src="images/jquery-1.4.4.min.js"></SCRIPT>
 <script language="javascript" >

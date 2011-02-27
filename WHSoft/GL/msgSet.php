@@ -24,6 +24,10 @@ include_once "../../function/xdownpage.php";
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <link rel="stylesheet" type="text/css" href="images/css.css">
+<!--[if IE]>
+  <link rel="stylesheet" type="text/css" href="images/all-ie.css" />
+<![endif]-->
+
 <title>多播消息设置</title>
 <script language="javascript" src="images/time.js" type="text/javascript"></script>
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
@@ -54,9 +58,7 @@ overflow:hidden;white-space: nowrap;
 
 </head>
 <body>
-<?php
 
-?>
 <?php
 	$action      = getFormValue("action")     ;
 	$noteContent = getFormValue("noteContent");
@@ -116,7 +118,7 @@ else
 		    <span style="font-size:20px;" class="biaoti_guu" >多播消息设置</span>
 </div>
 <div>
-<a style="font-family:simhei;width:auto;height:auto;margin-left:10px;font-size:12px;color:blue;text-decoration:underline;" href="add_vip_msg.php" >创建新的多播消息</a>
+<a style="width:auto;height:auto;margin-left:10px;font-size:12px;color:blue;text-decoration:underline;" href="add_vip_msg.php" >创建新的多播消息</a>
 </div>
 
 <table  id ="vip_out_list" border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#fff" bordercolordark="#fff" style="border-collapse: collapse; table-layout:fixed;width:600px;WORD-BREAK: break-all;" bordercolor="#fff"  >
