@@ -1,7 +1,6 @@
 <?php
 session_start();
 include_once "header.php";
-
 //include_once "cscheck.php"; // for dev
 include_once "../../function/conn.php";
 include_once "../../function/function.php";
@@ -133,10 +132,13 @@ else
 		    <span style="font-size:20px;" class="biaoti_guu" >目前没有群,请您添加</span>
 </div>
 <div>
-<a style="font-family:simhei;width:auto;height:auto;margin-left:10px;font-size:12px;color:blue;text-decoration:underline;" href="add_vip_msg.php" >创建新的群</a>
+<a style="font-family:simhei;width:auto;height:auto;margin-left:10px;font-size:12px;color:blue;text-decoration:underline;" href="add_group.php" >创建新的群</a>
 </div>
 <?php
 		}// end else 
+?>
+<?php
+}//end 1 else
 ?>
 </body>
 </html>
@@ -155,3 +157,4 @@ function group_del()
 
 }
 ?>
+
