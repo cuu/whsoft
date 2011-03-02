@@ -50,6 +50,7 @@ include "jq_ui.php";
 
 <script  language="javascript">
 	var idx;
+	
 	$(function() {
 		$(".g_checkbox").click(
 			function()
@@ -61,11 +62,33 @@ include "jq_ui.php";
 			//
 					$("#check_label"+idx).css("color","red");
 					$("#check_label"+idx).text("Ìí¼Ó");
-					$(this).parent().parent().toggleClass("checked_line");	
+					$(this).parent().parent().toggleClass("checked_line");
+					if($.cookie("gmemb") )
+					{	
+						$.cookie("gmemb", $.cookie("gmemb")+","+$("#id_user"+idx).val() );
+					}else
+					{
+						$.cookie("gmemb",$("#id_user"+idx).val() );
+					}
 				}else
 				{
 					$(this).parent().parent().toggleClass("checked_line")
 					$("#check_label"+idx).text("");
+					if($.cookie("gmemb") )
+					{
+						var idv = $("#id_user"+idx).val();
+						var memb_array = $.cookie("gmemb").split(",");
+						for(var i=0; i < memb_array.length; i++)
+						{
+							if( memb_array[i] == idv)
+								memb_array[i] ="";
+						
+						}
+						$.cookie("gmemb", memb_array.join(","));
+					}else
+					{
+						//do nothing
+					}
 				}
 
 			}
