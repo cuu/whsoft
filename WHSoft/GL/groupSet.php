@@ -119,9 +119,39 @@ else
       <!--  <td width="120" class="tdbiaoti">使用设置</td> -->
 
        <td></td>
-  
+	</tr>
+<?php
+
+			$row = mysql_fetch_array($result,MYSQL_ASSOC); 
+			for( $i = 0; $i < $num; $i++)
+			{   
+?>
+                      <tr height='25' style="overflow:hidden;border-bottom:1px solid #ccc;">
+                       <td align="center"  >
+                         <a  class="del" href="edit_group.php?action=edit&id=<?php echo trim($row["id"]);?>" >修改</a>
+		    &nbsp;&nbsp;
+                         <a href="">查看成员</a>
+                       </td>
+                       <td nowrap  style=" overflow:hidden;width:240px;height:25px;" align="center">
+                            <?php echo trim($row["groupname"]); ?>
+                       </td>
+		      <td align="center">
+		      <?php
+			      $array = explode(",",$row["groupusers"]);
+				echo count($array); 
+		      ?>
+		      </td>
+
+                       <td align="center">
+                            <?php echo trim( date("Y年n月j日",strtotime($row["date"])) ); ?>
+                       </td>
+                       <td align="center"></td>
+                      </tr>
+
 
 <?php
+				$row = mysql_fetch_array($result,MYSQL_ASSOC);
+			}
 		}// end if($num > 0)
 		else
 		{
@@ -144,7 +174,27 @@ else
 <?php
 function group_save()
 {
-	var_dump($_POST);
+	//array(4) { ["action"]=> string(4) "save" ["sub_name"]=> string(6) "第一群" ["sub_memb"]=> string(43) "287,281,279,294,299,303,325,322,272,273,401" ["g_checkbox"]=> string(0) "" }
+
+	$sub_name = getFormValue("sub_name");
+	$sub_memb = getFormValue("sub_memb");
+	$sql = "insert into usergroup(groupname,groupusers,date) values('".$sub_name."','".$sub_memb."',NOW() ) ";
+	$handle = openConn();
+	if($handle == NULL) die( "mysql_error".mysql_error());
+	$result = mysql_query($sql,$handle);
+	if($result === false)
+	{
+		echo "insert to group db error".mysql_error();
+		closeConn($handle);
+		die();
+	}else
+	{
+      		echo "<script language=javascript>alert('创建群成功！');window.parent.location.reload();</script>";
+		$_COOKIE["gname"] ="";
+		$_COOKIE["gmemb"] ="";
+        	closeConn($handle);
+	}
+	return; 
 }
 
 function group_edit()
@@ -155,5 +205,6 @@ function group_del()
 {
 
 }
+
 ?>
 

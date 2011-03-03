@@ -14,16 +14,16 @@ include_once "../../function/xdownpage.php";
 
 ?>
 <?php
-	$sql = "SELECT LAST_INSERT_ID()";
+	$sql = "select * from usergroup where id=".$_GET["id"];
 	$handle = openConn();
 	if($handle == NULL) die("mysql_error!".mysql_error());
 	$result = mysql_query($sql,$handle);
 	if($result !== false)
 	{
-		$res_count = mysql_fetch_array($result,MYSQL_NUM);
+	//	$num  = mysql_num_array($result,MYSQL_NUM);
 	//	echo "last id: ".$res_count[0];
 	}else {	die("mysql_error!".mysql_error());	}
-
+	
 	closeConn($handle);			
 	
 	$pxgz = getFormValue("pxgz");
@@ -203,12 +203,12 @@ include "jq_ui.php";
 </head>
 <body>
 <form id="target_group"  name="group_form"  style="margin:8px;"  method="POST" action="groupSet.php">
-	<input type="hidden" value="save" name="action">
+	<input type="hidden" value="edit" name="action">
 	<input type="hidden" value=""  name="sub_name" id="sub_name"  />
 	<input type="hidden" value=""  name="sub_memb" id="sub_memb" />
 
 <div  style="margin:8px;clear:both;">
-<span>要创建的群名子:&nbsp;&nbsp;</span>
+<span>群名子:&nbsp;&nbsp;</span>
 <input type="text" size="34" class="g_input"  id="group_name" value="" /> 
 <span style="color:#ccc;"> 字数不能超过200个字</span>
 </div> 
@@ -219,7 +219,7 @@ include "jq_ui.php";
 	
 	$sql2="";
 	$sql = "select id,yhmc,yhlx,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz from softsetup";
-
+	
 	if($pxgz!="")
 	{
 		if($pxgz == "sfzx")
