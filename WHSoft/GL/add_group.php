@@ -50,8 +50,41 @@ include "jq_ui.php";
 
 <script  language="javascript">
 	var idx;
-	
+	$(document).ready(
+		function() 
+		{
+			if($.cookie("gmemb") )
+			{
+				$("#meb_count").text( $.cookie("gmemb").split(",").length );	
+			}
+		}
+	);
+
 	$(function() {
+		
+		$("#submit_button").click(
+			function()
+			{
+				if( jQuery.trim($("#group_name").val()) =="")
+				{
+					alert("群名子不能为空");return false;
+				}
+				if($.cookie("gmemb"))
+				{
+					if( $.cookie("gmemb").split(",").length < 1) 
+					{
+						alert("成员数不能为空!");return false;
+					}
+				}else
+				{
+					alert("创建群错误"); return false
+				}
+								
+				//$("#target_group").submit(); maybe ajax?
+				
+			}
+		);
+			
 		$(".g_checkbox").click(
 			function()
 			{
@@ -70,21 +103,32 @@ include "jq_ui.php";
 					{
 						$.cookie("gmemb",$("#id_user"+idx).val() );
 					}
+					$("#meb_count").text( $.cookie("gmemb").split(",").length );
 				}else
 				{
 					$(this).parent().parent().toggleClass("checked_line")
 					$("#check_label"+idx).text("");
 					if($.cookie("gmemb") )
 					{
+						
 						var idv = $("#id_user"+idx).val();
 						var memb_array = $.cookie("gmemb").split(",");
+						var new_memb_array = new Array();
 						for(var i=0; i < memb_array.length; i++)
 						{
 							if( memb_array[i] == idv)
 								memb_array[i] ="";
 						
 						}
-						$.cookie("gmemb", memb_array.join(","));
+						for(i=0; i < memb_array.length; i++)
+						{
+							if( memb_array[i]!="," && memb_array[i]!="")
+							{
+								new_memb_array.push( memb_array[i] );
+							}
+						}
+						$.cookie("gmemb", new_memb_array.join(","));
+						$("#meb_count").text( new_memb_array.length);
 					}else
 					{
 						//do nothing
@@ -117,18 +161,23 @@ include "jq_ui.php";
 {
 	background:#ffcc99;
 }
+.unchecked_line
+{
+	background:#fff;
+}
 </style>
 
 </head>
 <body>
-<form style="margin:8px;"  method="POST" action="groupSet.php">
-<div  style="clear:both;">
-<span>要创建的群名子:</span><br /> 
+<form id="target_group"  name="group_form"  style="margin:8px;"  method="POST" action="groupSet.php">
+ <input type="hidden" value="save" name="action">
+<div  style="margin:8px;clear:both;">
+<span>要创建的群名子:&nbsp;&nbsp;</span>
 <input type="text" size="34" class="g_input"  id="group_name" value="" /> 
 <span style="color:#ccc;"> 字数不能超过200个字</span>
 </div> 
-<br />
-<div > <label> 从下面列出的用户中添加成员 (成员数:<span id="meb_count" >0</span>)</label> </div>
+
+<div style="margin:8px;" > <label> 从下面列出的用户中添加成员 (成员数:<span id="meb_count" >0</span>)</label> </div>
 
 <?php
 	
@@ -139,7 +188,7 @@ include "jq_ui.php";
 	{
 		if($pxgz == "sfzx")
 		{
-			$sql .= " order by ( UNIX_TIMESTAMP() - UNIX_TIMESTAMP(concat( concat(zhsxrq,' '), zhsxsj)))";
+			//$sql .= " order by ( UNIX_TIMESTAMP() - UNIX_TIMESTAMP(concat( concat(zhsxrq,' '), zhsxsj)))";
 		}else
 		{
 			$sql .= " order by ".$pxgz;
@@ -189,7 +238,7 @@ include "jq_ui.php";
 	{
 	
 ?>
-     <table style="margin:8px;border:1px solid #bbb;border-bottom:none;" id="out_list" border="0" cellspacing="0" width="1600" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"><thead>
+     <table style="margin:8px;margin-top:2px;border:1px solid #bbb;border-bottom:none;" id="out_list" border="0" cellspacing="0" width="1600" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"><thead>
       <tr height='30' bgcolor='#000000'>
        <td width="100" class="tdbiaoti">确认操作</td>
        <td width="100" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("yhmc",$pxgz_type1);?>')">用户名称</a>
@@ -322,15 +371,63 @@ include "jq_ui.php";
 		for( $i = 0; $i < $num; $i++)
 		{
 ?>
-	  <tr height='25' style="cursor:hand; " onDblClick="javascript:if (this.style.background=='#ffffff'){this.style.background='#ccffff'}else{this.style.background='#ffffff'}">
+	  <tr height='25' style="cursor:hand; "  <?php 
+			if(isset($_COOKIE["gmemb"]))
+			{
+				$memb_array = explode(",", $_COOKIE["gmemb"]);
+				$memb_length = count($memb_array);
+				
+				if($memb_length == 1)
+				{
+					if( intval($memb_array[0]) == intval($row["id"]) ) echo 'class="checked_line" ';
+		
+				} 
+				else if($memb_length > 1)
+				{
+					for($d=0; $d< $memb_length; $d++)
+					{
+						if( intval($memb_array[$d]) == intval($row["id"]) ) 
+						{
+							echo 'class="checked_line" ';
+							break;
+						}
+					}
+				}
+			} 
+		?> >
 	    <td align="center" style="border-bottom:1px  solid #ccc;">
 	   <label id="check_label<?php echo $i; ?>" ></label>
 <?php  
 		    if( isset($_SESSION["zz"]) && intval($_SESSION["zz"]) ==1)
 		      {
 ?>
-         		<input type="checkbox" name="g_checkbox" class="g_checkbox"  value=""  style="height:18px;width:20px;"  />
-			<input type="hidden" name="user_id" id="id_user<?php echo $i;?>" value="<?php echo trim($row["id"]); ?>" />
+         		<input type="checkbox" name="g_checkbox" class="g_checkbox"  value=""  style="height:18px;width:20px;" 
+			<?php
+			if(isset($_COOKIE["gmemb"]))
+			{
+				$memb_array = explode(",", $_COOKIE["gmemb"]);
+				$memb_length = count($memb_array);
+				
+				if($memb_length == 1)
+				{
+					if( intval($memb_array[0]) == intval($row["id"]) ) echo 'checked';
+		
+				} 
+				else if($memb_length > 1)
+				{
+					for($d=0; $d< $memb_length; $d++)
+					{
+						if( intval($memb_array[$d]) == intval($row["id"]) ) 
+						{
+							echo 'checked';
+							break;
+						}
+					}
+				}
+			}				
+			?>  />
+			 
+			<input type="hidden" name="user_id<?php echo $i; ?>" id="id_user<?php echo $i;?>" value="<?php echo trim($row["id"]); ?>" />
 <?php
                       }
 ?>
@@ -381,7 +478,9 @@ include "jq_ui.php";
 			
 ?></td></tr>
     </tbody>
-     </table>
+     </table><br />
+	<input style="width:155px; background:#fff;text-decoration:underline;color:blue; font-size:15px;"  type="button" id="submit_button" name="s_button" value="确定创建" />
+
 	 <iframe name="delframe" id="delframe" style="display:none"></iframe>
 
 <?php 
@@ -394,6 +493,8 @@ include "jq_ui.php";
 	closeConn($handle);
 	return;
 ?>
+<br />
+
 </form>
 
 </body>

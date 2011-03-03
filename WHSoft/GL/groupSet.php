@@ -53,10 +53,9 @@ include "jq_ui.php";
 
 <?php
 	$action      = getFormValue("action")     ;
-	$noteContent = getFormValue("noteContent");
-	$sfqy        = getFormValue("sfqy")       ;
 	$id          = getFormValue("id")         ;
         $pg          = getFormValue("pg");
+
 if($id == "" ) $id=0;
 if($action == "save") group_save();
 else if($action == "del")  group_del();
@@ -145,7 +144,7 @@ else
 <?php
 function group_save()
 {
-
+	var_dump($_POST);
 }
 
 function group_edit()
