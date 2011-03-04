@@ -32,10 +32,34 @@ include "jq_ui.php";
 ?>
 
 <script language="javascript">
-  $(function() {
+	$(document).ready(
+		function() 
+		{
+			$("#page_table_bar").width( $("#group_out_list").width() );
+		}
+	);
+
+	$(function() 
+	{
  
 
-});
+	});
+
+function setCookie(c_name,value,exdays)
+{
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value= encodeURIComponent( String(value) ) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie=c_name + "=" + c_value;
+}
+
+function edit_a_click(str1,str2)
+{
+
+//  String(value);
+	setCookie("gname", str1);
+	setCookie("gmemb", str2);
+}
 </script>
 
 <style type="text/css">
@@ -45,7 +69,7 @@ include "jq_ui.php";
   border:1px solid #bbb;
   border-bottom:none;
 }
-#vip_out_list td
+#group_out_list td
 {
   border-bottom:1px solid #ccc;
   text-overflow:ellipsis;
@@ -65,6 +89,7 @@ if($id == "" ) $id=0;
 if($action == "save") group_save();
 else if($action == "del")  group_del();
 else if($action == "edit") group_edit();
+else if($action == "show") group_show();
 else
 {
 		  //list all groups
@@ -134,9 +159,9 @@ else
                       <tr height='25' style="overflow:hidden;border-bottom:1px solid #ccc;">
                        <td align="center"  >
 			<a class="del"  onClick="return confirm('删除该群,您确定进行删除操作吗？')"   href="groupSet.php?action=del&id=<?php  echo trim($row["id"]); ?>">删除</a> &nbsp;
-                         <a  class="edit" style="color:blue;"  href="edit_group.php?action=edit&id=<?php echo trim($row["id"]);?>" >修改</a>
+                         <a  class="edit" style="color:blue;"  onclick="edit_a_click('<?php echo $row["groupname"];?>','<?php echo $row["groupusers"]; ?>')" id="edit_a"  href="edit_group.php?action=edit&id=<?php echo trim($row["id"]);?>" >修改</a>
 		    &nbsp;&nbsp;
-                         <a href="">查看成员</a>
+                         <a href="groupSet.php?action=show&id=<?php echo trim($row["id"]); ?>" id="show_memb" >查看成员</a>
                        </td>
                        <td nowrap  style=" overflow:hidden;width:240px;height:25px;" align="center">
                             <?php echo trim($row["groupname"]); ?>
@@ -158,6 +183,17 @@ else
 <?php
 				$row = mysql_fetch_array($result,MYSQL_ASSOC);
 			}
+?>
+     </table>
+     <table id='page_table_bar' style="margin-left:8px;margin-right:8px;" width="100%" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
+       <tr><td>
+<?php
+	$a = new Pager($all_num,20);
+	echo $a->thestr."&nbsp;".$a->backstr."&nbsp;".$a->nextstr."&nbsp;&nbsp; 页次：".$a->pg."/".$a->page."&nbsp; 共".$a->countall."条记录&nbsp; ".$a->countlist."条/页";
+			
+?></td></tr>
+     </table>
+<?php
 		}// end if($num > 0)
 		else
 		{
@@ -225,7 +261,7 @@ function group_edit()
 	{
 	//	$_COOKIE["gname"] ="";
 	//	$_COOKIE["gmemb"] ="";		
-      		echo "<script language=javascript>alert('修改群内容成功！');</script>";
+      		echo "修改群内容成功!";
 
         	closeConn($handle);
 	}
@@ -254,6 +290,109 @@ function group_del()
 		die();
 	}
 	return; 	
+}
+
+function group_show()
+{
+	global $pg;
+	global $id;
+	//$id = getFormValue("id");
+	$sql = "select * from usergroup where id=".$id;
+	$handle = openConn();
+	if($handle ==NULL) die( "mysql error". mysql_error() );
+	$result = mysql_query($sql,$handle);
+	if( $result !== false)
+	{
+		$all = mysql_num_rows($result);
+		if($all > 0 )
+		{
+			$row = mysql_fetch_array($result,MYSQL_ASSOC);
+		}
+	}
+	//echo $row["groupusers"]."<br />";
+	$membs = explode(",", $row["groupusers"]); // xxx,xxxx,xx,xxx
+	
+	$sql = "select * from softsetup where ";
+	$len = count($membs);
+	for($i=0; $i< $len; $i++)
+	{
+		if($i == $len -1)
+		{
+			$sql .=" id =".$membs[$i];
+			break;
+		}
+		else
+		{
+			$sql .=" id =".$membs[$i]." or ";
+		}
+	}
+//	echo $sql."<br />";
+	
+	if( $pg!="")
+	{
+		$sql2 = $sql;
+		$sql .= " LIMIT ".((intval($pg)-1)*20).", 20";	
+	 
+        }
+	else
+	{
+		$sql2 = $sql; 
+		$sql .= " LIMIT 0 , 20";
+	}
+	
+//	$handle = openConn();
+//	if($handle ==NULL) die( "mysql error". mysql_error() );
+	$result = mysql_query($sql2,$handle);
+	if( $result !== false)
+	{
+		$all = mysql_num_rows($result);
+		$all_num = $all;
+	}
+	else { die("mysql error".mysql_error()); }
+
+	$result = mysql_query($sql,$handle);
+	if($result ===false)
+	{
+		echo "Search mysql error()".mysql_error()."<br />";
+		closeConn($handle);
+		die();	
+	}
+	$num = mysql_num_rows($result);	
+	if($num > 0)
+	{
+		echo '<div style="border:1px solid #ccc;padding:7px;padding-bottom:0px;border-bottom:none;"> <ul  id="table_list" style="width:600px;list-style-type:square;">';
+	}else
+	{
+		echo "no more result";
+	}
+	
+	for($i=0; $i<$num; $i++)
+	{
+		$row = mysql_fetch_array($result,MYSQL_ASSOC);
+		if( intval($row["yhlx"]) == 0)
+		{
+			$yhlx = "普通用户";
+		}else
+		{
+			$yhlx = "VIP用户";
+		}
+		if( intval($row["zt"])==1) 
+		{
+			$zt = "完全使用";
+		}else 
+		{
+			$zt = "帐户锁定";
+		}
+		echo "<li style='cursor:pointer;border-bottom:1px solid #aaa; margin-bottom:12px;line-height:17px;'><span style='font-size:15px;color:blue;font-weight:bold;'>".$row["yhmc"]."</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size:12px;color:#9d8080;'>".$row["lxdz"]."</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size:10px;color:#333;'>".$row["diskid"]."</span>&nbsp;&nbsp;&nbsp;<span style='font-size:12px;color:#ccc;'>".$yhlx."<span>&nbsp;&nbsp;&nbsp;<span style='font-size:12px; color:#ddd;'>".$zt."</span></li>";
+	}
+	echo "</ul></div>";
+	echo "<div id='page_bar' style='margin:19px;'>";
+//	echo "<hr size=1 width=100px  align='left' style='margin-left:18px;' >";
+	$a = new Pager($all_num,20);
+	echo $a->thestr."&nbsp;".$a->backstr."&nbsp;".$a->nextstr."&nbsp;&nbsp; 页次：".$a->pg."/".$a->page."&nbsp; 共".$a->countall."条记录&nbsp; ".$a->countlist."条/页";
+	echo "</div>";
+	closeConn($handle);
+
 }
 
 ?>

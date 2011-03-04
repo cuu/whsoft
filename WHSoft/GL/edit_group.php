@@ -5,12 +5,42 @@ add_group.php
 ?>
 <?php
 session_start();
-include_once "header.php";
-//include_once "waibu.php";
-//include_once "cscheck.php";
 include_once "../../function/conn.php";
 include_once "../../function/function.php";
+
+/*
+	$sql = "select * from usergroup where id=".$_GET["id"];
+	$handle = openConn();
+	if($handle == NULL) die("mysql_error!".mysql_error());
+
+	$result = mysql_query($sql,$handle);
+
+	if($result !== false)
+	{
+	//	$num  = mysql_num_array($result,MYSQL_NUM);
+		$num = mysql_num_rows($result);
+		if($num > 0)
+		{
+			$row = mysql_fetch_array($result,MYSQL_ASSOC);
+			$_COOKIE["gname"] = $row["groupname"];
+			$_COOKIE["gmemb"] = $row["groupusers"];
+			setcookie("gname", $row["groupname"] );
+			setcookie("gmemb", $row["groupusers"] );
+//			sleep(2);
+		}
+	//	echo "last id: ".$res_count[0];
+	}else {	die("mysql_error!".mysql_error());	}
+	
+	closeConn($handle);
+*/
+?>
+<?php
+
+include_once "header.php";
 include_once "../../function/xdownpage.php";
+//include_once "waibu.php";
+//include_once "cscheck.php";
+
 
 ?>
 <?php
@@ -65,12 +95,13 @@ include "jq_ui.php";
 	$(document).ready(
 		function() 
 		{
-			$.cookie("gname","<?php echo $row["groupname"]; ?>" );
-			$.cookie("gmemb", "<?php echo $row["groupusers"]; ?>" );
+		//	$.cookie("gname","<?php echo $row["groupname"]; ?>" );
+		//	$.cookie("gmemb", "<?php echo $row["groupusers"]; ?>" );
 			if($.cookie("gmemb") )
 			{
 				$("#meb_count").text( $.cookie("gmemb").split(",").length );	
 			}
+
 		}
 	);
 
@@ -91,10 +122,11 @@ include "jq_ui.php";
 					}
 				}else
 				{
-					alert("创建群错误"); return false
+					alert("修改群错误"); return false
 				}
 				
-				$("#check_progress").html("正在检查群是否已存在...");	
+				$("#check_progress").html("提交数据中...");
+/*	
 				$.ajax({
 					
 					url: 'check.php?action=gcheck&gname='+$.cookie("gname"),
@@ -123,10 +155,10 @@ include "jq_ui.php";
 						return false;
 					}
 				});
-
-			//	$("#sub_name").val( $.cookie("gname") );
-			//	$("#sub_memb").val( $.cookie("gmemb") );					
-			//	$("#target_group").submit(); 
+*/
+				$("#sub_name").val( $.cookie("gname") );
+				$("#sub_memb").val( $.cookie("gmemb") );					
+				$("#target_group").submit(); 
 			//	alert( $("#sub_name"  );
 			//	return true;
 			}
@@ -223,7 +255,7 @@ include "jq_ui.php";
 
 <div  style="margin:8px;clear:both;">
 <span>群名子:&nbsp;&nbsp;</span>
-<input type="text" size="34" class="g_input"  id="group_name" value="<?php echo trim($row["groupname"]); ?> " /> 
+<input type="text" size="34" class="g_input"  id="group_name" value="<?php echo $_COOKIE["gname"]; ?> " /> 
 <span style="color:#ccc;"> 字数不能超过200个字</span>
 </div> 
 
