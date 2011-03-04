@@ -5,6 +5,7 @@ add_group.php
 ?>
 <?php
 session_start();
+//setcookie("gmemb","");
 include_once "header.php";
 //include_once "waibu.php";
 //include_once "cscheck.php";
@@ -23,7 +24,8 @@ include_once "../../function/xdownpage.php";
 		$res_count = mysql_fetch_array($result,MYSQL_NUM);
 	//	echo "last id: ".$res_count[0];
 	}else {	die("mysql_error!".mysql_error());	}
-
+	
+	//if(isset($_COOKIE["gmemb"])) { $_COOKIE["gmemb"] = ""; }
 	closeConn($handle);			
 	
 	$pxgz = getFormValue("pxgz");
@@ -359,7 +361,9 @@ include "jq_ui.php";
 		 
 	   ?>
 	   </td>
-       <td width="80" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("yhlx",$pxgz_type1); ?>')">用户类型</a>
+       <td width="80" class="tdbiaoti">
+		<a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("yhlx",$pxgz_type1); ?>')">用户类型</a>
+	
 	   <?php if ($pxgz =="yhlx" && $pxgz_type =="yes")
 		{
 	       		echo "<img src='images/down.gif'>";

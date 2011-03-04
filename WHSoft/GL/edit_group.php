@@ -17,10 +17,22 @@ include_once "../../function/xdownpage.php";
 	$sql = "select * from usergroup where id=".$_GET["id"];
 	$handle = openConn();
 	if($handle == NULL) die("mysql_error!".mysql_error());
+
 	$result = mysql_query($sql,$handle);
+
 	if($result !== false)
 	{
 	//	$num  = mysql_num_array($result,MYSQL_NUM);
+		$num = mysql_num_rows($result);
+		if($num > 0)
+		{
+			$row = mysql_fetch_array($result,MYSQL_ASSOC);
+//			$_COOKIE["gname"] = $row["groupname"];
+//			$_COOKIE["gmemb"] = $row["groupusers"];
+//			setcookie("gname", $row["groupname"] );
+//			setcookie("gmemb", $row["groupusers"] );
+
+		}
 	//	echo "last id: ".$res_count[0];
 	}else {	die("mysql_error!".mysql_error());	}
 	
@@ -53,6 +65,8 @@ include "jq_ui.php";
 	$(document).ready(
 		function() 
 		{
+			$.cookie("gname","<?php echo $row["groupname"]; ?>" );
+			$.cookie("gmemb", "<?php echo $row["groupusers"]; ?>" );
 			if($.cookie("gmemb") )
 			{
 				$("#meb_count").text( $.cookie("gmemb").split(",").length );	
@@ -209,7 +223,7 @@ include "jq_ui.php";
 
 <div  style="margin:8px;clear:both;">
 <span>群名子:&nbsp;&nbsp;</span>
-<input type="text" size="34" class="g_input"  id="group_name" value="" /> 
+<input type="text" size="34" class="g_input"  id="group_name" value="<?php echo trim($row["groupname"]); ?> " /> 
 <span style="color:#ccc;"> 字数不能超过200个字</span>
 </div> 
 
@@ -515,7 +529,7 @@ include "jq_ui.php";
 ?></td></tr>
     </tbody>
      </table><br />
-	<input style="width:155px; background:#fff;text-decoration:underline;color:blue; font-size:15px;"  type="button" id="submit_button" name="s_button" value="确定创建" />
+	<input style="width:155px; background:#fff;text-decoration:underline;color:blue; font-size:15px;"  type="button" id="submit_button" name="s_button" value="确定修改" />
 	<label id="check_progress" style="background:red;color:white;" ></label>
 	 <iframe name="delframe" id="delframe" style="display:none"></iframe>
 

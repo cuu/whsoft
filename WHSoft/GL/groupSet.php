@@ -1,5 +1,10 @@
 <?php
 session_start();
+if(isset($_COOKIE["gmemb"]))
+{
+	setcookie("gmemb","");
+}
+
 include_once "header.php";
 //include_once "cscheck.php"; // for dev
 include_once "../../function/conn.php";
@@ -128,7 +133,8 @@ else
 ?>
                       <tr height='25' style="overflow:hidden;border-bottom:1px solid #ccc;">
                        <td align="center"  >
-                         <a  class="del" href="edit_group.php?action=edit&id=<?php echo trim($row["id"]);?>" >修改</a>
+			<a class="del"  onClick="return confirm('删除该群,您确定进行删除操作吗？')"   href="groupSet.php?action=del&id=<?php  echo trim($row["id"]); ?>">删除</a> &nbsp;
+                         <a  class="edit" style="color:blue;"  href="edit_group.php?action=edit&id=<?php echo trim($row["id"]);?>" >修改</a>
 		    &nbsp;&nbsp;
                          <a href="">查看成员</a>
                        </td>
@@ -138,7 +144,7 @@ else
 		      <td align="center">
 		      <?php
 			      $array = explode(",",$row["groupusers"]);
-				echo count($array); 
+				echo count($array)."人"; 
 		      ?>
 		      </td>
 
@@ -189,21 +195,65 @@ function group_save()
 		die();
 	}else
 	{
-      		echo "<script language=javascript>alert('创建群成功！');window.parent.location.reload();</script>";
-		$_COOKIE["gname"] ="";
-		$_COOKIE["gmemb"] ="";
+      		echo "<script language=javascript>alert('创建群成功！');</script>";
+	//	$_COOKIE["gname"] ="";
+	//	$_COOKIE["gmemb"] ="";
+//		setcookie("gname", "");
+//		setcookie("gmemb", "");
+
         	closeConn($handle);
+		die();
 	}
 	return; 
 }
 
 function group_edit()
 {
+//	var_dump($_POST);
+	$sub_name = getFormValue("sub_name");
+	$sub_memb = getFormValue("sub_memb");
+	$sql = "update usergroup set groupname='".$sub_name."', groupusers='".$sub_memb."', date= NOW()";
+	$handle = openConn();
+	if($handle == NULL) die( "mysql_error".mysql_error());
+	$result = mysql_query($sql,$handle);
+	if($result === false)
+	{
+		echo "Edit group db error ".mysql_error();
+		closeConn($handle);
+		die();
+	}else
+	{
+	//	$_COOKIE["gname"] ="";
+	//	$_COOKIE["gmemb"] ="";		
+      		echo "<script language=javascript>alert('修改群内容成功！');</script>";
 
+        	closeConn($handle);
+	}
+	return; 	
 }
+
 function group_del()
 {
-
+	$id = getFormValue("id");
+	$sql = "delete from usergroup where id=".$id;
+	$handle = openConn();
+	if($handle == NULL) die( "mysql_error".mysql_error());
+	$result = mysql_query($sql,$handle);
+	if($result === false)
+	{
+		echo "Delete group db error ".mysql_error();
+		closeConn($handle);
+		die();
+	}else
+	{
+	//	$_COOKIE["gname"] ="";
+	//	$_COOKIE["gmemb"] ="";		
+      	//	echo "<script language=javascript>alert('删除成功！');</script>";
+		echo "<span style='font-size:15px;' >&nbsp;删除成功</span>";
+        	closeConn($handle);
+		die();
+	}
+	return; 	
 }
 
 ?>
