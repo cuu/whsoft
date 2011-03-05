@@ -1,5 +1,12 @@
 <?php
-/// 多播消息设置 for vip 用户
+/// 多播消息设置 for vip or other  用户
+/*
+具体发布 根据 ingroup(TEXT)
+I set
+xxx,xxx,xx,xxxx,xxx <-- all numbers for different group
+allVIP  <- for all VIP users
+allNOR  <- for all NORMAL users
+*/
 //mysql table layout:
 /*
   $mysql_timestamp = date('Y-m-d H:i:s', $php_timestamp);
@@ -37,8 +44,8 @@ include "jq_ui.php";
 
 <script language="javascript">
   $(function() {
- 
-
+	 
+	$("#page_table_bar").width(  $("#vip_out_list").width());
 });
 </script>
 <style type="text/css">
@@ -164,7 +171,7 @@ else
                   }
 ?>
 </table>
-<table style="margin-left:10px;" width="600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
+<table id="page_table_bar"  style="margin-left:10px;" width="600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
        <tr><td>
 <?php
 	$a = new Pager($all_num,20);
