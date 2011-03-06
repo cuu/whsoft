@@ -50,9 +50,12 @@ include_once "../../function/xdownpage.php";
 <?php
 include "jq_ui.php";
 ?>
-<link rel="stylesheet" type="text/css" href="css/jquery.ui.selectmenu.css" /> 
-<script language="javascript" src="js/jquery.ui.selectmenu.js" type="text/javascript"></script> 
+<link rel="stylesheet" type="text/css" href="css/jquery.ui.selectmenu.css" />  
+<script language="javascript" src="js/jquery.ui.selectmenu.js" type="text/javascript"></script>  
 
+<!-- <link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.standalone.css" /> -->
+<link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.themeroller.css" />
+<script language="javascript" src="js/ui.dropdownchecklist-1.1-min.js" type="text/javascript"></script> 
 <script  language="javascript"  >
 
 
@@ -85,9 +88,21 @@ include "jq_ui.php";
 
 //  $("table, tr, td").disableSelection(); <- this cause firefox can not work well!
  /* $("#container").draggable({handle: "#dr_title"});*/
+    $("#pub_group").dropdownchecklist({ textFormatFunction: function(options) {
+        var selectedOptions = options.filter(":selected");
+        var countOfSelected = selectedOptions.size();
+        var size = options.size();
+        switch(countOfSelected) {
+            case 0: return "Nogroup";
+            case 1: return selectedOptions.text();
+            case size: return "allgroup";
+            default: return countOfSelected + " Groups";
+        }
+    } });
+
   $("#container").resizable();
-  $("#btg_confirm_add").button();
-  $("#btg_confirm_add").css("fontSize","14px");
+  //$("#btg_confirm_add").button();
+ // $("#btg_confirm_add").css("fontSize","14px");
 	$("#btg_confirm_add").click(
 		function()
 		{
@@ -99,11 +114,15 @@ include "jq_ui.php";
 	);
 
 	$("#pub_stat").selectmenu();
-
+//	$("#pub_group").dropdownchecklist();
 });
 
 </script>
 <style type="text/css">
+#pub_group
+{
+	z-index:200;
+}
 #container tr
 {
   margin-top:8px;
@@ -251,9 +270,29 @@ div.ui-datepicker
 		<td style="border-left-width: 1px; border-right-width: 1px;" width="80" align="center">
 		<font size="2">发布群体：</font></td>
 			<td style="font-size:12px;border-left-width: 1px; border-right-width: 1px;" width="186" align="left">
-				<select name="pub_group" >
+				<select name="pub_group[]" id="pub_group"  multiple="multiple" >
+<?php
+	if(isset($_GET["id"]))
+	{
+		if( strchr($row["ingroup"],","))
+		{
+			// xxx,xxx,xxx,
+			$n_array = explode(",", $row["ingroup"]);
+			
+		}
+		else if( $row["ingroup"] == "allNOR") echo '<option value="allNOR">所有普通用户</option>';
+		else if( $row["ingroup"] == "allVIP") echo '<option value="allVIP">所有VIP用户</option>';
+		else if( is_numeric($row["ingroup"]))
+		{
+			
+		}
+		
+	}
+	else
+	{
+?>
 				<option value="allNOR">所有普通用户</option>
-				<option value="allVIP">所有VIP用户</option>
+				<option value="allVIP" SELECTED>所有VIP用户</option>
 <?php
 		$sql = "select id,groupname from usergroup";
 		$handle = openConn();
@@ -267,7 +306,7 @@ div.ui-datepicker
 				for($i=0;$i<$num;$i++)
 				{
 					$row2 = mysql_fetch_array($result,MYSQL_ASSOC);
-					echo "<option value=".$row2["id"].">".$row2["groupname"]."</option>";
+					echo "<option value='".$row2["id"]."'>".$row2["groupname"]."</option>";
 				}//end for....
 						
 			}else
@@ -276,10 +315,12 @@ div.ui-datepicker
 			}
 		}
 		closeConn($handle);
+	}
 ?>
 				</select>
 			</td>
-	</tr>	
+	</tr>
+	
 <tr>
 <td style="margin-top:9px;" width="80" >&nbsp;</td>
 <td  style="margin-top:9px;">

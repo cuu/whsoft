@@ -6,6 +6,8 @@ I set
 xxx,xxx,xx,xxxx,xxx <-- all numbers for different group
 allVIP  <- for all VIP users
 allNOR  <- for all NORMAL users
+allGRP  <- for all the users
+
 */
 //mysql table layout:
 /*
@@ -212,6 +214,8 @@ function js_show_error($str)
 }
 function vip_save()
 {
+var_dump($_POST);
+/*
   check_root();
   $txt_msg_body = trim($_POST["txt_msg_body"]);
   $status       = trim($_POST["pub_stat"]);
@@ -246,11 +250,12 @@ function vip_save()
   }
   else
   {
-      	echo "<script language=javascript>alert('创建消息成功！');window.parent.location.reload();</script>";
+      	echo "创建消息成功!";
         closeConn($handle);
   }
    
   return;
+*/
 }
 
 function vip_del()
