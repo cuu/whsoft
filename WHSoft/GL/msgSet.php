@@ -43,11 +43,42 @@ include_once "../../function/xdownpage.php";
 <?php
 include "jq_ui.php";
 ?>
+<link rel="stylesheet" type="text/css" href="images/jquery.bubblepopup.v2.3.1.css" />
+<script language="javascript" src="images/jquery.bubblepopup.v2.3.1.min.js" type="text/javascript"></script>
 
 <script language="javascript">
   $(function() {
 	 
 	$("#page_table_bar").width(  $("#vip_out_list").width());
+	/*
+	$(".show_in_group").mouseover(
+		function()
+		{
+			$(this).toggleClass("hightlight");
+		}
+	);
+	$(".show_in_group").mouseout(
+		function()
+		{
+			$(this).toggleClass("hightlight");
+		}
+	);
+	*/
+	$(".show_in_group").each(
+		function()
+		{
+			$(this).CreateBubblePopup({
+			innerHtml: $(this).html(),
+			innerHtmlStyle: {
+				color:'#333333', 
+				'text-align':'center'
+			},												
+			themeName: 	'orange',
+			themePath: 	'images/jquerybubblepopup-theme'								 
+			});
+		}
+	);
+
 });
 </script>
 <style type="text/css">
@@ -63,6 +94,16 @@ include "jq_ui.php";
 text-overflow:ellipsis;
 overflow:hidden;white-space: nowrap;
 }
+
+.popup {
+    position: absolute;
+    display: none; 
+}
+.hightlight
+{
+	background:#b5d5ff;
+}
+
 </style>
 
 </head>
@@ -136,6 +177,8 @@ else
        <td width="240" height="30"  class="tdbiaoti">消息内容</td>
        <td width="120" class="tdbiaoti">消息最后发布时间</td>
        <td width="120" class="tdbiaoti">此消息目前状态</td>
+	<td width="120" class="tdbiaoti">此消息的群</td>
+
       <!--  <td width="120" class="tdbiaoti">使用设置</td> -->
 
        <td></td>
@@ -165,6 +208,66 @@ else
 				  echo "禁止发布"; 
 		      ?>
 		      </td>
+			<td align="center">
+				<?php
+					$show_in_group = array();
+					if( strstr($row["ingroup"],",") == FALSE)
+					{
+						if( strstr($row["ingroup"], "allVIP"))
+							array_push($show_in_group, "所有VIP用户");
+						else if ( strstr($row["ingroup"], "allNOR"))
+							array_push($show_in_group,  "所有普通用户");
+					}
+					else if( trim($row["ingroup"])!="" && strstr($row["ingroup"],",") )
+					{
+						$n_array2 = explode(",",$row["ingroup"]);
+						for($nj = 0; $nj < count($n_array2); $nj++)
+						{
+							if( strstr($n_array2[$nj], "allVIP"))
+								array_push($show_in_group, "所有VIP用户");
+							else if( strstr($n_array2[$nj], "allNOR"))
+								array_push($show_in_group,  "所有普通用户");
+						}
+						$sql = "select id,groupname from usergroup";
+						$handle11 = openConn();
+						if($handle11 ==NULL) die( "openConn error".mysql_error());
+						$result44 = mysql_query($sql,$handle11);
+						if($result44 !==false)
+						{
+							$numx = mysql_num_rows($result44);
+							if($numx > 0)
+							{
+								for($zx = 0; $zx < $numx; $zx++)
+								{
+									$row55 = mysql_fetch_array($result44,MYSQL_ASSOC);
+									for($nj = 0; $nj < count($n_array2); $nj++)
+									{
+										if( $n_array2[$nj] == $row55["id"])
+										{
+											array_push($show_in_group, $row55["groupname"]);
+											break;
+										}
+									}
+								}
+							}
+							else
+							{
+								closeConn($handle11);
+								array_push($show_in_group, "没有群");
+							}
+						}else
+						{
+							die(" mysql_query error ".mysql_error());
+						}
+						
+					}
+					if ( trim($row["ingroup"]) == "" || trim($row["ingroup"]) =="None" )
+					{				
+						array_push($show_in_group, "没有群");
+					}
+					echo "<span style='cursor:pointer;' class='show_in_group' >".implode(",",$show_in_group)."</span>";
+				?>
+			</td>
                        <td align="center"></td>
                       </tr>
 
@@ -297,6 +400,12 @@ function vip_edit()
     $content  = trim($_POST["txt_msg_body"]);
     $status   = trim($_POST["pub_stat"]    );
     $ori_date = trim($_POST["ori_date"]    );
+	if(count($_POST["pub_group"]) > 0)
+	{
+		$group = implode(",", $_POST["pub_group"] );
+	}else
+		$group = "None";
+
     if( strlen($content) < 3)
     {
        js_show_error("多播消息内容长度不正确,请重新填写!");
@@ -309,10 +418,10 @@ function vip_edit()
     $vip_putime = date('Y-m-d H:i:s', strtotime($time." ".date("H:i:s")));
     if( strcmp($time, trim($ori_date)) == 0)
     {
-        $sql = "update vipmsg set content='".$content."',sfqy=".$status."   where id=".$id;
+        $sql = "update vipmsg set content='".$content."',sfqy=".$status." ,ingroup='".$group."'  where id=".$id;
     }else
     {
-        $sql = "update vipmsg set content='".$content."',time='".$vip_putime."',sfqy=".$status."   where id=".$id;
+        $sql = "update vipmsg set content='".$content."',time='".$vip_putime."',sfqy=".$status.",ingroup='".$group."'   where id=".$id;
     }
     $handle = openConn();
     if($handle ==NULL) die( "mysql error". mysql_error() );
@@ -325,7 +434,7 @@ function vip_edit()
     }
     else
     {
-      	echo "<script language=javascript>alert('修改消息成功！');window.parent.location.reload();</script>";
+      	echo "修改消息成功！";
         closeConn($handle);
     }
 
