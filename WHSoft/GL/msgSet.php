@@ -214,11 +214,17 @@ function js_show_error($str)
 }
 function vip_save()
 {
-var_dump($_POST);
-/*
+
   check_root();
   $txt_msg_body = trim($_POST["txt_msg_body"]);
   $status       = trim($_POST["pub_stat"]);
+	if(count($_POST["pub_group"]) > 0)
+	{
+		$group = implode(",", $_POST["pub_group"] );
+	}else
+		$group = "None";
+
+
   if( strlen($txt_msg_body) < 3)
   {
       js_show_error("多播消息内容长度不正确,请重新填写!");
@@ -231,12 +237,12 @@ var_dump($_POST);
   if( strlen($vip_putime)== 0) 
   {
        $vip_putime = 0;
-       $sql = "insert into vipmsg(time,title,content,sfqy) values(NOW(),'".$title."','".$txt_msg_body."',".$status.")";
+       $sql = "insert into vipmsg(time,title,content,sfqy,ingroup) values(NOW(),'".$title."','".$txt_msg_body."',".$status.",'".$group."')";
   }
   else
   {
     $vip_putime = date('Y-m-d H:i:s', strtotime($vip_putime." ".date("H:i:s")));
-    $sql = "insert into vipmsg(time,title,content,sfqy) values('".$vip_putime."','".$title."','".$txt_msg_body."',".$status.")";
+    $sql = "insert into vipmsg(time,title,content,sfqy,ingroup) values('".$vip_putime."','".$title."','".$txt_msg_body."',".$status.",'".$group."')";
   }
   
   $handle = openConn();
@@ -255,7 +261,7 @@ var_dump($_POST);
   }
    
   return;
-*/
+
 }
 
 function vip_del()

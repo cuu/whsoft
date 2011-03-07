@@ -7,6 +7,17 @@ include_once "../../function/conn.php";
 include_once "../../function/function.php";
 include_once "../../function/xdownpage.php";
 
+
+function mysql_fetch_all($result) 
+{
+	if($result)
+	{
+		$all = array();
+		while ($row = mysql_fetch_assoc($result)){ $all[] = $row; }
+		return $all;
+	}else return NULL;
+}
+
 ?>
 <?php
       $content="";
@@ -119,6 +130,13 @@ include "jq_ui.php";
 
 </script>
 <style type="text/css">
+#btg_confirm_add
+{
+	background:#fff;
+	border:1px solid #ccc;
+	width:100px;
+	height:24px;
+}
 #pub_group
 {
 	z-index:200;
@@ -274,17 +292,70 @@ div.ui-datepicker
 <?php
 	if(isset($_GET["id"]))
 	{
-		if( strchr($row["ingroup"],","))
+		$sql = "select id,groupname  from usergroup";
+		$handle = openConn();
+		if($handle == NULL) die("mysql_error!".mysql_error());
+		$result = mysql_query($sql,$handle);
+		$all_res = array();
+		if($result !== false)
+		{
+			$num = mysql_num_rows($result);
+			if($num > 0)
+			{
+				for($z=0;$z< $num; $z++)
+				{
+					$row3 = mysql_fetch_array($result,MYSQL_ASSOC);
+					array_push($all_res,$row3);
+				}
+				
+			}
+			else { echo "None group"; closeConn($handle);return; } 
+
+			closeConn($handle);
+		}
+	//	echo "count res=".count($all_res);
+		var_dump($all_res);
+		if( $row["ingroup"] == "allNOR") { echo '<option value="allNOR" selected>所有普通用户</option>'; } else {  echo '<option value="allNOR" >所有普通用户</option>'; }
+
+		if( $row["ingroup"] == "allVIP") { echo '<option value="allVIP" selected>所有VIP用户</option>'; } else {  echo '<option value="allVIP">所有VIP用户</option>';  }
+
+		if( strchr($row["ingroup"], ","))
 		{
 			// xxx,xxx,xxx,
 			$n_array = explode(",", $row["ingroup"]);
+			foreach($all_res as $value)
+			{
+				$gotit = "0";
+				for($jj=0;$jj < count($n_array); $jj++)
+				{
+					if($n_array[$jj] == strval($value["id"]) ) {  $gotit="1"; break;}
+				}
+				if($gotit =="1")
+				{
+					echo "<option value='".$value["id"]."' SELECTED>".$value["groupname"]."</option>";
+				}else
+				{
+					echo "<option value='".$value["id"]."' >".$value["groupname"]."</option>";	
+				}
+			}
 			
 		}
-		else if( $row["ingroup"] == "allNOR") echo '<option value="allNOR">所有普通用户</option>';
-		else if( $row["ingroup"] == "allVIP") echo '<option value="allVIP">所有VIP用户</option>';
 		else if( is_numeric($row["ingroup"]))
 		{
-			
+			foreach($all_res  as $value)
+			{
+				if( $row["ingroup"] == strval($value["id"])) 
+					echo "<option value='".$value["id"]."' SELECTED>".$value["groupname"]."</option>";
+				else
+					echo "<option value='".$value["id"]."'>".$value["groupname"]."</option>";
+			}			
+		}
+		else if( $row["ingroup"] == "allNOR" ||  $row["ingroup"] == "allVIP" || $row["ingroup"] == "None" || $row["ingroup"] =="" )
+		{
+			foreach($all_res as  $value)
+			{
+				echo "<option value='".$value["id"]."'>".$value["groupname"]."</option>";
+			}
 		}
 		
 	}
