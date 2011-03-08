@@ -178,7 +178,7 @@ else
        <td width="120" class="tdbiaoti">消息最后发布时间</td>
        <td width="120" class="tdbiaoti">此消息目前状态</td>
 	<td width="120" class="tdbiaoti">此消息的群</td>
-
+	<td width="120" class="tdbiaoti">是否过期</td>
       <!--  <td width="120" class="tdbiaoti">使用设置</td> -->
 
        <td></td>
@@ -208,7 +208,7 @@ else
 				  echo "禁止发布"; 
 		      ?>
 		      </td>
-			<td align="center">
+			<td align="center" >
 				<?php
 					$show_in_group = array();
 					if( strstr($row["ingroup"],",") == FALSE)
@@ -265,8 +265,17 @@ else
 					{				
 						array_push($show_in_group, "没有群");
 					}
-					echo "<span style='cursor:pointer;' class='show_in_group' >".implode(",",$show_in_group)."</span>";
+					echo '<div style="cursor:pointer;" class="show_in_group" >'.implode(",",$show_in_group).'</div>';
 				?>
+			</td>
+			<td align="center">
+			<?php
+				$now_date = date("Y-m-d H:i:s");
+				if(strtotime($row["time"]) < strtotime($now_date))
+					echo "已过期,可以删除";
+				else
+					echo "未过期,准备发布";
+			?>
 			</td>
                        <td align="center"></td>
                       </tr>

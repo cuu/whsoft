@@ -16,6 +16,12 @@ function reflash(img)
 }
 </script>
 </HEAD>
+<style type="text/css">
+body
+{
+	background:url("images/mbg.jpg") repeat;
+}
+</style>
 <BODY><BR><BR>
 <?php
 function  GetCode()

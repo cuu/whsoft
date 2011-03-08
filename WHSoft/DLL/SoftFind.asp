@@ -41,27 +41,116 @@ if ( strcmp( $action, "softin"   ) == 0)
 
 function VipMsg( $f_DiskId,$f_time )
 {
-	$ret = "";
-	$sql = "select * from vipmsg order by time";
-	$handle = openConn();  if ($handle ==NULL) {  /* 数据库　连接失败　*/ return "3";}
+	//select * from vipmsg  where  ( DateDiff(time, '2011-01-27 11:22:22') = 0 ) order by time;
 	
+
+	$now_date = date("Y-m-d H:i:s");
+	$ret = "";
+	$sql2 = "select id,yhlx from softsetup where diskid='".trim($f_DiskId)."'";
+	$sql = "select * from vipmsg where ( DateDiff(time,'".$f_time."')=0 ) order by time";
+	$handle = openConn();  if ($handle ==NULL) {  /* 数据库　连接失败　*/ return "3";}
+	$result = mysql_query($sql2,$handle);
+	if($result)
+	{
+		$num = mysql_num_rows($result);
+		if($num > 0)
+		{
+			$row_id = mysql_fetch_array($result,MYSQL_ASSOC);
+			$row_id = $row_id["id"];
+			$row_yhlx = $row_id["yhlx"];
+		}else
+		{
+			return "-1"; // user does not existed
+		}
+	}else { closeConn($handle); return "3"; }
+	$num = 0;
 	$result = mysql_query($sql, $handle);
 	$num = mysql_num_rows($result);
+	$res_array= array();
 	if($num > 0)
 	{
 		for($i = 0; $i < $num ; $i++)
 		{
 			$row = mysql_fetch_array($result,MYSQL_ASSOC);
-			$time = strtotime($row["time"]);
-			if( $time > strtotime( $f_time ) )
+			$t_in_group = trim( $row["ingroup"] );
+			if( strstr($t_in_group,","))
 			{
-				$ret = implode("|",$row);
-				closeConn($handle);
-				return $ret;
+				$in_group_array = explode("," , $t_in_group);
+				for($i2 = 0; $i2 < count($in_group_array); $i2++)
+				{
+					if( is_numeric($in_group_array[$i2]))
+					{
+						// search from usergroup ,this $in_group_array[$i2] is the group id
+						//select * from usergroup where FIND_IN_SET('315',groupusers);
+						// 如果 一个用户即是 vip又在某一群中,并且这个消息包括了allvip和这个群,这样,用户将重复收到两条一样的消息
+						$sql6 = "select * from usergroup where FIND_IN_SET('".$row_id."', groupusers)";
+						$result6 = mysql_query($sql6,$handle);
+						if($result6)
+						{
+							$num6 = mysql_num_rows($result6);
+							if($num6 > 0)
+							{
+								//$ret .= implode("|",$row); $ret .="\n";
+								array_push($ret_array,$row);
+							}
+						}
+						
+					}else if( $in_group_array[$i2] =="allNOR" && intval($row_yhlx) == 0)
+					{
+						// the user is normal and there is a vipmsg for NORmal users
+					//	$row["ingroup"]="";
+					//	$ret .= implode("|",$row); $ret .="\n";
+						array_push($ret_array,$row);
+					}
+					else if( $in_group_array[$i2] =="allVIP" && intval($row_yhlx) == 1)
+					{
+						// familiar, the user is VIP and there is a msg for VIP users...
+					//	$ret .=implode("|",$row); $ret .="\n";
+						array_push($ret_array,$row);						
+
+					}else if( $in_group_array[$i2] =="allGRP")
+					{
+						//broadcast for all users
+					//	$ret .= implode("|",$row); $ret .="\n";
+						array_push($ret_array,$row);
+					}
+				}
+			}else if( $t_in_group == "allNOR" &&  intval($row_yhlx) == 0)
+			{
+			//	$ret .= implode("|",$row); $ret .="\n";
+				array_push($ret_array,$row);
+			}
+			else if( $t_in_group == "allVIP" && intval($row_yhlx) == 1)
+			{
+			//	$ret .= implode("|",$row); $ret .="\n";
+				array_push($ret_array,$row);
+			}
+			else if($t_in_group == "allGRP")
+			{
+				//$ret .= implode("|",$row); $ret .="\n";
+				array_push($ret_array,$row);
 			}
 			
-		}
+		}//end for i=0; i< num...
 		closeConn($handle);
+		//检查是否有重复的消息,重新组织最后的消息内容
+		$ret_array2 = array();	
+		foreach($ret_array as $key=> $ret_value)
+		{
+			$gt=0;
+			for($r=$key+1; $r < count($ret_array); $r++)
+			{
+				if( strcmp( $ret_value["content"] , $ret_array[$r]["content"]) == 0)
+				{
+					$gt=1;
+				}
+			}
+			if($gt==0)
+			{
+				array_push($ret_array2, $ret_value);
+			}
+		}
+		
 		return $ret;	
 	}else 
 	{

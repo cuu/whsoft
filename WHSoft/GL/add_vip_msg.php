@@ -106,7 +106,7 @@ include "jq_ui.php";
         switch(countOfSelected) {
             case 0: return "Nogroup";
             case 1: return selectedOptions.text();
-            case size: return "allgroup";
+            case size: return "allusers";
             default: return countOfSelected + " Groups";
         }
     } });
@@ -362,6 +362,7 @@ div.ui-datepicker
 	else
 	{
 ?>
+				<option value="allGRP">所有用户</option>
 				<option value="allNOR">所有普通用户</option>
 				<option value="allVIP" SELECTED>所有VIP用户</option>
 <?php
