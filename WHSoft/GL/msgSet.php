@@ -217,12 +217,32 @@ else
 							array_push($show_in_group, "所有VIP用户");
 						else if ( strstr($row["ingroup"], "allNOR"))
 							array_push($show_in_group,  "所有普通用户");
+						else if (is_numeric($row["ingroup"]))
+						{
+							$sql12 = "select groupname from usergroup where id=".$row["ingroup"];
+							$handle12 = openConn();
+							if($handle12 ==NULL) die( "openConn error".mysql_error());
+							$result12 = mysql_query($sql12, $handle12);
+							if($result12)
+							{
+								$row12 = mysql_fetch_array($result12, MYSQL_NUM);
+								array_push($show_in_group,  $row12[0]);
+								closeConn($handle12);
+							}
+							else
+							{
+								die(" mysql_query error ".mysql_error());
+							}
+							
+						}
 					}
 					else if( trim($row["ingroup"])!="" && strstr($row["ingroup"],",") )
 					{
 						$n_array2 = explode(",",$row["ingroup"]);
 						for($nj = 0; $nj < count($n_array2); $nj++)
 						{
+							if( strstr($n_array2[$nj], "allGRP"))
+								array_push($show_in_group, "所有用户");
 							if( strstr($n_array2[$nj], "allVIP"))
 								array_push($show_in_group, "所有VIP用户");
 							else if( strstr($n_array2[$nj], "allNOR"))
@@ -271,9 +291,12 @@ else
 			<td align="center">
 			<?php
 				$now_date = date("Y-m-d H:i:s");
-				if(strtotime($row["time"]) < strtotime($now_date))
+				
+				if(DateDiff("d",$row["time"],$now_date ) > 0)
 					echo "已过期,可以删除";
-				else
+				else if(DateDiff("d",$row["time"],$now_date ) == 0)
+					echo "今日发布";
+				else 
 					echo "未过期,准备发布";
 			?>
 			</td>
@@ -335,7 +358,7 @@ function vip_save()
 		$group = implode(",", $_POST["pub_group"] );
 	}else
 		$group = "None";
-
+	if(strstr($group,"allGRP"))  $group ="allGRP";
 
   if( strlen($txt_msg_body) < 3)
   {
@@ -414,6 +437,7 @@ function vip_edit()
 		$group = implode(",", $_POST["pub_group"] );
 	}else
 		$group = "None";
+	if(strstr($group, "allGRP"))  $group = "allGRP";
 
     if( strlen($content) < 3)
     {

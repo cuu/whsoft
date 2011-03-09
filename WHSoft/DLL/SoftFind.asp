@@ -45,9 +45,10 @@ function VipMsg( $f_DiskId,$f_time )
 	
 
 	$now_date = date("Y-m-d H:i:s");
+//	$f_time = $now_date;
 	$ret = "";
 	$sql2 = "select id,yhlx from softsetup where diskid='".trim($f_DiskId)."'";
-	$sql = "select * from vipmsg where ( DateDiff(time,'".$f_time."')=0 ) order by time";
+	$sql = "select * from vipmsg where ( DateDiff(time,'".$f_time."')=0 ) and sfqy=1 order by time";
 	$handle = openConn();  if ($handle ==NULL) {  /* 数据库　连接失败　*/ return "3";}
 	$result = mysql_query($sql2,$handle);
 	if($result)
@@ -55,9 +56,11 @@ function VipMsg( $f_DiskId,$f_time )
 		$num = mysql_num_rows($result);
 		if($num > 0)
 		{
-			$row_id = mysql_fetch_array($result,MYSQL_ASSOC);
-			$row_id = $row_id["id"];
-			$row_yhlx = $row_id["yhlx"];
+			$rowid = mysql_fetch_array($result,MYSQL_ASSOC);
+			$row_id = $rowid["id"];
+			$row_yhlx = $rowid["yhlx"];
+	//		echo "user id=".$row_id."\n";
+	//		echo "yhlx=".$row_yhlx."\n";
 		}else
 		{
 			return "-1"; // user does not existed
@@ -66,7 +69,7 @@ function VipMsg( $f_DiskId,$f_time )
 	$num = 0;
 	$result = mysql_query($sql, $handle);
 	$num = mysql_num_rows($result);
-	$res_array= array();
+	$ret_array= array();
 	if($num > 0)
 	{
 		for($i = 0; $i < $num ; $i++)
@@ -75,6 +78,7 @@ function VipMsg( $f_DiskId,$f_time )
 			$t_in_group = trim( $row["ingroup"] );
 			if( strstr($t_in_group,","))
 			{
+			//	echo "t_in_group=".$t_in_group."\n";
 				$in_group_array = explode("," , $t_in_group);
 				for($i2 = 0; $i2 < count($in_group_array); $i2++)
 				{
@@ -150,7 +154,11 @@ function VipMsg( $f_DiskId,$f_time )
 				array_push($ret_array2, $ret_value);
 			}
 		}
-		
+		for($zx = 0; $zx < count($ret_array2); $zx++)
+		{
+			$ret_array2[$zx] = implode("|",$ret_array2[$zx]);
+		}
+		$ret = implode("\n",$ret_array2);
 		return $ret;	
 	}else 
 	{

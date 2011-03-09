@@ -315,14 +315,24 @@ div.ui-datepicker
 		}
 	//	echo "count res=".count($all_res);
 		var_dump($all_res);
-		if( $row["ingroup"] == "allNOR") { echo '<option value="allNOR" selected>所有普通用户</option>'; } else {  echo '<option value="allNOR" >所有普通用户</option>'; }
-
-		if( $row["ingroup"] == "allVIP") { echo '<option value="allVIP" selected>所有VIP用户</option>'; } else {  echo '<option value="allVIP">所有VIP用户</option>';  }
-
 		if( strchr($row["ingroup"], ","))
 		{
 			// xxx,xxx,xxx,
 			$n_array = explode(",", $row["ingroup"]);
+			if(strstr($row["ingroup"],"allGRP"))
+					echo '<option value="allGRP" selected>所有用户</option>';
+			else
+					echo '<option value="allGRP" >所有用户</option>';
+			if(strstr($row["ingroup"],"allNOR"))
+					echo '<option value="allNOR" selected>所有普通用户</option>'; 
+			else
+					echo '<option value="allNOR" >所有普通用户</option>';
+			if(strstr($row["ingroup"],"allVIP"))
+				 	echo '<option value="allVIP" selected>所有VIP用户</option>'; 
+			else
+					echo '<option value="allVIP" >所有VIP用户</option>'; 
+				
+			
 			foreach($all_res as $value)
 			{
 				$gotit = "0";
@@ -339,9 +349,23 @@ div.ui-datepicker
 				}
 			}
 			
-		}
-		else if( is_numeric($row["ingroup"]))
+		}else
 		{
+			//$row["ingroup"] without ","
+			if( $row["ingroup"] == "allGRP")  echo '<option value="allGRP" selected>所有用户</option>';  
+			else echo '<option value="allGRP" >所有用户</option>';
+			if( $row["ingroup"] == "allNOR")  echo '<option value="allNOR" selected>所有普通用户</option>'; 
+			else echo '<option value="allNOR" >所有普通用户</option>'; 
+			if( $row["ingroup"] == "allVIP")  echo '<option value="allVIP" selected>所有VIP用户</option>'; 
+			else echo '<option value="allVIP" >所有VIP用户</option>'; 
+		}
+		if( is_numeric($row["ingroup"]) && !strstr($row["ingroup"],",") )
+		{
+			/*
+			echo '<option value="allGRP">所有用户</option>';
+			echo '<option value="allNOR">所有普通用户</option>';
+			echo '<option value="allVIP">所有VIP用户</option>';
+			*/
 			foreach($all_res  as $value)
 			{
 				if( $row["ingroup"] == strval($value["id"])) 
@@ -350,8 +374,9 @@ div.ui-datepicker
 					echo "<option value='".$value["id"]."'>".$value["groupname"]."</option>";
 			}			
 		}
-		else if( $row["ingroup"] == "allNOR" ||  $row["ingroup"] == "allVIP" || $row["ingroup"] == "None" || $row["ingroup"] =="" )
+		if(  $row["ingroup"] == "allGRP" ||  $row["ingroup"] == "allNOR" ||  $row["ingroup"] == "allVIP" || $row["ingroup"] == "None" || $row["ingroup"] =="" )
 		{
+
 			foreach($all_res as  $value)
 			{
 				echo "<option value='".$value["id"]."'>".$value["groupname"]."</option>";

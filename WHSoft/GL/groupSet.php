@@ -231,7 +231,7 @@ function group_save()
 		die();
 	}else
 	{
-      		echo "<script language=javascript>alert('创建群成功！');</script>";
+      		echo "创建群成功！";
 	//	$_COOKIE["gname"] ="";
 	//	$_COOKIE["gmemb"] ="";
 //		setcookie("gname", "");
