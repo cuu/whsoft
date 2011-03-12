@@ -33,6 +33,8 @@ include_once "../../function/function.php";
 	
 	closeConn($handle);
 */
+	$pg = getFormValue("pg");
+
 ?>
 <?php
 

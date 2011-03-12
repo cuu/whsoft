@@ -28,6 +28,7 @@ include_once "../../function/xdownpage.php";
 	//if(isset($_COOKIE["gmemb"])) { $_COOKIE["gmemb"] = ""; }
 	closeConn($handle);			
 	
+	$pg = getFormValue("pg");
 	$pxgz = getFormValue("pxgz");
 	$pxgz_type = getFormValue("pxgz_type");
 
