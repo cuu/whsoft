@@ -19,7 +19,7 @@ allGRP  <- for all the users
 <?php
 session_start();
 include_once "header.php";
-//include_once "cscheck.php"; // for dev
+include_once "cscheck.php"; // for dev
 include_once "../../function/conn.php";
 include_once "../../function/function.php";
 

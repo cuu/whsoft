@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include_once "header.php";
 include_once "cscheck.php";
 include_once "../../function/conn.php";

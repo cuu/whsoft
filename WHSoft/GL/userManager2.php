@@ -1,4 +1,5 @@
-<?php 
+<?php
+session_start(); 
 include_once "header.php";
 include_once "cscheck.php";
 
