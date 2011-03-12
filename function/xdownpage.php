@@ -37,10 +37,12 @@ function Pager($countall,$countlist,$style="page"){
     }else{
         $this->page=$this->countall/$this->countlist;
     }
-
-    $this->pg=$_GET["pg"];    
+	if(isset($_GET["pg"]))
+		$this->pg=$_GET["pg"];   
+	else
+		$this->pg="";
     //保证pg在未指定的情况下为从第1页开始
-    if (!ereg("^[1-9][0-9]*$",$this->pg) || empty($this->pg)){
+    if (!@ereg("^[1-9][0-9]*$",$this->pg) || empty($this->pg)){
         $this->pg=1;
     }
     //页码超出最大范围，取最大值
@@ -139,7 +141,7 @@ function getUrl(){
         } 
     } 
     //在当前的URL里加入pg=x字样
-    if (!ereg("(pg=|PG=|pG=|Pg=)", $url)){
+    if (!@ereg("(pg=|PG=|pG=|Pg=)", $url)){
         if (!strpos($url,"?")){
         $url = $url."?pg=1";
         }else{

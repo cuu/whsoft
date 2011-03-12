@@ -84,11 +84,12 @@ function getFormValue( $formName)
 {
 	//return $_REQUEST[$formName];
 
-	if( $_SERVER["REQUEST_METHOD"] == "POST")
+	if( $_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST[$formName]) )
 		return $_POST[$formName];
-	else
+	else if( $_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET[$formName]) ) 
 		return $_GET[$formName];
 
+	return "";
 }
 
 function GetURLSort( $f_pxgz, $f_pxgz_type)

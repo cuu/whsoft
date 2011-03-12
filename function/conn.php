@@ -69,7 +69,7 @@ function openConn()
 	$SqlUser="root";
 	$SqlPasswd="";
 	$SqlDatabase = "sq_whsoft";
-	$link = mysql_connect($sqlsocket, $SqlUser, $SqlPasswd);
+	$link = mysql_connect($SqlServer, $SqlUser, $SqlPasswd);
 	if (!$link) {
 		echo "<script>window.status=\"SQL Server 数据库连接失败 ".mysql_error()."\";</script>";
 		return NULL;
