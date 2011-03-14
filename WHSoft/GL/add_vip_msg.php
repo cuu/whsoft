@@ -425,11 +425,11 @@ div.ui-datepicker
       {
 ?>
  <input type="hidden" value="edit" name="action">
-<input id="btg_confirm_add" type="submit" style=""  value="确定修改" name="U2B"> </td>
+<input id="btg_confirm_add" type="submit" style=""  value="确定修改" name="U2B">  &nbsp;<font size="2" color="#FF0000">消息长度最大为2000字</font> </td>
 <?php }else{
 ?>
  <input type="hidden" value="save" name="action">
-<input id="btg_confirm_add" type="submit" style=""  value="确定创建" name="U2B"> </td>
+<input id="btg_confirm_add" type="submit" style=""  value="确定创建" name="U2B"> &nbsp;<font size="2" color="#FF0000">消息长度最大为2000字</font> </td>
 <?php } ?>
 </tr>
 

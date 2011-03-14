@@ -158,7 +158,7 @@ function VipMsg( $f_DiskId,$f_time )
 		{
 			$ret_array2[$zx] = implode("|",$ret_array2[$zx]);
 		}
-		$ret = implode("\n",$ret_array2);
+		$ret = implode(chr(28),$ret_array2);
 		return $ret;	
 	}else 
 	{

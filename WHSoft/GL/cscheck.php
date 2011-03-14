@@ -1,9 +1,9 @@
 <?php
-# check session and cookie
-
+// check session and cookie
+//ERROR_REPORTING(0);
 //session_start();
 
-if( $_SESSION["yhgl"]=="" )
+if( !isset($_SESSION["yhgl"]) ||$_SESSION["yhgl"]=="" )
 {
         echo "<script language=javascript>alert('ÇëÏÈµÇÂ½!');window.parent.location.href='login.php';</script>";
         die();
