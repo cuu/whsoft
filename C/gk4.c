@@ -36,19 +36,21 @@ CoInitializeEx
 #define __strtok_r strtok_r
 # define __rawmemchr strchr
 #define MSGLEN 8192
-#define WAIT_TIME 1000*4
+#define WAIT_TIME 1000*60*30 
 //curl -s -d "action=vipnews&DiskId=001916005802&D_msgtime=2011-03-26 12:33:13" -k https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp
 //char self[1024];
 
-char * asp_path = "http://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp";
+char * asp_path = "http://218.240.38.44/DLL/SoftFind.php";
+//char * asp_path = "http://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.php";
 char Buf[MSGLEN];
 char time_buf[21];
 char day_buf[11];
 // 001 916 005 802
-char diskid[13];
+char diskid[256];
 int unix_time1;
 int unix_time2;
 
+LV_ITEM lvitem;
 
 typedef struct
 {
@@ -63,7 +65,6 @@ typedef struct
 }myIterm;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-LRESULT CALLBACK EnumFunc(HWND hwnd,LPARAM lParam);
 
 int deinit();
 int init();
@@ -90,7 +91,7 @@ CHARFORMAT cf;
 CREATESTRUCT  *cs;
 
 int if_quit;
-int wait_time = 1000*60*30;// half an hour
+//int wait_time = 1000*60*30;// half an hour
 char current_dir[1024];
 char current_exe_name[256];
 
@@ -100,6 +101,7 @@ pfunc2  hkprcSysMsg;
 pfunc mt4_func;
 static   HINSTANCE   hinstDLL;  
 static   HHOOK   hhookSysMsg;   
+
 
 
 int do_hook()
@@ -256,6 +258,29 @@ int natoi( char *num)
 		return atoi(num);
 	}
 }
+
+char*  GetIdeNumber()
+{
+	HKEY key;
+	char sz[256];
+	DWORD dwtype, sl = 256;
+	char* Regkeyname="software\\GoldRockfx Software\\Info";
+	static char buffer[256];
+	memset(buffer,0, 256);
+	LONG a = RegOpenKeyEx(HKEY_CURRENT_USER,Regkeyname,0,KEY_READ, &key);
+	if (a != ERROR_SUCCESS)
+	{
+		return NULL;
+	}else
+	{
+		RegQueryValueEx(key, "Sn", NULL, &dwtype, (LPBYTE)sz, &sl);
+		strcpy(buffer,sz);
+		RegCloseKey(key);
+	}
+	clean_ascii(buffer);
+	return buffer;
+}
+
 
 int run_cmd(char*cmd,char*path)
 {
@@ -433,7 +458,8 @@ int read_hcwt(char*fname)
 	char*name;
 	char*pt;
 	char str_buf[4096];
-
+	
+	static LV_ITEM lvt;
 	memset(str_buf,0,4096);
 	
 	fp = fopen(fname,"r");
@@ -447,13 +473,36 @@ int read_hcwt(char*fname)
 
 	printf("name = %s\n content=%s\n",pt,str_buf);
 	
-	myIndex++;
+
 	if( myIndex < 100)
 	{
-		strcpy(mterm[myIndex].name, name);
+		printf("myIndex=%d\n",myIndex);
+		memset( mterm[myIndex].name, 0, 25);
+		memset( mterm[myIndex].content, 0 , 4096);
+
+//		memset(&lvt,0,sizeof(lvt)); 
+		strcpy(mterm[myIndex].name, pt);
 		strcpy(mterm[myIndex].content, str_buf);
-		AdjustListView(hList, &lv, myIndex);		
+		myIndex++;
+
+		AdjustListView(hList, &lv, myIndex);
+
+		/*
+		lvt.mask=LVIF_TEXT;   // Text Style
+		lvt.cchTextMax = 200; // Max size of test
+		lvt.iItem=myIndex;          // choose item  
+		lvt.iSubItem=0;       // Put in first coluom
+		lvt.pszText= mterm[myIndex].name; // Text to display (can be from a char variable) (Items)
+		*/
+	//	SendMessage(hList,LVM_SETITEM,0,(LPARAM)&lvt); 
+//		SendMessage(hList,LVM_INSERTITEM,0,(LPARAM)&lvt);
+//		ListView_InsertItem(hList,&lvt);
+	
+		UpdateWindow(hwnd);
+		UpdateWindow(hList);
+		
 	}
+	
 	return 0;
 }
 
@@ -463,13 +512,15 @@ int scan_hcwt(char*dir)
 	HANDLE hFind;
 	WIN32_FIND_DATA FindFileData;
 	memset(fpath,0,1024);
-	sprintf(fpath,"%s/*.hcwt",dir);
+	sprintf(fpath,"%s\\*.hcwt",dir);
+//	printf("dir=%s\n",dir);
 	myIndex = 0;
 	if((hFind = FindFirstFile(fpath, &FindFileData)) != INVALID_HANDLE_VALUE)
 	{
 		do{
 			printf("%s\n", FindFileData.cFileName);
 			read_hcwt(FindFileData.cFileName);
+		
 		}while(FindNextFile(hFind, &FindFileData));
 		FindClose(hFind);
 	}else
@@ -489,6 +540,7 @@ int parse_vipmsg(char*msg)
 	FILE *fp;
 	char fname_buf[35];
 	char msg2[MSGLEN];
+	char * saveptr1;
 	fname =NULL; content = NULL;
 	fp = NULL;
 	memset(msg2,0,MSGLEN);
@@ -496,13 +548,13 @@ int parse_vipmsg(char*msg)
 	if(strchr(msg2,'|'))
 	{
 	
-		pch = strtok(msg2,"|");
-		pch = strtok(NULL,"|");
+		pch = strtok_r(msg2,"|",&saveptr1);
+		pch = strtok_r(NULL,"|",&saveptr1);
 		if( pch !=NULL)
 			fname = pch;
-		pch = strtok(NULL,"|");
+		pch = strtok_r(NULL,"|",&saveptr1);
 		if(pch != NULL)
-		pch = strtok(NULL,"|");
+		pch = strtok_r(NULL,"|",&saveptr1);
 		if(pch != NULL)
 			content = pch;
 			
@@ -516,22 +568,24 @@ int parse_vipmsg(char*msg)
 		printf("pt = %s\n",pt);
 		if( file_exists( pt ) == 0)
 		{
-//			sprintf(fname_buf,"%s.hcwt",pt);
-		
-		//	printf("fname_buf = %s\n", replace(replace(fname_buf," ","_"),":","#"));
+//			sprintf(fname_buf,"%s.hcwt",pt);		
+//			printf("fname_buf = %s\n", replace(replace(fname_buf," ","_"),":","#"));
 		
 			fp = fopen(pt, "w" );
 			if(fp!=NULL)
 			{
 				fwrite(content,1, strlen(content),fp);
-				
 				fclose(fp);
-				return 0;
+			//	Sleep(1000);
+				scan_hcwt(current_dir);
+				ShowWindow(hwnd,1);			
+	
 			}else {printf("fopen orror\n"); return -1;}
 
-			scan_hcwt(current_dir);
-			ShowWindow(hwnd,1);
 			
+		}else
+		{
+	//		scan_hcwt(current_dir);
 		}
 		
 	}
@@ -613,19 +667,27 @@ void check_loop()
 			{
 				if(strstr(Buf, sep))
 				{
-				//	printf("Buf %s\n",Buf);
+					printf("Buf %s\n",Buf);
 					pch = strtok_r(Buf,sep,&saveptr1);
 					i = 0;
 					while(pch!=NULL)
 					{
 						
 						parse_vipmsg( pch);
-											
+					//	Sleep(1500);						
 						pch = strtok_r(NULL,sep,&saveptr1);
 						if(pch == NULL) break;
 					}
 				//	scan_hcwt(current_dir);
+				}else
+				{
+					if( strchr(Buf,'|'))
+					{
+						parse_vipmsg(Buf);
+					}
+					
 				}
+
 				
 			}
 //			Sleep(WAIT_TIME);
@@ -639,6 +701,7 @@ void check_loop()
 		return ;		
 	}
 
+	scan_hcwt(current_dir);
 	return ;
 }
 
@@ -718,9 +781,7 @@ void create_tab(HWND parent)
 
     if (hwndTab == NULL)
     {
-        // tab creation failed -
-        // are the correct #defines in your header?
-        // have you included the common control library?
+
         MessageBox(NULL, "Tab creation failed", "Tab Example", MB_OK | MB_ICONERROR);
         return;
     }
@@ -777,13 +838,14 @@ void AddText(HWND hwnd, char *szTextIn, COLORREF crNewColor)
 	char *Text = (char *)malloc(lstrlen(szTextIn) + 5);
 	CHARFORMAT cf;
 	int iTotalTextLength = GetWindowTextLength(hwnd);
-	int iStartPos = iTotalTextLength;
+//	int iStartPos = iTotalTextLength;
 	int iEndPos;
+	int iStartPos = 0;
 
 	strcpy(Text, szTextIn);
-	strcat(Text, "\r\n");
-
-	SendMessage(hwnd, EM_SETSEL, (WPARAM)(int)iTotalTextLength, (LPARAM)(int)iTotalTextLength);
+//	strcat(Text, "\r\n");
+	SetWindowText(hwnd,"");
+//	SendMessage(hwnd, EM_SETSEL, (WPARAM)(int)iTotalTextLength, (LPARAM)(int)iTotalTextLength);
 	SendMessage(hwnd, EM_REPLACESEL, (WPARAM)(BOOL)FALSE, (LPARAM)(LPCSTR)Text);
 
 	free(Text);
@@ -854,19 +916,27 @@ int create_list(HWND parent)
 	ListView_SetView(hList, LV_VIEW_LIST);
 	ShowScrollBar(hList,SB_VERT,TRUE);
 
-	lvC.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
+	lvC.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT ;
 	lvC.fmt = LVCFMT_LEFT;
 
 	index= 0;
+	myIndex = 0;
 	lvC.iSubItem = index;
 	lvC.cx = 200;
 	lvC.pszText = "news      ";
-//	ListView_InsertColumn(hList,index,&lvC);
-	myIndex++;
-	strcpy(mterm[myIndex].name, "2010-02-12 ");
-	strcpy(mterm[myIndex].content, "第二个listview 双击信息显示 ");
-	myIndex++;
-	AdjustListView(hList, &lv, myIndex);
+	ListView_InsertColumn(hList,index,&lvC);
+	
+//	strcpy(mterm[myIndex].name, "2010-02-12");
+//	strcpy(mterm[myIndex].content, "第二个listview 双击信息显示 ");
+//	myIndex++;
+
+	//lv.pszText= mterm[myIndex].name; // Text to display (can be from a char variable) (Items)
+	
+//	SendMessage(hList,LVM_SETITEM,0,(LPARAM)&lv); 
+//	SendMessage(hList,LVM_INSERTITEM,0,(LPARAM)&lv);
+//	myIndex ++;
+///	AdjustListView(hList, &lv, myIndex);
+//	scan_hcwt(current_dir);
 }
 
 int create_W(HINSTANCE h)
@@ -929,13 +999,14 @@ int init()
 	strcpy( current_dir,pt);
 
 	memset(Buf,0,MSGLEN);
-	memset(diskid,0,13);
+	memset(diskid,0,256);
 	memset(day_buf,0,11);
 
 	myIndex = 0;
 	unix_time1 = time(NULL);
 	unix_time2 = time(NULL);
 
+	lv.cchTextMax = 200;
 }
 
 int deinit()
@@ -991,9 +1062,21 @@ int main( int argc,char**argv)
 
 	printf("main\n");
 	if( argc < 2) return 0;
-
-	memcpy(diskid,argv[1], strlen(argv[1]));	
-	
+	if( strstr(argv[1],"-q"))
+	{
+		// call to kill others and self
+		check_same_pros();
+		return 0;
+		
+	}
+	memcpy(diskid,argv[1], strlen(argv[1]));
+	if( strlen(diskid ) < 8 ) 
+	{
+		MessageBox(NULL, "安装不正确", "info", MB_OK);
+		return -1;
+	}
+	check_same_pros();
+		
 	get_now_time();
 	get_now_day();
 	ck();
@@ -1007,14 +1090,14 @@ int main( int argc,char**argv)
 	create_btns(hwnd);
 
 	check_config(); // everyday every time startup to check if it is the up to date
-	check_loop();
+//	check_loop();
 
-	EnumWindows(EnumFunc,(LPARAM)0);
+	do_hook();
 
 	while (GetMessage(&msg, NULL, 0, 0)) 
 	{
 		unix_time2 = time(NULL);
-		if( unix_time2 - unix_time1 > 10)
+		if( unix_time2 - unix_time1 > 5) // 
 		{
 			unix_time1 = time(NULL);
 			check_loop();
@@ -1035,7 +1118,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	RECT rect;
 	int w,h;
-	
+	NMLVDISPINFO* plvdi;
 	switch (message) 
 	{	
 		/*
@@ -1073,6 +1156,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 		}break;
+		case WM_SYSCOMMAND:
+		{
+			switch( wParam)
+			{
+				case SC_CLOSE:
+				{
+					ShowWindow(hwnd,SW_HIDE);
+					return 0;	
+				}break;
+				default:
+				return DefWindowProc(hwnd, message, wParam, lParam);
+			}
+		}
 		case WM_CLOSE:
 		{
 			if_quit = 1;
@@ -1110,19 +1206,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             					}
          				}
          			break;
-      				case LVN_GETDISPINFO :
-         				lvd = (LV_DISPINFO FAR*)lParam;
+      				case LVN_GETDISPINFO:
+				{
+         			//	m = (LV_DISPINFO FAR*)lParam;
+					plvdi = (NMLVDISPINFO*) lParam; 
          				if((((LPNMHDR)lParam)->hwndFrom == hList))
          				{
-            					switch(lvd->item.iSubItem)
+            					switch(plvdi->item.iSubItem)
             					{
             						case 0:
-               							lvd->item.pszText =  mterm[lvd->item.iItem].name;
+               							plvdi->item.pszText =  mterm[plvdi->item.iItem].name;
                						break;
             						               						
             					}            			
          				}
-				break;	
+				}break;	
       			}
 		break;
 		default:break;
@@ -1132,14 +1230,3 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 }
 
-LRESULT CALLBACK EnumFunc(HWND hWnd,LPARAM lParam)
-{
-	static int count = 0;
-	char pszFileName [100];
-	GetWindowText(hwnd,pszFileName,100);
-	if(strstr(pszFileName,"Goldrockfx"))
-	{
-		hwnd = hWnd;
-	}
-	return TRUE;
-}

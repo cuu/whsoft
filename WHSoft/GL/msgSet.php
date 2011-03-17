@@ -31,7 +31,7 @@ include_once "../../function/xdownpage.php";
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
 <link rel="stylesheet" type="text/css" href="images/css.css">
 <!--[if IE]>
   <link rel="stylesheet" type="text/css" href="images/all-ie.css" />
