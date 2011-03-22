@@ -192,3 +192,14 @@ total 48
 -rw-rw-r-- 1 apache     80   543 Jan 27 07:54 SiteAdmin.Status
 -rw-rw-rw- 1 apache apache   752 Feb 27 08:59 Site.AllRecentChanges
 
+2011 03 17
+北京新结构
+不同的普通管理员，只能看到自已这部分 产生的用户信息
+有 代理商编号
+格式暂定 是 区号+6位编号
+
+2011-03-22
+新结构，数据库修改
+ALTER TABLE  `softsetup` ADD  `proxy` VARCHAR( 20 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT  '代理商信息' AFTER  `zhsxsj`
+ALTER TABLE  `userzhb` ADD  `proxy` VARCHAR( 20 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT  '代理商信息' AFTER  `zhsxsj`
+

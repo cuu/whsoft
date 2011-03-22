@@ -129,11 +129,12 @@ include "jq_ui.php";
 </td>
 <td align="center">
 		    <?php
+			
                        $t_type = intval( trim($row["type"])) + intval( strtotime( trim($row["jzrq"])));
                        if ($t_type ==1) echo "超级管理员"; 
                        else if ($t_type ==2)  echo "普通管理员";
                        else if( $t_type - ( intval( strtotime( trim($row["jzrq"]) ))) ==1) echo "临时管理员";
-                       
+                       else if( $t_type - ( intval( strtotime( trim($row["jzrq"]) ))) ==2) echo "普通管理员";                     
 		    ?>
 </td>
 <td align="center">

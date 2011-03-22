@@ -103,7 +103,7 @@ text-decoration:none;
 ?> 
 <a class="tab"  id="menu_item4" href="msgSet.php" target=mainFrame>多播消息设置</a>
 <a class="tab"  id="menu_item5" href="groupSet.php" target=mainFrame> 用户编组设置</a>
-
+<a class="tab"  id="menu_item6" href="dailiSet.php" target=mainFrame> 代理商设置</a>
 <?php
   }
 ?>
