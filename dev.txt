@@ -203,3 +203,11 @@ total 48
 ALTER TABLE  `softsetup` ADD  `proxy` VARCHAR( 20 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT  '代理商信息' AFTER  `zhsxsj`
 ALTER TABLE  `userzhb` ADD  `proxy` VARCHAR( 20 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT  '代理商信息' AFTER  `zhsxsj`
 
+CREATE TABLE  `sq_whsoft`.`proxy` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`name` VARCHAR( 20 ) NOT NULL ,
+`date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = INNODB CHARACTER SET gbk COLLATE gbk_chinese_ci;
+ALTER TABLE  `proxy` CHANGE  `zt`  `zt` SMALLINT( 1 ) NOT NULL DEFAULT  '1'
+
+
