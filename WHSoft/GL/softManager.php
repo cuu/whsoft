@@ -281,6 +281,18 @@ function Search()
 			$pxgz_type1 = "yes";
 		}
 	}
+	if(intval($_SESSION["zz"]) ==1)
+	{
+		
+	}
+	else if(intval($_SESSION["zz"])!= 1   /* && is_numeric ( $_SESSION["yhgl"] ) */ )
+	{
+		if( $_SESSION["yhgl"]  != "")
+		{
+			$sql .=  " where proxy ='".$_SESSION["yhgl"]."'";
+		}
+		else die("session error ");
+	}
 	
 	if( $pg!="")
 	{

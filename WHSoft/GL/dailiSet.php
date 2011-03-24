@@ -71,7 +71,7 @@ overflow:hidden;white-space: nowrap;
 
 if($id == "" ) $id=0;
 if($action == "save") proxy_save();
-else if($action == "del")  proxy_del();
+else if($action == "del")  pro_del();
 else
 {
 
@@ -209,11 +209,49 @@ function  pro_del()
     }
     else
     {
+	
       	echo "<script language=javascript>alert('删除成功！');window.parent.location.reload();</script>";
         closeConn($handle);
     }
 
   return;     
+}
+
+function  proxy_save()
+{
+	//array(3) { ["action"]=> string(4) "save" ["proxy_body"]=> string(7) "0572833" ["proxy_zt"]=> string(1) "1" }
+	$name = getFormValue("proxy_body");
+	$zt =   getFormValue("proxy_zt");
+	$pass = getFormValue("proxy_pass");
+
+	$sql = "insert into proxy(name,zt) values('".$name."','".$zt."')";
+	$handle = openConn();
+	if($handle ==NULL) die( "mysql error". mysql_error() );
+	$result = mysql_query($sql,$handle);
+	if($result ===false)
+	{
+		echo "proxy save mysql error()".mysql_error()."<br />";
+		closeConn($handle);
+		die();		
+	}else
+	{
+		// username 	passwd 	type 	jzrq zt
+		$sql2 = "insert into admin(username,passwd,type,jzrq,zt) values('".$name."','".g_CRC32($pass)."',2,'0',".intval($zt).")";
+		$result2 = mysql_query($sql2,$handle);
+		if($result2 === false)
+		{
+			echo "proxy save admin mysql error()".mysql_error()."<br />";
+			closeConn($handle);
+			die();			
+		}
+		else
+		{
+			echo "添加成功";
+			
+		}
+	}
+
+	closeConn($handle);
 }
 
 

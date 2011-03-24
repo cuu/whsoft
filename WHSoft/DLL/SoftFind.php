@@ -9,7 +9,7 @@ $zhmc = getFormValue("D_zhmc"); $zh   = getFormValue("D_zh"  ); $zhlx = getFormV
 $serverame = getFormValue("D_serverame");  $zhye = getFormValue("D_zhye"); $rjbb = getFormValue("D_rjbb");
 //zh is mt4 trader account number
 $msgtime = getFormValue("D_msgtime"); // vip msg timestamp,like xxxx-xx-xx xx:xx:xx
-
+$proxy   = getFormValue("D_proxy");
 
 $nowDate = Format_Date( time() );
 $nowTime = Format_Time( time() );
@@ -35,7 +35,7 @@ if ( strcmp( $action, "softsx"   ) == 0)
 
 if ( strcmp( $action, "softin"   ) == 0)
 {
-	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$temDate,1,"",$nowDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye);
+	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$temDate,1,"",$nowDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye,$proxy);
 	echo strval($returnValue);
 }
 
@@ -189,7 +189,7 @@ function SoftFind( $f_DiskId )
 	return 0; // Î´×¢²á
 }
 
-function  softIn($f_DiskId,$f_yhmc,$f_lxdz,$f_gddh,$f_yddh,$f_zcrq,$f_rjjsrq,$f_zt,$f_bz,$f_zhsxrq,$f_zhsxsj,$f_rjbb,$f_zh,$f_zhlx,$f_zcfsm,$f_servername,$f_zhye)
+function  softIn($f_DiskId,$f_yhmc,$f_lxdz,$f_gddh,$f_yddh,$f_zcrq,$f_rjjsrq,$f_zt,$f_bz,$f_zhsxrq,$f_zhsxsj,$f_rjbb,$f_zh,$f_zhlx,$f_zcfsm,$f_servername,$f_zhye,$f_proxy)
 {
 	$res = softfind( $f_DiskId);
 	if ( $res !=  0 )
@@ -197,13 +197,13 @@ function  softIn($f_DiskId,$f_yhmc,$f_lxdz,$f_gddh,$f_yddh,$f_zcrq,$f_rjjsrq,$f_
 		return 2;
 	}
 
-	$sql = "insert into softsetup(diskid,yhmc,lxdz,gddh,yddh,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj) values('".$f_DiskId."','".$f_yhmc."','".$f_lxdz."','".$f_gddh."','".$f_yddh."','".$f_zcrq."','".$f_rjjsrq."',".$f_zt.",'".$f_bz."','".$f_zhsxrq."','".$f_zhsxsj."')";
+	$sql = "insert into softsetup(diskid,yhmc,lxdz,gddh,yddh,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj,proxy) values('".$f_DiskId."','".$f_yhmc."','".$f_lxdz."','".$f_gddh."','".$f_yddh."','".$f_zcrq."','".$f_rjjsrq."',".$f_zt.",'".$f_bz."','".$f_zhsxrq."','".$f_zhsxsj."','".$f_proxy."')";
 	
 	$handle = openConn();
 	if ($handle ==NULL)  return 0;
 	$result = mysql_query($sql, $handle);
 	if($result == FALSE) { closeConn($handle); return 0; }
-	$sql = "insert into userzhb(diskid,rjbb,zhmc,zh,zhlx,zcfsm,serverame,zhye,zhsxrq,zhsxsj) values('".$f_DiskId."',".intval($f_rjbb).",'".$f_yhmc."','".$f_zh."',".$f_zhlx.",'".$f_zcfsm."','".$f_servername."',".$f_zhye.",'".$f_zhsxrq."','".$f_zhsxsj."')";
+	$sql = "insert into userzhb(diskid,rjbb,zhmc,zh,zhlx,zcfsm,serverame,zhye,zhsxrq,zhsxsj,proxy) values('".$f_DiskId."',".intval($f_rjbb).",'".$f_yhmc."','".$f_zh."',".$f_zhlx.",'".$f_zcfsm."','".$f_servername."',".$f_zhye.",'".$f_zhsxrq."','".$f_zhsxsj."','".$f_proxy."')";
 	$result = mysql_query($sql, $handle);
 	if($result == FALSE) { closeConn($handle); return 0; }
 	else

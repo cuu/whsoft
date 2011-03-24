@@ -33,7 +33,54 @@ include "jq_ui.php";
 <script  language="javascript"  >
 
 $(function() {
+	$("#confirm_add").button();
+	$("#confirm_add").click(
+		function()
+		{
+			if( jQuery.trim($("#proxy_name").val()) =="")
+			{
+				alert("代理商编号不能为空");return false;
+			}
+			if( jQuery.trim($("#proxy_pass").val()) =="")
+			{
+				alert("代理商密码不能为空");return false;
+			}
+			if( isNaN( jQuery.trim($("#proxy_name").val()) ))
+			{
+				alert("代理商编号应全是数字组成");return false;
+			}
+						
+			$("#check_progress").html("正在检查此代理商是否已经存在...");
+			$.ajax({
+				
+				url: 'check.php?action=pcheck&pname='+jQuery.trim($("#proxy_name").val()),
+				success: function(data) 
+				{
+					//alert(data);
+					//$('.result').html(data);
+					if(data ==1)
+					{
+						$("#check_progress").html("此代理商已经存在,请重新命名,或是删除原有代理商再进行添加...");
+						return false;
+					}else if(data ==0)
+					{
+						$("#check_progress").html("");	
+	
+						$("#target_proxy").submit(); 
+					}
+						
+  				},
+				error: function(xhr, ajaxOptions, thrownError)
+				{
+					   // alert(xhr.statusText);
+			                   // alert(thrownError);
+					$("#check_progress").text(xhr.statusText);
+					return false;
+				}
+			});
 
+		}
+	);
 });
 
 </script>
@@ -111,12 +158,19 @@ div.ui-datepicker
 	background:#fff;
 }
 
+#target_proxy
+{
+
+}
 </style>
 <title>添加新的代理商</title>
 </head>
 
 <body  topmargin="0">
-<form id="target_group"  name="group_form"  style="margin:8px;"  method="POST" action="dailiSet.php">
+<center>
+<div style="margin-bottom:50px;">&nbsp;</div>
+
+<form id="target_proxy"  name="proxy_form"  style="margin:8px;"  method="POST" action="dailiSet.php">
 	<input type="hidden" value="save" name="action">
 
 <table id="container" border="0" width="468" cellspacing="4" cellpadding="1"  style="border: 1px solid #ccc;border-right:1px solid #999;border-bottom:1px solid #999;  padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
@@ -129,7 +183,15 @@ div.ui-datepicker
     <td style="border-left-width: 1px; border-right-width: 1px; " width="80" align="center" valign="top">
     <font size="2">代理商编号:</font></td>
     <td style="border-left-width: 1px; border-right-width: 1px;" width="286" align="left">
-      <input name="txt_body"  class="g_input"  size="20" />
+      <input name="proxy_body"  id="proxy_name" class="g_input"  size="20"  maxlength= "7"/>
+    </td>
+    </tr>
+
+    <tr>
+    <td style="border-left-width: 1px; border-right-width: 1px; " width="80" align="center" valign="top">
+    <font size="2">代理商密码:</font></td>
+    <td style="border-left-width: 1px; border-right-width: 1px;" width="286" align="left">
+      <input name="proxy_pass"  id="proxy_pass" class="g_input"  size="20"  maxlength= "20" />
     </td>
     </tr>
 
@@ -137,3 +199,21 @@ div.ui-datepicker
     <td style="border-left-width: 1px; border-right-width: 1px;" width="80" align="center">
     <font size="2">使用状态：</font></td>
     <td style="font-size:12px;border-left-width: 1px; border-right-width: 1px;" width="200" align="left">
+	<select name="proxy_zt" >
+	<option value="1"> 正常使用</option>
+	<option value="0"> 禁止使用</option>
+    </td>
+</tr>
+	<tr>
+	<td style="font-size:12px;border-left-width: 1px; border-right-width: 1px;" width="200" align="left">
+	<input type="submit" value="确定添加"  id="confirm_add"  />
+	<label id="check_progress" style="background:red;color:white;" ></label>
+	</td>
+	</tr>
+
+</table>
+</form>
+</center>
+
+</body>
+</html>
