@@ -217,6 +217,8 @@ else
 							array_push($show_in_group, "所有VIP用户");
 						else if ( strstr($row["ingroup"], "allNOR"))
 							array_push($show_in_group,  "所有普通用户");
+						else if ( strstr($row["ingroup"], "allGRP"))
+							array_push($show_in_group,  "所有用户");
 						else if (is_numeric($row["ingroup"]))
 						{
 							$sql12 = "select groupname from usergroup where id=".$row["ingroup"];

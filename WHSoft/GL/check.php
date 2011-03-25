@@ -55,7 +55,7 @@ function proxy_check()
 		{
 			$sql2 = "select * from  admin where username='".$name."'";
 			$res2 = mysql_query($sql2,$handle);
-			if($res2)
+			if($res2!==false)
 			{
 				$num = mysql_num_rows($res2);
 				if($num > 0)  $t2 = 1;
@@ -72,7 +72,7 @@ function proxy_check()
 		echo "1";
 	if( $t1 == 0 && $t2 == 0)
 		echo "0";
-
+	return;
 }
 
 ?>

@@ -5,7 +5,7 @@ include_once "cscheck.php"; // for dev
 include_once "../../function/conn.php";
 include_once "../../function/function.php";
 include_once "../../function/xdownpage.php";
-
+include_once "../../function/md5.php";
 
 
 
@@ -133,7 +133,7 @@ else
 ?> 
                       <tr height='25' style="overflow:hidden;border-bottom:1px solid #ccc;">
                        <td align="center"  >
-                         <a href="?action=del&id=<?php echo trim($row["id"]);?>" class="del" onClick="return confirm('删除该代理商,您确定进行删除操作吗？')" target="delframe">删除</a>
+                         <a href="dailiSet.php?action=del&id=<?php echo trim($row["id"]);?>&name=<?php echo trim($row["name"]); ?>" class="del" onClick="return confirm('删除该代理商,您确定进行删除操作吗？')"  >删除</a>
                        </td>
                        <td nowrap  style=" overflow:hidden;width:240px;height:25px;" align="center">
                             <?php echo trim($row["name"]); ?>
@@ -196,6 +196,12 @@ function  pro_del()
 {
     check_root();
     $id = trim($_GET["id"]);
+    $name = trim($_GET["name"]);
+
+	if( $id == "" || $name == "") die("删除代理商数据有误");
+
+
+
     $sql = "delete from  proxy  where id=".$id;
   
     $handle = openConn();
@@ -203,26 +209,82 @@ function  pro_del()
     $result = mysql_query($sql,$handle);
     if($result ===false)
     {
-        echo "Edit mysql error()".mysql_error()."<br />";
+        echo "proxy delete mysql error()".mysql_error()."<br />";
         closeConn($handle);
         die();	
     }
     else
     {
+	$sql = "delete from admin where username ='".$name."'";
+	$result2 = mysql_query($sql,$handle);
+	if($result2!==false)
+	{
+      		echo "删除成功！";
+        	closeConn($handle);
+		die();
+	}
 	
-      	echo "<script language=javascript>alert('删除成功！');window.parent.location.reload();</script>";
-        closeConn($handle);
+	else
+	{
+		closeConn($handle);
+		die("delete erroro".mysql_error());
+	}
+	
     }
 
   return;     
 }
 
+function proxy_check($name)
+{
+	
+	$sql = "select count(id) from proxy where name = '".$name."'";
+	$t1 = 0;
+	$t2 = 0;
+
+	$handle = openConn();
+	if($handle ==NULL) die( "mysql error". mysql_error() );
+	$result = mysql_query($sql,$handle);
+	if( $result !== false)
+	{
+		$row1 = mysql_fetch_array($result,MYSQL_NUM);
+		if($row1[0] > 0){  $t1 = 1;  }
+		else 
+		{
+			$sql2 = "select * from  admin where username='".$name."'";
+			$res2 = mysql_query($sql2,$handle);
+			if($res2!==false)
+			{
+				$num = mysql_num_rows($res2);
+				if($num > 0)  $t2 = 1;
+			}else die(mysql_error()); 
+		}
+	}
+	else
+	{
+		closeConn($handle);
+		die( mysql_error());
+	}
+	closeConn($handle);
+	if( $t1 == 1 || $t2 ==1 ) 
+	{
+		echo "此代理商已存在，数据提交有错误，请正确使用本平台！";
+		die();
+	}
+	if( $t1 == 0 && $t2 == 0)
+	{
+		return 1;
+	}
+	return 0;
+
+}
 function  proxy_save()
 {
 	//array(3) { ["action"]=> string(4) "save" ["proxy_body"]=> string(7) "0572833" ["proxy_zt"]=> string(1) "1" }
 	$name = getFormValue("proxy_body");
 	$zt =   getFormValue("proxy_zt");
 	$pass = getFormValue("proxy_pass");
+	proxy_check($name);
 
 	$sql = "insert into proxy(name,zt) values('".$name."','".$zt."')";
 	$handle = openConn();

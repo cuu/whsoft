@@ -65,7 +65,6 @@ $(function() {
 					}else if(data ==0)
 					{
 						$("#check_progress").html("");	
-	
 						$("#target_proxy").submit(); 
 					}
 						
@@ -78,7 +77,7 @@ $(function() {
 					return false;
 				}
 			});
-
+			return false;
 		}
 	);
 });
@@ -205,9 +204,11 @@ div.ui-datepicker
     </td>
 </tr>
 	<tr>
-	<td style="font-size:12px;border-left-width: 1px; border-right-width: 1px;" width="200" align="left">
+	<td style="font-size:12px;border-left-width: 1px; border-right-width: 1px;" width="100" align="left">
 	<input type="submit" value="È·¶¨Ìí¼Ó"  id="confirm_add"  />
-	<label id="check_progress" style="background:red;color:white;" ></label>
+	<td>
+		<label id="check_progress" style="background:red;color:white;" ></label>
+	</td>
 	</td>
 	</tr>
 
