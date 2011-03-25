@@ -237,7 +237,7 @@ function SoftSX($f_DiskId,$f_rjbb,$f_zhmc,$f_zh,$f_zhlx,$f_zcfsm,$f_serverame,$f
 	global $nowDate;
 	$ssx =0;
 	$endDate = "";
-	$sql = "select zt,rjjsrq from softsetup where diskid='".$f_DiskId."'";
+	$sql = "select zt,rjjsrq,proxy  from softsetup where diskid='".$f_DiskId."'";
 	$handle =openConn();
 	if($handle == NULL) return 0;
 	$result = mysql_query($sql,$handle);
@@ -249,6 +249,7 @@ function SoftSX($f_DiskId,$f_rjbb,$f_zhmc,$f_zh,$f_zhlx,$f_zcfsm,$f_serverame,$f
 			$row = mysql_fetch_array($result, MYSQL_NUM);
 			$ssx = -($row[0]+1);	// 1 in use 2 locked
 			$endDate = trim( $row[1] );	
+			$proxy = trim( $row[2] );
 		}
 		else
 		{
@@ -271,7 +272,7 @@ function SoftSX($f_DiskId,$f_rjbb,$f_zhmc,$f_zh,$f_zhlx,$f_zcfsm,$f_serverame,$f
 			$sql="update userzhb set diskid='".$f_DiskId."',rjbb=".intval($f_rjbb).",zhmc='".$f_zhmc."',zh='".$f_zh."',zhlx=".$f_zhlx.",zcfsm='".$f_zcfsm."',serverame='".$f_serverame."',zhye=".$f_zhye.",zhsxrq='".$f_zhsxrq."',zhsxsj='".$f_zhsxsj."' where diskid='".$f_DiskId."' and zh='".$f_zh."'";
 		}else
 		{
-			$sql="insert into userzhb(diskid,rjbb,zhmc,zh,zhlx,zcfsm,serverame,zhye,zhsxrq,zhsxsj) values('".$f_DiskId."',".intval($f_rjbb).",'".$f_zhmc."','".$f_zh."',".$f_zhlx.",'".$f_zcfsm."','".$f_serverame."',".$f_zhye.",'".$f_zhsxrq."','".$f_zhsxsj."')";
+			$sql="insert into userzhb(diskid,rjbb,zhmc,zh,zhlx,zcfsm,serverame,zhye,zhsxrq,zhsxsj,proxy) values('".$f_DiskId."',".intval($f_rjbb).",'".$f_zhmc."','".$f_zh."',".$f_zhlx.",'".$f_zcfsm."','".$f_serverame."',".$f_zhye.",'".$f_zhsxrq."','".$f_zhsxsj."','".$proxy."')";
 		}
 		$result = mysql_query($sql,$handle);
 		if($result != FALSE)
