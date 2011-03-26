@@ -1,15 +1,18 @@
 version=pmwiki-2.2.23 ordered=1 urlencoded=1
-agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Chrome/9.0.597.102 Safari/534.13
+agent=Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.151 Safari/534.16
 author=
 charset=UTF-8
 csum=
 ctime=1296133111
 host=127.0.0.1
 name=Index.Index
-rev=15
-targets=Index.IndexHelp1,Index.IndexHelp2,Index.IndexHelp3,Index.IndexHelp4,Index.WebChrome,Index.WebFirefox,Index.WebSafari,Index.WebJavascript,Index.WebCookie
-text=!!欢印使用 金石智能管理后台系统1.0%0a%0a*本系统有如下功能:%0a**[[Index help1 | 查看和管理所有注册用户]]%0a**[[Index help2 | 修改或删除管理员帐号 ]]%0a**[[Index help3 | 设置激活注册等短信内容 ]]%0a**[[Index help4 | 设置修改和发布VIP用户的多播消息]]%0a\\%0a\\%0a本系统要求用户使用IE6.0浏览器以上,或[[Web chrome | 谷歌浏览器]], [[Web firefox | 火狐浏览器 ]] , [[Web safari | 苹果Safari浏览器]] 等. 同时打开[[Web javascript | Javascript]],[[Web cookie | Cookie]]功能 \\%0a所有操作请慎重,误操作不可撤销!\\%0a感谢您的使用,祝您生活愉快\\%0a\\%0a%0a%3ctable cellspacing="0" cellpadding="0" border="0"  style="margin-left:10px; padding: 8px 0pt 0pt; position: relative; z-index: 2;">%0a%3ctbody>%0a%3ctr>%0a%3cform action="search.php" method="GET" name="searh_form">%0a   %3ctd>%3cinput type="text" class="rmv-dft-val"  name="s_q" size="57" value="" style="vertical-align:top;border-top:1px solid #ccc;border-left:1px solid #ccc;border-right:1px solid #999;border-bottom:1px solid #999;height:30px; padding:5px 3px 0px 6px;font:18px arial,sans-serif bold;" />%3c/td>%0a   %3ctd>%3cinput id="btg_search" type="submit" size="10" value="快速查找" style="vertical-align:top;height:35px;font:15px arial,sans-serif bold;vertical-align:top;outline:0 none; cursor: pointer;color:#000;" />%3c/td>%0a%3c/form>%0a%3c/tr>%3c/tbody>%0a%3c/table>%0a
-time=1297760440
+rev=16
+targets=Index.IndexHelp1,Index.IndexHelp2,Index.IndexHelp3,Index.IndexHelp4,Index.IndexHelp5,Index.WebChrome,Index.WebFirefox,Index.WebSafari,Index.WebJavascript,Index.WebCookie
+text=!!欢印使用 金石智能管理后台系统1.0%0a%0a*本系统有如下功能:%0a**[[Index Help1 | 查看和管理所有注册用户]]%0a**[[Index Help2 | 修改或删除管理员帐号 ]]%0a**[[Index Help3 | 设置激活注册等短信内容 ]]%0a**[[Index Help4 | 设置修改和发布VIP用户的多播消息]]%0a**[[Index Help5 | 查看和管理下属代理商]]%0a\\%0a\\%0a本系统要求用户使用IE6.0浏览器以上,或[[Web chrome | 谷歌浏览器]], [[Web firefox | 火狐浏览器 ]] , [[Web safari | 苹果Safari浏览器]] 等. 同时打开[[Web javascript | Javascript]],[[Web cookie | Cookie]]功能 \\%0a所有操作请慎重,误操作不可撤销!\\%0a感谢您的使用,祝您生活愉快\\%0a\\%0a%0a%3ctable cellspacing="0" cellpadding="0" border="0"  style="margin-left:10px; padding: 8px 0pt 0pt; position: relative; z-index: 2;">%0a%3ctbody>%0a%3ctr>%0a%3cform action="search.php" method="GET" name="searh_form">%0a   %3ctd>%3cinput type="text" class="rmv-dft-val"  name="s_q" size="57" value="" style="vertical-align:top;border-top:1px solid #ccc;border-left:1px solid #ccc;border-right:1px solid #999;border-bottom:1px solid #999;height:30px; padding:5px 3px 0px 6px;font:18px arial,sans-serif bold;" />%3c/td>%0a   %3ctd>%3cinput id="btg_search" type="submit" size="10" value="快速查找" style="vertical-align:top;height:35px;font:15px arial,sans-serif bold;vertical-align:top;outline:0 none; cursor: pointer;color:#000;" />%3c/td>%0a%3c/form>%0a%3c/tr>%3c/tbody>%0a%3c/table>%0a
+time=1301045902
+author:1301045902=
+diff:1301045902:1297760440:=4,8c4,7%0a%3c **[[Index Help1 | 查看和管理所有注册用户]]%0a%3c **[[Index Help2 | 修改或删除管理员帐号 ]]%0a%3c **[[Index Help3 | 设置激活注册等短信内容 ]]%0a%3c **[[Index Help4 | 设置修改和发布VIP用户的多播消息]]%0a%3c **[[Index Help5 | 查看和管理下属代理商]]%0a---%0a> **[[Index help1 | 查看和管理所有注册用户]]%0a> **[[Index help2 | 修改或删除管理员帐号 ]]%0a> **[[Index help3 | 设置激活注册等短信内容 ]]%0a> **[[Index help4 | 设置修改和发布VIP用户的多播消息]]%0a
+host:1301045902=127.0.0.1
 author:1297760440=
 diff:1297760440:1296212673:=10c10%0a%3c 本系统要求用户使用IE6.0浏览器以上,或[[Web chrome | 谷歌浏览器]], [[Web firefox | 火狐浏览器 ]] , [[Web safari | 苹果Safari浏览器]] 等. 同时打开[[Web javascript | Javascript]],[[Web cookie | Cookie]]功能 \\%0a---%0a> 本系统要求用户使用IE6.0浏览器以上,或谷歌浏览器. 同时打开Javascript功能\\%0a
 host:1297760440=127.0.0.1

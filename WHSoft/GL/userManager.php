@@ -224,8 +224,22 @@ function u_Search()
 		$sql .= " where a.diskid=b.diskid";
 	}
 
-	$sql = "select a.id,a.rjbb,a.zhmc,a.zh,a.zhlx,a.zcfsm,a.serverame,a.zhye,a.diskid,a.zhsxrq,a.zhsxsj,b.yhmc from userzhb a,softsetup b ".$sql;
+	if(intval($_SESSION["zz"]) ==1)
+	{
+		
+	}
+	else if(intval($_SESSION["zz"])!= 1   /* && is_numeric ( $_SESSION["yhgl"] ) */ )
+	{
+		if( $_SESSION["yhgl"]  != "")
+		{
+			$sql .=  "  and  a.proxy ='".$_SESSION["yhgl"]."'";
+		}
+		else die("session error ");
+	}
+
+	$sql = "select a.id,a.rjbb,a.zhmc,a.zh,a.zhlx,a.zcfsm,a.serverame,a.zhye,a.diskid,a.zhsxrq,a.zhsxsj,a.proxy,b.yhmc from userzhb a,softsetup b ".$sql;
 	
+
 
         if($pxgz!="")
         {

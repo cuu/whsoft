@@ -27,7 +27,7 @@ GetModuleHandle(NULL)
 
 */
 //char * asp_path = "https://210.51.181.76/DLL/SoftFind.asp";
-char * asp_path = "https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp";
+char * asp_path = "https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.php";
 HHOOK currentHook;
 void* hmenu;
 void *hpop;
