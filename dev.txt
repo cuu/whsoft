@@ -1,6 +1,8 @@
 code is gb2312
 pass is [etc]jc with crc32 in php5
 
+在server上建立一个DLL的软link,因为DocumentRoot指向了GL,还有pma...
+
 大部分纯了id之外，全可以null,以下是错误的
 whatever
 数据要用double才能精确存储小数
@@ -210,4 +212,9 @@ CREATE TABLE  `sq_whsoft`.`proxy` (
 ) ENGINE = INNODB CHARACTER SET gbk COLLATE gbk_chinese_ci;
 ALTER TABLE  `proxy` CHANGE  `zt`  `zt` SMALLINT( 1 ) NOT NULL DEFAULT  '1'
 
+
+
+2011-03-29
+在gk4中，每次启动强制去删空以前的menu item,很低效率的做法
+不过一定要保证 只有一个menu item
 
