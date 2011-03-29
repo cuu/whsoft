@@ -32,11 +32,16 @@ CoInitializeEx
 #define ID_RICH_EDIT 1235
 #define ID_BUTTON1 1236 /// for close button
 #define ID_CHECK1 1237  /// for the check box 
+#define ID_FILE_NEW 8334
+
 
 #define __strtok_r strtok_r
 # define __rawmemchr strchr
 #define MSGLEN 8192
 #define WAIT_TIME 1000*60*30 
+#define MSGMAX 20
+#define MAGICNUMBER 9999
+
 //curl -s -d "action=vipnews&DiskId=001916005802&D_msgtime=2011-03-26 12:33:13" -k https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp
 //char self[1024];
 
@@ -65,14 +70,20 @@ typedef struct
 }myIterm;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK goldkey_popup_proc(HWND , UINT , WPARAM , LPARAM );
 
+void SetText(HWND , char *, COLORREF );
 int deinit();
 int init();
-
+DWORD WINAPI MyThreadLoop( LPVOID lpParam );
+DWORD WINAPI GUIThreadLoop( LPVOID lpParam );
 static char szAppName[] = "GoldKey_Window";
 
 HINSTANCE hInst;
 HWND hwnd; // the core window
+HWND mt4_hwnd;
+HWND popup_hwnd[MSGMAX]; // the pop up window 
+HWND popup_edit[MSGMAX]; // the edit control of pop up window
 HWND hList; // the left list
 HWND hwndEdit;
 HWND hwndTab;
@@ -82,6 +93,7 @@ static int index; // for the List using
 Item ListItem[1];
 myIterm mterm[100]; // only list 100 items 
 int myIndex; /// for myIterm count
+int myIndex2; // for parseMsg counting
 LV_ITEM lv;
 LV_COLUMN lvC;
 LV_DISPINFO *lvd;
@@ -101,8 +113,34 @@ pfunc2  hkprcSysMsg;
 pfunc mt4_func;
 static   HINSTANCE   hinstDLL;  
 static   HHOOK   hhookSysMsg;   
+HANDLE hThread[2];
+int unread[MSGMAX];
+int unread_index;
 
 
+LRESULT CALLBACK EnumFunc(HWND hWnd,LPARAM lParam)
+{
+	static int count = 0;
+	char pszFileName [100];
+	GetWindowText(hWnd,pszFileName,100);
+	if(strstr(pszFileName,"Goldrockfx"))
+	{
+		mt4_hwnd = hWnd;
+	}
+	return TRUE;
+}
+
+void remove_menu()
+{
+	HMENU hmenu;
+	EnumWindows((WNDENUMPROC)EnumFunc,(LPARAM)0);
+	if( mt4_hwnd != NULL)
+	{
+		hmenu = GetMenu(mt4_hwnd);
+		RemoveMenu(hmenu, ID_FILE_NEW, MF_BYCOMMAND);
+		UpdateWindow(mt4_hwnd);
+	}
+}
 
 int do_hook()
 {
@@ -152,6 +190,8 @@ int do_unhook()
 
 	hkprcSysMsg();
 	mt4_func();
+	FreeLibrary(hinstDLL);
+
 	return 0;
 }
 
@@ -257,28 +297,6 @@ int natoi( char *num)
 	{
 		return atoi(num);
 	}
-}
-
-char*  GetIdeNumber()
-{
-	HKEY key;
-	char sz[256];
-	DWORD dwtype, sl = 256;
-	char* Regkeyname="software\\GoldRockfx Software\\Info";
-	static char buffer[256];
-	memset(buffer,0, 256);
-	LONG a = RegOpenKeyEx(HKEY_CURRENT_USER,Regkeyname,0,KEY_READ, &key);
-	if (a != ERROR_SUCCESS)
-	{
-		return NULL;
-	}else
-	{
-		RegQueryValueEx(key, "Sn", NULL, &dwtype, (LPBYTE)sz, &sl);
-		strcpy(buffer,sz);
-		RegCloseKey(key);
-	}
-	clean_ascii(buffer);
-	return buffer;
 }
 
 
@@ -474,7 +492,7 @@ int read_hcwt(char*fname)
 	printf("name = %s\n content=%s\n",pt,str_buf);
 	
 
-	if( myIndex < 100)
+	if( myIndex < 20)
 	{
 		printf("myIndex=%d\n",myIndex);
 		memset( mterm[myIndex].name, 0, 25);
@@ -505,7 +523,35 @@ int read_hcwt(char*fname)
 	
 	return 0;
 }
-
+int check_hcwt(char*dir)
+{
+	int i;
+	char fpath[1024];
+	char cmd[2048];
+	HANDLE hFind;
+	WIN32_FIND_DATA FindFileData;
+	memset(fpath,0,1024);
+	memset(cmd,0,2048);
+	sprintf(fpath,"%s\\*.hcwt",dir);
+	sprintf(cmd,"del %s",fpath);
+//	printf("dir=%s\n",dir);
+	i = 0;
+	if((hFind = FindFirstFile(fpath, &FindFileData)) != INVALID_HANDLE_VALUE)
+	{
+		do{
+			i++;
+		}while(FindNextFile(hFind, &FindFileData));
+		FindClose(hFind);
+	}else
+	{
+		printf("check_hcwt no hcwt found\n");
+	}
+	if( i > 20) 
+	{
+		//system(cmd);	
+		system("del *.hcwt");
+	}	
+}
 int scan_hcwt(char*dir)
 {
 	char fpath[1024];
@@ -576,10 +622,13 @@ int parse_vipmsg(char*msg)
 			{
 				fwrite(content,1, strlen(content),fp);
 				fclose(fp);
-			//	Sleep(1000);
-				scan_hcwt(current_dir);
-				ShowWindow(hwnd,1);			
-	
+				
+			//	scan_hcwt(current_dir);
+				SetText(popup_edit[unread_index], content , RGB(0,0,0));
+				ShowWindow(popup_hwnd[unread_index],1);
+				unread_index++;
+
+
 			}else {printf("fopen orror\n"); return -1;}
 
 			
@@ -647,15 +696,15 @@ void check_loop()
 	memset(cmd_line,0,1024);
 	
 	a  = 0;
-	sprintf(cmd_line, " -s -d \"action=vipnews&DiskId=%s&D_msgtime=2011-03-26 12:33:13\"  %s",diskid,asp_path);
-//	sprintf(cmd_line, " -s -d \"action=vipnews&DiskId=%s&D_msgtime=%s\"  %s",diskid,time_buf,asp_path);
+//	sprintf(cmd_line, " -s -d \"action=vipnews&DiskId=%s&D_msgtime=2011-03-26 12:33:13\"  %s",diskid,asp_path);
+	sprintf(cmd_line, " -s -d \"action=vipnews&DiskId=%s&D_msgtime=%s\"  %s",diskid,time_buf,asp_path);
 
 	sep[0] = (char)28;
 	sep[1] = '\0';
 
 
 
-	if( file_exists("curl.exe") == 1 && file_exists("config") == 0 )
+	if( file_exists("curl.exe") == 1 /*&& file_exists("config") == 0 */)
 	{
 		if( if_quit == 0)
 		{
@@ -665,6 +714,7 @@ void check_loop()
 		
 			if(a)
 			{
+				unread_index = 0;
 				if(strstr(Buf, sep))
 				{
 					printf("Buf %s\n",Buf);
@@ -674,11 +724,9 @@ void check_loop()
 					{
 						
 						parse_vipmsg( pch);
-					//	Sleep(1500);						
 						pch = strtok_r(NULL,sep,&saveptr1);
 						if(pch == NULL) break;
 					}
-				//	scan_hcwt(current_dir);
 				}else
 				{
 					if( strchr(Buf,'|'))
@@ -688,7 +736,6 @@ void check_loop()
 					
 				}
 
-				
 			}
 //			Sleep(WAIT_TIME);
 		
@@ -700,7 +747,7 @@ void check_loop()
 		MessageBox(NULL,dbuffer,"error",MB_OK);
 		return ;		
 	}
-
+	unread_index = 0;
 	scan_hcwt(current_dir);
 	return ;
 }
@@ -722,6 +769,8 @@ int ck()
 //	printf("-- %s\n", pt);
 	chdir(pt);
 	//SetCurrentDirectory(pt); <-- this is dir
+	check_hcwt(pt); // first we check if there are more than 20 hcwt files,delete them all 
+
 	scan_hcwt(pt);
 	
 
@@ -833,7 +882,7 @@ BOOL AdjustListView(HWND hList, LV_ITEM *lv, int iItems)
    return TRUE;
 }
 
-void AddText(HWND hwnd, char *szTextIn, COLORREF crNewColor)
+void SetText(HWND hwnd, char *szTextIn, COLORREF crNewColor)
 {
 	char *Text = (char *)malloc(lstrlen(szTextIn) + 5);
 	CHARFORMAT cf;
@@ -846,6 +895,38 @@ void AddText(HWND hwnd, char *szTextIn, COLORREF crNewColor)
 //	strcat(Text, "\r\n");
 	SetWindowText(hwnd,"");
 //	SendMessage(hwnd, EM_SETSEL, (WPARAM)(int)iTotalTextLength, (LPARAM)(int)iTotalTextLength);
+	SendMessage(hwnd, EM_REPLACESEL, (WPARAM)(BOOL)FALSE, (LPARAM)(LPCSTR)Text);
+
+	free(Text);
+
+	cf.cbSize      = sizeof(CHARFORMAT);
+	cf.dwMask      = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
+	cf.dwEffects   = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
+	cf.crTextColor = crNewColor;
+
+	iEndPos = GetWindowTextLength(hwnd);
+	iEndPos = 0;
+	SendMessage(hwnd, EM_SETSEL, (WPARAM)(int)iStartPos, (LPARAM)(int)iEndPos);
+	SendMessage(hwnd, EM_SETCHARFORMAT, (WPARAM)(UINT)SCF_SELECTION, (LPARAM)&cf);
+	SendMessage(hwnd, EM_HIDESELECTION, (WPARAM)(BOOL)TRUE, (LPARAM)(BOOL)FALSE);
+
+	SendMessage(hwnd, EM_LINESCROLL, (WPARAM)(int)0, (LPARAM)(int)1);
+
+}
+
+void AddText(HWND hwnd, char *szTextIn, COLORREF crNewColor)
+{
+	char *Text = (char *)malloc(lstrlen(szTextIn) + 5);
+	CHARFORMAT cf;
+	int iTotalTextLength = GetWindowTextLength(hwnd);
+	int iStartPos = iTotalTextLength;
+	int iEndPos;
+
+
+	strcpy(Text, szTextIn);
+	strcat(Text, "\r\n");
+	SetWindowText(hwnd,"");
+	SendMessage(hwnd, EM_SETSEL, (WPARAM)(int)iTotalTextLength, (LPARAM)(int)iTotalTextLength);
 	SendMessage(hwnd, EM_REPLACESEL, (WPARAM)(BOOL)FALSE, (LPARAM)(LPCSTR)Text);
 
 	free(Text);
@@ -899,7 +980,7 @@ int create_textbox(HWND parent)
 
 int create_list(HWND parent)
 {		
-	RECT tr = {0}; // rect structure to hold tab size
+	RECT tr = {0}; 
         //TabCtrl_GetItemRect(hwndTab, 0, &tr);
 	GetWindowRect(hwndTab,&tr);
 	hList = CreateWindowEx(0, WC_LISTVIEW, "", WS_VISIBLE | WS_CHILD | WS_VSCROLL | LVS_REPORT |LVS_LIST,
@@ -939,6 +1020,57 @@ int create_list(HWND parent)
 //	scan_hcwt(current_dir);
 }
 
+int create_popup_window(HWND parent)
+{
+	RECT tr = {0};
+	int sW;
+	int sH;
+	int i;
+	sW = GetSystemMetrics(SM_CXSCREEN);
+	sH = GetSystemMetrics(SM_CYSCREEN);
+
+	for(i = 0; i < MSGMAX; i ++)
+	{
+		popup_hwnd[i] = CreateWindowEx(WS_EX_TOOLWINDOW,"Goldkey_popup",
+		"金钥匙 - 消息提示板",
+		WS_POPUPWINDOW|WS_VISIBLE|WS_CAPTION|WS_CHILD,
+		sW- 350,
+		sH- 280,
+		350,
+		250,
+		NULL,
+		NULL,
+		hInst,
+		NULL);
+	
+
+		if( popup_hwnd[i] == NULL)
+		{
+			MessageBox(NULL, "Create popup hwnd Failed!", szAppName, MB_OK);
+			return -1;
+		}
+
+		popup_edit[i] = CreateWindowEx(WS_EX_CLIENTEDGE, "RichEdit", NULL,
+        	 WS_CHILD | WS_CLIPCHILDREN |WS_VISIBLE | ES_WANTRETURN | ES_MULTILINE | WS_VISIBLE | ES_LEFT,
+	         1, 1, 350, 250, popup_hwnd[i], NULL, hInst, NULL);
+
+		if(popup_edit[i] == NULL)
+		{
+			MessageBox(NULL, "Create popup edit  Failed!", szAppName, MB_OK);
+			return -1;
+		}
+		//SendMessage(hwndEdit, EM_SETWORDBREAKPROCEX, (WPARAM)0, (LPARAM)NULL);
+		cf.cbSize = sizeof (CHARFORMAT);  
+		cf.dwMask = CFM_FACE | CFM_SIZE;
+		cf.yHeight = 180;
+		strcpy(cf.szFaceName, "MS Sans Serif");
+		SendMessage(popup_edit[i] , EM_SETCHARFORMAT, (WPARAM)(UINT)0, (LPARAM)&cf);
+		AddText( popup_edit[i], "No Messages", RGB(0,0,0));	
+		ShowWindow(popup_hwnd[i],SW_HIDE);
+	}
+	return 0;
+}
+
 int create_W(HINSTANCE h)
 {
 	WNDCLASS wndclass;
@@ -961,9 +1093,17 @@ int create_W(HINSTANCE h)
     		MessageBox(NULL, TEXT("This program requires Windows NT!"), szAppName, MB_ICONERROR);
     		return 0;
 	}
-	
+
+        wndclass.lpszClassName = "Goldkey_popup";
+        wndclass.lpfnWndProc = (WNDPROC)goldkey_popup_proc;
+
+        if (!RegisterClass(&wndclass)) {
+                MessageBox(NULL, TEXT("This program requires Windows and RegisterClass()!"), szAppName, MB_ICONERROR);
+                return 0;
+        }
+
 	hwnd = CreateWindow(szAppName,
-		"金钥匙 - 消息提示板",
+		"金钥匙 - 消息历史",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -974,8 +1114,11 @@ int create_W(HINSTANCE h)
 		h,
 		NULL);
 
+	create_popup_window(hwnd);
+
 	ShowWindow(hwnd, 1);
 	UpdateWindow(hwnd);
+	
 	return 1;
 }
 int init()
@@ -1003,15 +1146,25 @@ int init()
 	memset(day_buf,0,11);
 
 	myIndex = 0;
+	myIndex2 = 0;
 	unix_time1 = time(NULL);
 	unix_time2 = time(NULL);
 
 	lv.cchTextMax = 200;
+	hThread[0] = NULL;
+	hThread[1] = NULL;
+	
+	memset(unread,MAGICNUMBER, MSGMAX);
+	unread_index = 0;
+	
+	
+
 }
 
 int deinit()
 {
 	// unhook or something
+	remove_menu();
 	do_unhook();
 }
 
@@ -1053,11 +1206,45 @@ int check_same_pros()
 
 }
 
+DWORD WINAPI MyThreadLoop( LPVOID lpParam )
+{
+	
+	unix_time2 = time(NULL);
+	if( unix_time2 - unix_time1 > 5) // 
+	{
+		unix_time1 = time(NULL);
+		check_loop();
+	}
+	
+	
+	return 0;
+}
+
+DWORD WINAPI GUIThreadLoop( LPVOID lpParam )
+{
+	MSG msg;
+	create_W(hInst);
+	create_tab(hwnd);
+	create_list(hwndTab);
+	create_textbox(hwnd);
+
+	while (GetMessage(&msg, NULL, 0, 0)) 
+	{
+	
+		TranslateMessage(&msg);
+    		DispatchMessage(&msg);
+		
+	}
+	return msg.wParam;
+}
+
 int main( int argc,char**argv)
 {
 	MSG msg;
 	HINSTANCE   hRichEdit; 
+	DWORD dwGenericThread,dwGThread2;;
 	LPARAM lParam = 0;
+
 	init(); 
 
 	printf("main\n");
@@ -1066,7 +1253,7 @@ int main( int argc,char**argv)
 	{
 		// call to kill others and self
 		check_same_pros();
-		return 0;
+		exit(0);
 		
 	}
 	memcpy(diskid,argv[1], strlen(argv[1]));
@@ -1079,37 +1266,35 @@ int main( int argc,char**argv)
 		
 	get_now_time();
 	get_now_day();
-	ck();
+	remove_menu();// try to remove the menu item,if there is a menu iterm on mt4 main window
 
 	hRichEdit = LoadLibrary("RICHED32.DLL");
 	hInst= GetModuleHandle (0);
-	create_W(hInst);
-	create_tab(hwnd);
-	create_list(hwndTab);
-	create_textbox(hwnd);
-	create_btns(hwnd);
 
-	check_config(); // everyday every time startup to check if it is the up to date
+//	create_btns(hwnd);
+//	check_config(); // everyday every time startup to check if it is the up to date
 //	check_loop();
 
-	do_hook();
 
-	while (GetMessage(&msg, NULL, 0, 0)) 
+	hThread[0] = CreateThread(NULL,0,GUIThreadLoop,NULL,0,&dwGThread2);
+	if( hThread[0] == NULL)
 	{
-		unix_time2 = time(NULL);
-		if( unix_time2 - unix_time1 > 5) // 
-		{
-			unix_time1 = time(NULL);
-			check_loop();
-		}
-	
-		TranslateMessage(&msg);
-    		DispatchMessage(&msg);
-		
+		printf("hThread 0 Create failed\n");
+		exit(-1);
 	}
 
+	hThread[1] = CreateThread(NULL,0,MyThreadLoop,NULL,0,&dwGenericThread);
+	if( hThread[1] == NULL)
+	{
+		exit(-1);
+	}
+	ck();
+	do_hook();
+	WaitForMultipleObjects(2, hThread, TRUE, INFINITE);
+
 	FreeLibrary(hRichEdit);
-	return msg.wParam;
+	return 0;
+
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -1121,20 +1306,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	NMLVDISPINFO* plvdi;
 	switch (message) 
 	{	
-		/*
-		case WM_PAINT:
-		{
-			hdc = BeginPaint(hwnd, &ps);
-			GetClientRect(hwnd, &rect);
-			DrawText(hdc, TEXT("Hello world!"), -1, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-			EndPaint(hwnd, &ps);
-			return 0;
-		}break;
-		*/
 		case WM_COMMAND:
 		{
 			switch(LOWORD(wParam))
 			{
+				/*
 				case ID_CHECK1:
 				{
 					int state = SendMessage(hCheck,BM_GETCHECK,0,0);
@@ -1147,6 +1323,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 						del_config();						
 					}
 				}break;
+				*/
 				case ID_BUTTON1:
 				{
 					//hide the window
@@ -1188,8 +1365,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			w = LOWORD(lParam); h = HIWORD(lParam); h-=30;
 			SetWindowPos(hwndTab, HWND_TOP, 0,0,160,h, SWP_NOMOVE);
 			SetWindowPos(hwndEdit, HWND_TOP,0,0,w - 163,h, SWP_NOMOVE); 
+			/*
 			SetWindowPos(button, HWND_TOP , rc.right-rc.left-70, rc.bottom-rc.top-53,0,0, SWP_NOSIZE);
 			SetWindowPos(hCheck, HWND_TOP,  rc.right-rc.left-340,rc.bottom-rc.top-53,0,0, SWP_NOSIZE);
+			*/
 		}break;
 		case WM_NOTIFY :
 			switch(((LPNMHDR)lParam)->code)
@@ -1202,7 +1381,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             					if(index != -1)
             					{
                						//MessageBox(hwnd, "index", "Doubleclicked on this item", MB_OK);
-							AddText(hwndEdit, mterm[ index ].content , RGB(0,0,0));
+							SetText(hwndEdit, mterm[ index ].content , RGB(0,0,0));
             					}
          				}
          			break;
@@ -1230,3 +1409,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 }
 
+LRESULT CALLBACK goldkey_popup_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+        switch(message)
+        {
+		case WM_DESTROY:
+                case WM_CLOSE:
+                {
+			ShowWindow(hWnd,SW_HIDE);
+                }break;
+
+                default: return DefWindowProc(hWnd,message,wParam,lParam);
+        }
+
+        return 0;
+}
