@@ -1,4 +1,5 @@
 <?php
+include_once "../../function/function.php";
 include_once "../../function/conn.php";
 include_once "../../function/sendNote.php";
 

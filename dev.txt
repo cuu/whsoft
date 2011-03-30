@@ -217,4 +217,4 @@ ALTER TABLE  `proxy` CHANGE  `zt`  `zt` SMALLINT( 1 ) NOT NULL DEFAULT  '1'
 2011-03-29
 在gk4中，每次启动强制去删空以前的menu item,很低效率的做法
 不过一定要保证 只有一个menu item
-
+在win7中，安装程序要以管理员的身份运行 

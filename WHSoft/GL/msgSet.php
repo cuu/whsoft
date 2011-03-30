@@ -250,6 +250,30 @@ else
 							else if( strstr($n_array2[$nj], "allNOR"))
 								array_push($show_in_group,  "所有普通用户");
 						}
+						$handle11 = openConn();
+						if($handle11 ==NULL) die( "openConn error".mysql_error());
+						for($nj = 0;$nj < count($n_array2); $nj++)
+						{
+							if( is_numeric($n_array2[$nj]))
+							{
+								$sql = "select groupname from usergroup where id=".$n_array2[$nj];
+								$result44 = mysql_query($sql,$handle11);
+								if($result44 !==false)
+								{
+									$row55 = mysql_fetch_array($result44,MYSQL_NUM);
+									if(trim($row55[0]) == "")
+									{
+										array_push($show_in_group, "群不存在");
+									}else
+										array_push($show_in_group, $row55[0]);
+								}else
+								{
+									die(" mysql_query error ".mysql_error());
+								}
+							}
+						}
+						closeConn($handle11);
+						/*
 						$sql = "select id,groupname from usergroup";
 						$handle11 = openConn();
 						if($handle11 ==NULL) die( "openConn error".mysql_error());
@@ -281,6 +305,7 @@ else
 						{
 							die(" mysql_query error ".mysql_error());
 						}
+						*/
 						
 					}
 					if ( trim($row["ingroup"]) == "" || trim($row["ingroup"]) =="None" )
