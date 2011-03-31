@@ -66,7 +66,7 @@ include "jq_ui.php";
 
 <!-- <link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.standalone.css" /> -->
 <link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.themeroller.css" />
-<script language="javascript" src="js/ui.dropdownchecklist-1.1-min.js" type="text/javascript"></script> 
+<script language="javascript" src="js/ui.dropdownchecklist-1.2qa-min.js" type="text/javascript"></script> 
 <script  language="javascript"  >
 
 
