@@ -51,6 +51,7 @@ function mysql_fetch_all($result)
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <meta http-equiv="Content-Language" content="zh-cn">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.themeroller.css" />
 <link rel="stylesheet" type="text/css" href="images/css.css">
 <!--[if IE]>
   <link rel="stylesheet" type="text/css" href="images/all-ie.css" />
@@ -61,12 +62,15 @@ function mysql_fetch_all($result)
 <?php
 include "jq_ui.php";
 ?>
+
 <link rel="stylesheet" type="text/css" href="css/jquery.ui.selectmenu.css" />  
 <script language="javascript" src="js/jquery.ui.selectmenu.js" type="text/javascript"></script>  
 
-<!-- <link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.standalone.css" /> -->
-<link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.themeroller.css" />
+
+<!-- <link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.standalone.css" />  -->
+<!-- <link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.themeroller.css" /> -->
 <script language="javascript" src="js/ui.dropdownchecklist-1.2qa-min.js" type="text/javascript"></script> 
+<!-- <script language="javascript" src="js/ui.dropdownchecklist-1.1-min.js" type="text/javascript"></script> -->
 <script  language="javascript"  >
 
 
@@ -99,6 +103,7 @@ include "jq_ui.php";
 
 //  $("table, tr, td").disableSelection(); <- this cause firefox can not work well!
  /* $("#container").draggable({handle: "#dr_title"});*/
+
     $("#pub_group").dropdownchecklist({ textFormatFunction: function(options) {
         var selectedOptions = options.filter(":selected");
         var countOfSelected = selectedOptions.size();
@@ -139,7 +144,7 @@ include "jq_ui.php";
 }
 #pub_group
 {
-	z-index:200;
+	z-index:100;
 }
 #container tr
 {

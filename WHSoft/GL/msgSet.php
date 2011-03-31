@@ -380,7 +380,7 @@ function vip_save()
   check_root();
   $txt_msg_body = trim($_POST["txt_msg_body"]);
 
-	if( strlen($txt_msg_body)> 2048)
+	if( strlen($txt_msg_body)> 2000)
 	{
 		js_show_error("多播消息内容长度太长,请重新填写!");
 		die();

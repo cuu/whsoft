@@ -37,11 +37,11 @@ CoInitializeEx
 
 #define __strtok_r strtok_r
 # define __rawmemchr strchr
-#define MSGLEN 8192
+#define MSGLEN 8192*40
 #define WAIT_TIME 1000*60*30 
 #define MSGMAX 20
 #define MAGICNUMBER 9999
-
+#define WAITTIME 20*60  // 20 mins
 //curl -s -d "action=vipnews&DiskId=001916005802&D_msgtime=2011-03-26 12:33:13" -k https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp
 //char self[1024];
 
@@ -94,6 +94,7 @@ Item ListItem[1];
 myIterm mterm[100]; // only list 100 items 
 int myIndex; /// for myIterm count
 int myIndex2; // for parseMsg counting
+int all_count; // count for all existed hcwt files
 LV_ITEM lv;
 LV_COLUMN lvC;
 LV_DISPINFO *lvd;
@@ -519,7 +520,7 @@ int read_hcwt(char*fname)
 		UpdateWindow(hwnd);
 		UpdateWindow(hList);
 		
-	}
+	}else myIndex =0;
 	
 	return 0;
 }
@@ -540,16 +541,18 @@ int check_hcwt(char*dir)
 	{
 		do{
 			i++;
+			all_count ++;
 		}while(FindNextFile(hFind, &FindFileData));
 		FindClose(hFind);
 	}else
 	{
 		printf("check_hcwt no hcwt found\n");
 	}
-	if( i > 20) 
+	if( i >= 20) 
 	{
 		//system(cmd);	
 		system("del *.hcwt");
+		all_count = 0;
 	}	
 }
 int scan_hcwt(char*dir)
@@ -616,7 +619,11 @@ int parse_vipmsg(char*msg)
 		{
 //			sprintf(fname_buf,"%s.hcwt",pt);		
 //			printf("fname_buf = %s\n", replace(replace(fname_buf," ","_"),":","#"));
-		
+			if( all_count + 1 >= 20)
+			{
+				system("del *.hcwt");
+				all_count = 0;
+			}
 			fp = fopen(pt, "w" );
 			if(fp!=NULL)
 			{
@@ -627,7 +634,7 @@ int parse_vipmsg(char*msg)
 				SetText(popup_edit[unread_index], content , RGB(0,0,0));
 				ShowWindow(popup_hwnd[unread_index],1);
 				unread_index++;
-
+				all_count ++;
 
 			}else {printf("fopen orror\n"); return -1;}
 
@@ -693,6 +700,7 @@ void check_loop()
 	char sep[2];
 	char *saveptr1;
 
+	printf("check_loop\n");
 	memset(cmd_line,0,1024);
 	
 	a  = 0;
@@ -974,7 +982,7 @@ int create_textbox(HWND parent)
 	strcpy(cf.szFaceName, "MS Sans Serif");
 	SendMessage(hwndEdit, EM_SETCHARFORMAT, (WPARAM)(UINT)0, (LPARAM)&cf);
 
-	AddText(hwndEdit, "Hello world", RGB(0,0,0));
+	AddText(hwndEdit, "双击左边条目显示消息内容", RGB(0,0,0));
 	
 }// end create_textbox
 
@@ -1033,7 +1041,7 @@ int create_popup_window(HWND parent)
 	{
 		popup_hwnd[i] = CreateWindowEx(WS_EX_TOOLWINDOW,"Goldkey_popup",
 		"金钥匙 - 消息提示板",
-		WS_POPUPWINDOW|WS_VISIBLE|WS_CAPTION|WS_CHILD,
+		WS_POPUPWINDOW|WS_CAPTION|WS_CHILD,
 		sW- 350,
 		sH- 280,
 		350,
@@ -1102,7 +1110,7 @@ int create_W(HINSTANCE h)
                 return 0;
         }
 
-	hwnd = CreateWindow(szAppName,
+	hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,szAppName,
 		"金钥匙 - 消息历史",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
@@ -1116,7 +1124,7 @@ int create_W(HINSTANCE h)
 
 	create_popup_window(hwnd);
 
-	ShowWindow(hwnd, 1);
+	ShowWindow(hwnd, SW_HIDE); // 1 for release
 	UpdateWindow(hwnd);
 	
 	return 1;
@@ -1157,7 +1165,7 @@ int init()
 	memset(unread,MAGICNUMBER, MSGMAX);
 	unread_index = 0;
 	
-	
+	all_count = 0;	
 
 }
 
@@ -1166,6 +1174,7 @@ int deinit()
 	// unhook or something
 	remove_menu();
 	do_unhook();
+	if_quit = 1;
 }
 
 int check_same_pros()
@@ -1209,13 +1218,13 @@ int check_same_pros()
 DWORD WINAPI MyThreadLoop( LPVOID lpParam )
 {
 	
-	unix_time2 = time(NULL);
-	if( unix_time2 - unix_time1 > 5) // 
+	while(if_quit == 0)
 	{
-		unix_time1 = time(NULL);
+		
 		check_loop();
+		Sleep( WAITTIME*1000);
+		if( if_quit == 1) break;
 	}
-	
 	
 	return 0;
 }
@@ -1240,14 +1249,13 @@ DWORD WINAPI GUIThreadLoop( LPVOID lpParam )
 
 int main( int argc,char**argv)
 {
-	MSG msg;
+	
 	HINSTANCE   hRichEdit; 
 	DWORD dwGenericThread,dwGThread2;;
 	LPARAM lParam = 0;
 
 	init(); 
 
-	printf("main\n");
 	if( argc < 2) return 0;
 	if( strstr(argv[1],"-q"))
 	{

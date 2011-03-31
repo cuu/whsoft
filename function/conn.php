@@ -63,8 +63,8 @@ function openConn()
 {
         // 如果my.cnf中启用了skip-networking,即表示拒绝tcp/ip的mysql连接,就要用sqlsockect来处理,这样更安全
 	$SqlServer = "127.0.0.1";
-        $sqlsocket = "localhost:/Applications/xampp/xamppfiles/var/mysql/mysql.sock";
-	//$sqlsocket = "localhost:/var/lib/mysql/mysql.sock";
+        //$SqlServer = "localhost:/Applications/xampp/xamppfiles/var/mysql/mysql.sock";
+	//$SqlServer = "localhost:/var/lib/mysql/mysql.sock";
 
 	$SqlUser="root";
 	$SqlPasswd="";
