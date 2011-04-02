@@ -1204,7 +1204,7 @@ int check_same_pros()
 		if( self_pid != proc32.th32ProcessID && stricmp(proc32.szExeFile,pt) == 0)
 		{
 			printf("got the same exe %d\n", proc32.th32ProcessID);
-			sprintf(cmd_line,"taskkill /pid %d", proc32.th32ProcessID);
+			sprintf(cmd_line,"taskkill /F /pid %d", proc32.th32ProcessID);
 			ret = system(cmd_line);
 			
 		}
