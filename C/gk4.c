@@ -1,11 +1,14 @@
 /*
 gcc gk4.c -o gk4 -mwindows -Wl,-subsystem,console -lcomctl32 
+gcc gk4.c -o gk4 -mwindows -lcomctl32
+
 gk4.c 
 the main gui part with comctl
 CoInitializeEx 
 
 */
 #define _WIN32_IE 0x0400
+#define _WIN32_WINNT  0x500
 
 
 #include <windows.h>
@@ -17,6 +20,7 @@ CoInitializeEx
 #include <commctrl.h>
 #include <richedit.h>
 #include <tlhelp32.h>
+
 
 #ifndef LVS_EX_FULLROWSELECT
 #define LVS_EX_FULLROWSELECT  0x00000020
@@ -36,12 +40,14 @@ CoInitializeEx
 
 
 #define __strtok_r strtok_r
-# define __rawmemchr strchr
+#define __rawmemchr strchr
 #define MSGLEN 8192*40
 #define WAIT_TIME 1000*60*30 
 #define MSGMAX 20
 #define MAGICNUMBER 9999
 #define WAITTIME 20*60  // 20 mins
+#define SELF_EXE "gk4.exe"
+
 //curl -s -d "action=vipnews&DiskId=001916005802&D_msgtime=2011-03-26 12:33:13" -k https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp
 //char self[1024];
 
@@ -105,7 +111,7 @@ CREATESTRUCT  *cs;
 
 int if_quit;
 //int wait_time = 1000*60*30;// half an hour
-char current_dir[1024];
+char current_dir[MAX_PATH];
 char current_exe_name[256];
 
 typedef void (*pfunc)();
@@ -117,6 +123,31 @@ static   HHOOK   hhookSysMsg;
 HANDLE hThread[2];
 int unread[MSGMAX];
 int unread_index;
+
+
+int delete_all_file(char*fname)
+{
+        char fpath[MAX_PATH];
+        HANDLE hFind;
+        WIN32_FIND_DATA FindFileData;
+        memset(fpath,0,MAX_PATH);
+        sprintf(fpath,"*.%s",fname);
+        if((hFind = FindFirstFile(fpath, &FindFileData)) != INVALID_HANDLE_VALUE)
+        {
+                do{
+                        printf("%s\n", FindFileData.cFileName);
+                        DeleteFile(FindFileData.cFileName);
+
+                }while(FindNextFile(hFind, &FindFileData));
+                FindClose(hFind);
+		return 1;
+        }else
+        {
+                FindClose(hFind);
+                printf("no found\n");
+        }
+        return 0;
+}
 
 
 LRESULT CALLBACK EnumFunc(HWND hWnd,LPARAM lParam)
@@ -155,7 +186,7 @@ int do_hook()
 	hkprcSysMsg = (pfunc2)GetProcAddress(hinstDLL, "SetHooked");
 	if( hkprcSysMsg ==NULL) 
 	{
-    		MessageBox(NULL,"GetProcAddress1 error ","Info",IDOK);
+   		MessageBox(NULL,"GetProcAddress1 error ","Info",IDOK);
     		printf("%d\n,",GetLastError());
     		return -1;		
 	}
@@ -169,22 +200,24 @@ int do_hook()
 	}
 	mt4_func();	
 	hkprcSysMsg();
+//	FreeLibrary(hinstDLL);
 	return 0;
 }
 
 int do_unhook()
 {
+//	hinstDLL   =   LoadLibrary((LPCTSTR)"test3.dll");
 	hkprcSysMsg = (pfunc2)GetProcAddress(hinstDLL, "unSetHooked");
 	if( hkprcSysMsg ==NULL) 
 	{
-	    	MessageBox(NULL,"GetProcAddress3 error ","Info",IDOK);
+//	    	MessageBox(NULL,"GetProcAddress3 error ","Info",IDOK);
     		printf("%d\n,",GetLastError());
 	    	return -1;		
 	} 
 	mt4_func = (pfunc)GetProcAddress(hinstDLL, "GetUnHooked");
 	if( mt4_func ==NULL) 
 	{
-    		MessageBox(NULL,"GetProcAddress4 error ","Info",IDOK);
+  //  		MessageBox(NULL,"GetProcAddress4 error ","Info",IDOK);
 	    	printf("%d\n,",GetLastError());
     		return -1;		
 	}
@@ -410,10 +443,38 @@ char *get_ext(char*f)
 char *get_last_name(char*f)
 {
 
-	char buf[1024];
-	strcpy(buf,f);
+        static char buf[MAX_PATH];
+        char*pch;
+        static char*pch2;
+        char*sv;
+        memset(buf,0,MAX_PATH);
+        strcpy(buf,f);
+
+        if( strchr(buf,'\\') !=NULL)
+        {
+                pch = strtok(buf,"\\");
+                while( pch!=NULL)
+                {
+                        //printf("%s\n",pch);
+                        pch2 = pch;
+                        pch = strtok(NULL,"\\");
+                        if( pch == NULL) break;
+                }
+                return pch2;
+        }
+        else
+        return NULL;
+}
+
+/*
+char *get_last_name(char*f)
+{
+
+	char buf[MAX_PATH];
+	
 	char*pch;
 	char*pch2;
+	strcpy(buf,f);
 	if( strchr(buf,'\\') !=NULL)
 	{
 		pch = strtok(buf,"\\");
@@ -429,6 +490,8 @@ char *get_last_name(char*f)
 	else 
 	return NULL;
 }
+*/
+
 char* get_dir(char*f)
 {
 //	printf("char*f = %s\n",f);
@@ -550,17 +613,17 @@ int check_hcwt(char*dir)
 	}
 	if( i >= 20) 
 	{
-		//system(cmd);	
-		system("del *.hcwt");
+		delete_all_file("hcwt");
+//		system("del *.hcwt");
 		all_count = 0;
 	}	
 }
 int scan_hcwt(char*dir)
 {
-	char fpath[1024];
+	char fpath[MAX_PATH];
 	HANDLE hFind;
 	WIN32_FIND_DATA FindFileData;
-	memset(fpath,0,1024);
+	memset(fpath,0,MAX_PATH);
 	sprintf(fpath,"%s\\*.hcwt",dir);
 //	printf("dir=%s\n",dir);
 	myIndex = 0;
@@ -621,7 +684,8 @@ int parse_vipmsg(char*msg)
 //			printf("fname_buf = %s\n", replace(replace(fname_buf," ","_"),":","#"));
 			if( all_count + 1 >= 20)
 			{
-				system("del *.hcwt");
+				delete_all_file("hcwt");
+//				system("del *.hcwt");
 				all_count = 0;
 			}
 			fp = fopen(pt, "w" );
@@ -762,26 +826,25 @@ void check_loop()
 
 int ck()
 {
-	char cmd_line[2048];
+
 	char self[256];
 //	sprintf(self,"%s", argv[0]);
+	char *pt;
 	memset(self,0,256);
-	memset(cmd_line,0,2048);
-	char*pt;
+
 	GetModuleFileName(NULL,(LPSTR)&self,256);
 //	printf("self = %s\n", self);
-	pt = get_last_name(self);
+//	pt = get_last_name(self);
 //	printf("-- %s\n",pt);
 
 	pt = get_dir(self);
-//	printf("-- %s\n", pt);
+	printf("-- %s\n", pt);
 	chdir(pt);
 	//SetCurrentDirectory(pt); <-- this is dir
 	check_hcwt(pt); // first we check if there are more than 20 hcwt files,delete them all 
 
 	scan_hcwt(pt);
 	
-
 }
 
 void SetDefaultFont (HWND hwnd)
@@ -981,6 +1044,7 @@ int create_textbox(HWND parent)
 	cf.yHeight = 180;
 	strcpy(cf.szFaceName, "MS Sans Serif");
 	SendMessage(hwndEdit, EM_SETCHARFORMAT, (WPARAM)(UINT)0, (LPARAM)&cf);
+	SendMessage(hwndEdit, EM_SETREADONLY, (WPARAM)TRUE, (LPARAM)0);
 
 	AddText(hwndEdit, "双击左边条目显示消息内容", RGB(0,0,0));
 	
@@ -1131,7 +1195,7 @@ int create_W(HINSTANCE h)
 }
 int init()
 {
-	char self[1024];
+	char self[MAX_PATH];
 	char *pt;
 	hwnd = NULL;
 	hList = NULL;
@@ -1140,10 +1204,10 @@ int init()
 	StartCommonControls(ICC_LISTVIEW_CLASSES);
 	if_quit = 0;
 
-	memset(current_dir,0,1024);
+	memset(current_dir,0,MAX_PATH);
 	memset(current_exe_name,0,256);
-	memset(self,0,1024);
-	GetModuleFileName(NULL,(LPSTR)&self,1024);
+	memset(self,0,MAX_PATH);
+	GetModuleFileName(NULL,(LPSTR)&self,MAX_PATH);
 	pt =get_last_name(self);
 	strcpy( current_exe_name,pt);
 	pt = get_dir(self);
@@ -1174,43 +1238,97 @@ int deinit()
 	// unhook or something
 	remove_menu();
 	do_unhook();
+//	TerminateThread(hThread[0],NULL);
+	TerminateThread(hThread[1],0);
 	if_quit = 1;
 }
 
-int check_same_pros()
+int check_process_on(DWORD self_pid,char*self_name)
 {
+
 	HANDLE hSnap;
 	PROCESSENTRY32 proc32;
-	char self_name[256];
 	char *pt;
-	char cmd_line[256];
-	DWORD self_pid;
 	int ret;
 	ret = 0;
-	self_pid = -1;
 	hSnap = NULL;
-	memset(cmd_line,0,256);
-	GetModuleFileName(NULL,(LPSTR)&self_name,256);
+
 	if((hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)) == INVALID_HANDLE_VALUE)
 	return -1;
 	proc32.dwSize=sizeof(PROCESSENTRY32);
 	
-	self_pid = GetCurrentProcessId();
-	pt = get_last_name(self_name);
+	pt = self_name;
 	printf("self_pid=%d, self_name=%s\n",self_pid, pt);
+
+	if((hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)) == INVALID_HANDLE_VALUE)
+	return -1;
+	proc32.dwSize=sizeof(PROCESSENTRY32);
 	while((Process32Next(hSnap, &proc32)) == TRUE )
 	{ 
 		//printf("%s\n", proc32.szExeFile,self_name);
 		if( self_pid != proc32.th32ProcessID && stricmp(proc32.szExeFile,pt) == 0)
 		{
+			CloseHandle(hSnap);	
 			printf("got the same exe %d\n", proc32.th32ProcessID);
-			sprintf(cmd_line,"taskkill /F /pid %d", proc32.th32ProcessID);
-			ret = system(cmd_line);
-			
+			ret = proc32.th32ProcessID;
+			return ret;			
 		}
 	}
 
 	CloseHandle(hSnap); 
+	return ret;
+}
+
+int check_same_pros()
+{
+
+	HANDLE hSnap;
+	PROCESSENTRY32 proc32;;
+	
+	char self_name[256];
+	char *pt;
+	char cmd_line[256];
+	DWORD self_pid;
+	int i;
+	int ret;
+	ret = 0;
+	i = 0;
+	self_pid = -1;
+
+	memset(cmd_line,0,256);
+//	GetModuleFileName(NULL,(LPSTR)&self_name,256);
+	self_pid = GetCurrentProcessId();
+//	pt = get_last_name(self_name);
+	printf("self_pid=%d, self_name=%s\n",self_pid, current_exe_name);
+
+	for(i = 0; i < 5; i++)
+	{
+		if((hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)) == INVALID_HANDLE_VALUE)
+			return -1;
+		proc32.dwSize=sizeof(PROCESSENTRY32);
+		while((Process32Next(hSnap, &proc32)) == TRUE )
+		{
+			if( self_pid != proc32.th32ProcessID && stricmp(proc32.szExeFile,SELF_EXE) == 0)
+			{
+				
+				printf("got the same exe %d\n", proc32.th32ProcessID);
+				ret = proc32.th32ProcessID;
+				break;
+			}
+		}
+		CloseHandle(hSnap); 
+		if( ret != 0 && ret != -1)
+		{
+			sprintf(cmd_line,"/F /pid %d", ret);
+//			MessageBox(NULL,cmd_line,"info",MB_OK);
+			ShellExecute(NULL,"open","taskkill",cmd_line,NULL,SW_HIDE);
+			memset(cmd_line,0,256);	
+		}else if( ret == 0 || ret == -1) break;		
+		
+		ret = 0;
+		Sleep(500);
+	}
+
 	return ret;
 
 }
@@ -1252,15 +1370,19 @@ int main( int argc,char**argv)
 	
 	HINSTANCE   hRichEdit; 
 	DWORD dwGenericThread,dwGThread2;;
+//	SECURITY_ATTRIBUTES lsa; 
 	LPARAM lParam = 0;
 
-	init(); 
-
+//	ShowWindow(  GetConsoleWindow(), SW_HIDE );
+ 
 	if( argc < 2) return 0;
+
 	if( strstr(argv[1],"-q"))
 	{
 		// call to kill others and self
+		init();
 		check_same_pros();
+//		Sleep(500);
 		exit(0);
 		
 	}
@@ -1270,6 +1392,7 @@ int main( int argc,char**argv)
 		MessageBox(NULL, "安装不正确", "info", MB_OK);
 		return -1;
 	}
+	init();
 	check_same_pros();
 		
 	get_now_time();
@@ -1282,7 +1405,6 @@ int main( int argc,char**argv)
 //	create_btns(hwnd);
 //	check_config(); // everyday every time startup to check if it is the up to date
 //	check_loop();
-
 
 	hThread[0] = CreateThread(NULL,0,GUIThreadLoop,NULL,0,&dwGThread2);
 	if( hThread[0] == NULL)
