@@ -136,7 +136,21 @@ function VipMsg( $f_DiskId,$f_time )
 				//$ret .= implode("|",$row); $ret .="\n";
 				array_push($ret_array,$row);
 			}
-			
+                        else if( is_numeric( $t_in_group)) // only one group ,numeric id
+                        {
+				$sql7 = "select * from usergroup where FIND_IN_SET('".$row_id."', groupusers)";
+				$result7 = mysql_query($sql7,$handle);
+				if($result7)
+				{
+					$num7 = mysql_num_rows($result7);
+					if($num7 > 0)
+					{
+						array_push($ret_array,$row);
+					}
+				}
+
+			}
+
 		}//end for i=0; i< num...
 		closeConn($handle);
 		//检查是否有重复的消息,重新组织最后的消息内容
