@@ -19,7 +19,7 @@ function reflash(img)
 <style type="text/css">
 body
 {
-	background:url("images/mbg.jpg") repeat;
+	/*background:url("images/mbg.jpg") repeat;*/
 }
 </style>
 <BODY><BR><BR>

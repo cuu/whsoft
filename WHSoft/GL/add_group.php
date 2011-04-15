@@ -412,7 +412,7 @@ include "jq_ui.php";
 		for( $i = 0; $i < $num; $i++)
 		{
 ?>
-	  <tr height='25' style="cursor:hand; "  <?php 
+	  <tr  style="cursor:hand; "  <?php 
 			if(isset($_COOKIE["gmemb"]))
 			{
 				$memb_array = explode(",", $_COOKIE["gmemb"]);

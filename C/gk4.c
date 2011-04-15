@@ -45,7 +45,7 @@ CoInitializeEx
 #define WAIT_TIME 1000*60*30 
 #define MSGMAX 20
 #define MAGICNUMBER 9999
-#define WAITTIME 20*60  // 20 mins
+#define WAITTIME 120   // 2 mins
 #define SELF_EXE "gk4.exe"
 
 //curl -s -d "action=vipnews&DiskId=001916005802&D_msgtime=2011-03-26 12:33:13" -k https://127.0.0.1/whsoft/WHSoft/DLL/SoftFind.asp
@@ -57,7 +57,9 @@ char Buf[MSGLEN];
 char time_buf[21];
 char day_buf[11];
 // 001 916 005 802
-char diskid[256];
+
+char diskid[25];
+char* dkid;
 int unix_time1;
 int unix_time2;
 
@@ -77,6 +79,8 @@ typedef struct
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK goldkey_popup_proc(HWND , UINT , WPARAM , LPARAM );
+int check_mt4_pros();
+
 
 void SetText(HWND , char *, COLORREF );
 int deinit();
@@ -123,7 +127,7 @@ static   HHOOK   hhookSysMsg;
 HANDLE hThread[2];
 int unread[MSGMAX];
 int unread_index;
-
+int click_index;// for listview click item index
 
 int delete_all_file(char*fname)
 {
@@ -764,17 +768,16 @@ void check_loop()
 	char sep[2];
 	char *saveptr1;
 
-	printf("check_loop\n");
-	memset(cmd_line,0,1024);
-	
+
+	memset(cmd_line,0,1024);	
 	a  = 0;
 //	sprintf(cmd_line, " -s -d \"action=vipnews&DiskId=%s&D_msgtime=2011-03-26 12:33:13\"  %s",diskid,asp_path);
-	sprintf(cmd_line, " -s -d \"action=vipnews&DiskId=%s&D_msgtime=%s\"  %s",diskid,time_buf,asp_path);
+	sprintf(cmd_line, " -s -d \"action=vipnews&DiskId=%s&D_msgtime=%s\"  %s",dkid,time_buf,asp_path);
 
 	sep[0] = (char)28;
 	sep[1] = '\0';
 
-
+	printf("cmd_line: %s\n",cmd_line);
 
 	if( file_exists("curl.exe") == 1 /*&& file_exists("config") == 0 */)
 	{
@@ -808,7 +811,7 @@ void check_loop()
 					
 				}
 
-			}
+			}else printf("run_cmd error\n");
 //			Sleep(WAIT_TIME);
 		
 		}
@@ -1214,7 +1217,7 @@ int init()
 	strcpy( current_dir,pt);
 
 	memset(Buf,0,MSGLEN);
-	memset(diskid,0,256);
+	memset(diskid,0,25);
 	memset(day_buf,0,11);
 
 	myIndex = 0;
@@ -1230,7 +1233,7 @@ int init()
 	unread_index = 0;
 	
 	all_count = 0;	
-
+	click_index = 0;
 }
 
 int deinit()
@@ -1272,6 +1275,29 @@ int check_process_on(DWORD self_pid,char*self_name)
 			printf("got the same exe %d\n", proc32.th32ProcessID);
 			ret = proc32.th32ProcessID;
 			return ret;			
+		}
+	}
+
+	CloseHandle(hSnap); 
+	return ret;
+}
+
+int check_mt4_pros()
+{
+	HANDLE hSnap;
+	PROCESSENTRY32 proc32;;
+	int ret;
+	ret = 0;
+
+	if((hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)) == INVALID_HANDLE_VALUE)
+		return -1;
+	proc32.dwSize=sizeof(PROCESSENTRY32);
+	while((Process32Next(hSnap, &proc32)) == TRUE )
+	{
+		if(  stricmp(proc32.szExeFile,"terminal.exe") == 0)
+		{
+				ret = 1;
+				break;
 		}
 	}
 
@@ -1341,6 +1367,7 @@ DWORD WINAPI MyThreadLoop( LPVOID lpParam )
 		
 		check_loop();
 		Sleep( WAITTIME*1000);
+		if( check_mt4_pros() == 0) exit(0);
 		if( if_quit == 1) break;
 	}
 	
@@ -1382,16 +1409,20 @@ int main( int argc,char**argv)
 		// call to kill others and self
 		init();
 		check_same_pros();
-//		Sleep(500);
+		Sleep(300);
 		exit(0);
 		
 	}
-	memcpy(diskid,argv[1], strlen(argv[1]));
+//	memcpy(diskid,argv[1], strlen(argv[1]));
+	strcpy(diskid,argv[1]);
+	dkid = argv[1];
+
 	if( strlen(diskid ) < 8 ) 
 	{
 		MessageBox(NULL, "安装不正确", "info", MB_OK);
 		return -1;
 	}
+	printf("-- diskid: %s\n",diskid);
 	init();
 	check_same_pros();
 		

@@ -14,7 +14,7 @@ $proxy   = getFormValue("D_proxy");
 
 $nowDate = Format_Date( time() );
 $nowTime = Format_Time( time() );
-$temDate= Format_Date( time()  + 86400  ); //默认试用期限1天
+$temDate= Format_Date( time()  + 86400*14  ); //默认试用期限1天
 
 $returnValue = 0;
 if ( strcmp( $action, "vipnews"  ) == 0)
@@ -36,7 +36,7 @@ if ( strcmp( $action, "softsx"   ) == 0)
 
 if ( strcmp( $action, "softin"   ) == 0)
 {
-	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$temDate,1,"",$nowDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye,$proxy);
+	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$temDate,0,"",$nowDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye,$proxy);
 	echo strval($returnValue);
 }
 
@@ -46,7 +46,7 @@ function VipMsg( $f_DiskId,$f_time )
 	
 
 	$now_date = date("Y-m-d H:i:s");
-//	$f_time = $now_date;
+	$f_time = $now_date;
 	$ret = "";
 	$sql2 = "select id,yhlx from softsetup where diskid='".trim($f_DiskId)."'";
 	$sql = "select * from vipmsg where ( DateDiff(time,'".$f_time."')=0 ) and sfqy=1 order by time";

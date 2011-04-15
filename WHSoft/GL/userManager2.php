@@ -345,16 +345,17 @@ function  Search()
 		<td align="center">
 		<?php
 		  if ($row["rjbb"] ==1 )
-		    echo "标准版";
+		    echo "单向版";
 		  else if( $row["rjbb"] ==2 )
-		    echo "速利版";
-		  else if( $row["rjbb"] ==3 ) 
-		    echo "黄金版";
-                  else if( $row["rjbb"] ==4 )
-		    echo "增强版";
-                  else if( $row["rjbb"] ==5 )
 		    echo "趋势版";
-		  
+		  else if( $row["rjbb"] ==3 ) 
+		    echo "双向版";
+                  else if( $row["rjbb"] ==4 )
+		    echo "黄金版";
+                  else if( $row["rjbb"] ==5 )
+		    echo "增强版";
+		  else if( $row["rjbb"] ==0 )
+			echo "分析系统";
 		?>
 		</td>
 		<td align="center"><?php echo trim($row["zhmc"]);?></td>

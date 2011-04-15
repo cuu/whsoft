@@ -368,11 +368,12 @@ function u_Search()
 		<?php 
 			switch( intval($row["rjbb"]))
 			{
-				case 1: echo "标准版"; break;
-				case 2: echo "速利版"; break;
-				case 3: echo "黄金版"; break;
-				case 4: echo "增强版"; break;
-				case 5: echo "趋势版"; break;
+				case 0: echo "分析系统"; break;
+				case 1: echo "单向版"; break;
+				case 2: echo "趋势版"; break;
+				case 3: echo "双向版"; break;
+				case 4: echo "黄金版"; break;
+				case 5: echo "增强版"; break;
 				default:break;
 			}
 
