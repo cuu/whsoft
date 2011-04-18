@@ -280,7 +280,7 @@ function Search()
 		else die("session error ");
 	}
 
-	$sql = "select id,yhmc,yhlx,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj from softsetup ".$sql;
+	$sql = "select id,yhmc,yhlx,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj ,proxy from softsetup ".$sql;
 
 
 	if($pxgz!="")
@@ -471,6 +471,21 @@ function Search()
 		}
 	   ?>
 	   </td>
+
+<?php if( intval( $_SESSION["zz"])  == 1) { ?>
+       <td width="100" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("proxy",$pxgz_type1);  ?>')">代理商</a>
+	   <?php if ( $pxgz=="proxy" && $pxgz_type =="yes")
+		{
+	       		echo "<img src='images/down.gif'>";
+		}
+		else if( $pxgz =="proxy" )
+		{
+		   echo "<img src='images/up.gif'>";
+		}
+		 
+	   ?>
+	   </td>
+<?php } ?>
        <td width="190" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("bz",$pxgz_type1);  ?>')">备注</a>
 	   <?php if ( $pxgz=="bz" && $pxgz_type =="yes")
 		{
@@ -483,6 +498,7 @@ function Search()
 		 
 	   ?>
 	   </td>
+
 	  </tr>
 	</thead>
       <tbody>
@@ -560,6 +576,10 @@ function Search()
 	      
 		?>
 		</td>
+
+		<?php if (intval($_SESSION["zz"] ) == 1) { ?>
+		<td align="center" style="border-bottom:1px solid #ccc;" >&nbsp;<?php echo trim($row["proxy"]);?></td>
+		<?php  } ?>
 		<td align="center" style="border-bottom:1px solid #ccc;" >&nbsp;<?php echo trim($row["bz"]);?></td>
 	  </tr>
 

@@ -14,7 +14,7 @@ $proxy   = getFormValue("D_proxy");
 
 $nowDate = Format_Date( time() );
 $nowTime = Format_Time( time() );
-$temDate= Format_Date( time()  + 86400*14  ); //默认试用期限1天
+$temDate= Format_Date( time()  + 86400*14  ); //默认试用期限14天
 
 $returnValue = 0;
 if ( strcmp( $action, "vipnews"  ) == 0)
