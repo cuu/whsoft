@@ -366,7 +366,7 @@ function Search()
 		}		
 	   ?>
 	   </td>
-       <td width="200" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("lxdz",$pxgz_type1);?>')">联系地址</a>
+       <td width="300" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("lxdz",$pxgz_type1);?>')">联系地址</a>
 	   <?php if ($pxgz=="lxdz" && $pxgz_type =="yes")
 		{
 	       		echo "<img src='images/down.gif'>";

@@ -57,7 +57,7 @@ include "jq_ui.php";
 			adu2_Search();
 		break;
 		case "del":
-			adu2_del();
+			adb2_del();
 		break;
 		default:
 		{
@@ -154,7 +154,7 @@ include "jq_ui.php";
 ?>
 
 </table>
-
+<iframe name="delframe" id="delframe" style="display:none"></iframe>
 <?php		  
 		}else echo "没有管理员";
 ?>
