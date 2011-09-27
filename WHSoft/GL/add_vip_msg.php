@@ -56,7 +56,7 @@ function mysql_fetch_all($result)
   <link rel="stylesheet" type="text/css" href="images/all-ie.css" />
 <![endif]-->
 
-<script language="javascript" src="images/time.js" type="text/javascript"></script>
+<!-- <script language="javascript" src="images/time.js" type="text/javascript"></script> -->
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
 <?php
 include "jq_ui.php";
@@ -163,7 +163,7 @@ include "jq_ui.php";
 
 div.ui-datepicker
 {
- font-size:10px;
+ font-size:12px;
 }
 
 #pub_stat

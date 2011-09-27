@@ -18,7 +18,7 @@ include_once "../../function/xdownpage.php";
 <![endif]-->
 
 <title>后台用户权限管理</title>
-<script language="javascript" src="images/time.js" type="text/javascript"></script>
+<!-- <script language="javascript" src="images/time.js" type="text/javascript"></script> -->
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
 
 <?php
@@ -133,7 +133,7 @@ include "jq_ui.php";
                        if ($t_type ==1) echo "超级管理员"; 
                        else if ($t_type ==2)  echo "普通管理员";
                        else if( $t_type - ( intval( strtotime( trim($row["jzrq"]) ))) ==1) echo "临时管理员";
-                       
+                       else if( $t_type - ( intval( strtotime( trim($row["jzrq"]) ))) ==2) echo "普通管理员";
 		    ?>
 </td>
 <td align="center">

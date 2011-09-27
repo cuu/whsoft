@@ -38,7 +38,7 @@ include_once "../../function/xdownpage.php";
 <![endif]-->
 
 <title>多播消息设置</title>
-<script language="javascript" src="images/time.js" type="text/javascript"></script>
+<!--  <script language="javascript" src="images/time.js" type="text/javascript"></script> -->
 <script language="javascript" src="images/js.js" type="text/javascript"></script>
 <?php
 include "jq_ui.php";
