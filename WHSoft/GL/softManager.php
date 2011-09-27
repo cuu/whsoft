@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once "header.php";
 include_once "cscheck.php";
 include_once "../../function/conn.php";
@@ -124,7 +125,11 @@ $("#out_list tbody  tr").hover(
     </td>
    </tr>
    <tr bgcolor="#FFFFFF" height="30">
-    <td align="left" style="padding-left:10px" colspan="3">
+	<td align="left" style="padding-left:10px;" >
+		代理商编号:
+		<input name="proxy" type="text" size="10" maxlength="7" class="logininput" onClick="javascript:this.focus()"  "return false;" style="cursor:hand" >
+	</td>
+    <td align="left" style="padding-left:10px" >
      最后上线日期：
 	 <input name="zhsxrq1" type="text" size="10" maxlength="10" class="logininput" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly=""><b>&nbsp;<=&nbsp;</b>注册日期<b>&nbsp;<=&nbsp;</b>
 	 <input name="zhsxrq2" type="text" size="10" maxlength="10" class="logininput" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly="">
@@ -166,12 +171,15 @@ function Search()
 	$pxgz   = getFormValue("pxgz"   );    $pxgz_type = getFormValue("pxgz_type");	 $pxgz_type1 = "";
 	$pg     = getFormValue("pg");
 	$yhlx   = getFormValue("yhlx");
+	$proxy  = getFormValue("proxy");
   
 	$sql = "";
 	$sql .= build_sql_query($diskid  , "diskid", "like", $sql, "", "%");
 	$sql .= build_sql_query($yhmc    , "yhmc"  , "like", $sql, "", "%");
 	$sql .= build_sql_query($gddh    , "gddh"  , "like", $sql, "", "%");
 	$sql .= build_sql_query($yddh    , "yddh"  , "like", $sql, "", "%");
+	$sql .= build_sql_query($proxy   , "proxy"  ,"like", $sql, "", "%");
+
 	if($zcrq1 != "")
 	{
 		if(strpos($sql,"where"))
@@ -260,8 +268,28 @@ function Search()
 		}
 	}
 
+	if(intval($_SESSION["zz"]) ==1)
+	{
+		
+	}
+	else if(intval($_SESSION["zz"])!= 1   /* && is_numeric ( $_SESSION["yhgl"] ) */ )
+	{
+		if( $_SESSION["yhgl"]  != "")
+		{
+			if(strpos($sql,"where"))
+			{
+				$sql .=  "  and proxy ='".$_SESSION["yhgl"]."'";
+			}else
+			{
+				$sql .=  "  where proxy ='".$_SESSION["yhgl"]."'";
+			}
+		}
+		else die("session error ");
+	}
 
-	$sql = "select id,yhmc,yhlx,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj from softsetup ".$sql;
+	$sql = "select id,yhmc,yhlx,lxdz,gddh,yddh,diskid,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj ,proxy from softsetup ".$sql;
+
+
 	if($pxgz!="")
 	{
 		if($pxgz == "sfzx")
@@ -317,7 +345,7 @@ function Search()
 	if($num > 0 )
 	{
 ?>
-     <TABLE style="margin:8px;border:1px solid #bbb;border-bottom:none;" id="out_list" border="0" cellspacing="0" width="1600" cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"><thead>
+     <TABLE width="1600" style="margin:8px;border:1px solid #bbb;border-bottom:none;" id="out_list" border="0" cellspacing="0"  cellpadding="1" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"><thead>
       <tr height='30' bgcolor='#000000'>
        <td width="100" class="tdbiaoti">确认操作</td>
        <td width="100" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("yhmc",$pxgz_type1);?>')">用户名称</a>
@@ -450,6 +478,21 @@ function Search()
 		}
 	   ?>
 	   </td>
+
+<?php if( intval( $_SESSION["zz"])  == 1) { ?>
+       <td width="100" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("proxy",$pxgz_type1);  ?>')">代理商</a>
+	   <?php if ( $pxgz=="proxy" && $pxgz_type =="yes")
+		{
+	       		echo "<img src='images/down.gif'>";
+		}
+		else if( $pxgz =="proxy" )
+		{
+		   echo "<img src='images/up.gif'>";
+		}
+		 
+	   ?>
+	   </td>
+<?php } ?>
        <td width="190" class="tdbiaoti"><a href="#" class="tdbiaoti" onClick="changeUrl('<?php echo GetURLSort("bz",$pxgz_type1);  ?>')">备注</a>
 	   <?php if ( $pxgz=="bz" && $pxgz_type =="yes")
 		{
@@ -462,6 +505,7 @@ function Search()
 		 
 	   ?>
 	   </td>
+
 	  </tr>
 	</thead>
       <tbody>
@@ -539,6 +583,10 @@ function Search()
 	      
 		?>
 		</td>
+
+		<?php if (intval($_SESSION["zz"] ) == 1) { ?>
+		<td align="center" style="border-bottom:1px solid #ccc;" >&nbsp;<?php echo trim($row["proxy"]);?></td>
+		<?php  } ?>
 		<td align="center" style="border-bottom:1px solid #ccc;" >&nbsp;<?php echo trim($row["bz"]);?></td>
 	  </tr>
 
@@ -548,7 +596,7 @@ function Search()
 		}//end for
 ?>
      </TABLE>
-     <table style="margin-left:8px;margin-right:8px;" width="100%" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
+     <table style="margin-left:8px;margin-right:8px;" width="1600" border="0" align="left" cellpadding="0" cellspacing="8" bgcolor=#ebeff9>
        <tr><td>
 <?php
 	$a = new Pager($all_num,20);

@@ -10,7 +10,8 @@ form{margin:0px;}
 table{
     font-family:"÷ÚÌו",Arial, Helvetica, sans-serif,"ËÎÌו";
 	font-size:12px;
-	color:#333333
+	color:#333333;
+	table-layout:fixed;
 }
 .page
 {

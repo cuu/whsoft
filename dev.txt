@@ -1,6 +1,8 @@
 code is gb2312
 pass is [etc]jc with crc32 in php5
 
+在server上建立一个DLL的软link,因为DocumentRoot指向了GL,还有pma...
+
 大部分纯了id之外，全可以null,以下是错误的
 whatever
 数据要用double才能精确存储小数
@@ -192,3 +194,27 @@ total 48
 -rw-rw-r-- 1 apache     80   543 Jan 27 07:54 SiteAdmin.Status
 -rw-rw-rw- 1 apache apache   752 Feb 27 08:59 Site.AllRecentChanges
 
+2011 03 17
+北京新结构
+不同的普通管理员，只能看到自已这部分 产生的用户信息
+有 代理商编号
+格式暂定 是 区号+6位编号
+
+2011-03-22
+新结构，数据库修改
+ALTER TABLE  `softsetup` ADD  `proxy` VARCHAR( 20 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT  '代理商信息' AFTER  `zhsxsj`
+ALTER TABLE  `userzhb` ADD  `proxy` VARCHAR( 20 ) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL COMMENT  '代理商信息' AFTER  `zhsxsj`
+
+CREATE TABLE  `sq_whsoft`.`proxy` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`name` VARCHAR( 20 ) NOT NULL ,
+`date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = INNODB CHARACTER SET gbk COLLATE gbk_chinese_ci;
+ALTER TABLE  `proxy` CHANGE  `zt`  `zt` SMALLINT( 1 ) NOT NULL DEFAULT  '1'
+
+
+
+2011-03-29
+在gk4中，每次启动强制去删空以前的menu item,很低效率的做法
+不过一定要保证 只有一个menu item
+在win7中，安装程序要以管理员的身份运行 

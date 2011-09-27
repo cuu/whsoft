@@ -19,7 +19,7 @@ allGRP  <- for all the users
 <?php
 session_start();
 include_once "header.php";
-//include_once "cscheck.php"; // for dev
+include_once "cscheck.php"; // for dev
 include_once "../../function/conn.php";
 include_once "../../function/function.php";
 
@@ -31,7 +31,7 @@ include_once "../../function/xdownpage.php";
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
 <link rel="stylesheet" type="text/css" href="images/css.css">
 <!--[if IE]>
   <link rel="stylesheet" type="text/css" href="images/all-ie.css" />
@@ -217,6 +217,8 @@ else
 							array_push($show_in_group, "所有VIP用户");
 						else if ( strstr($row["ingroup"], "allNOR"))
 							array_push($show_in_group,  "所有普通用户");
+						else if ( strstr($row["ingroup"], "allGRP"))
+							array_push($show_in_group,  "所有用户");
 						else if (is_numeric($row["ingroup"]))
 						{
 							$sql12 = "select groupname from usergroup where id=".$row["ingroup"];
@@ -248,6 +250,30 @@ else
 							else if( strstr($n_array2[$nj], "allNOR"))
 								array_push($show_in_group,  "所有普通用户");
 						}
+						$handle11 = openConn();
+						if($handle11 ==NULL) die( "openConn error".mysql_error());
+						for($nj = 0;$nj < count($n_array2); $nj++)
+						{
+							if( is_numeric($n_array2[$nj]))
+							{
+								$sql = "select groupname from usergroup where id=".$n_array2[$nj];
+								$result44 = mysql_query($sql,$handle11);
+								if($result44 !==false)
+								{
+									$row55 = mysql_fetch_array($result44,MYSQL_NUM);
+									if(trim($row55[0]) == "")
+									{
+										array_push($show_in_group, "群不存在");
+									}else
+										array_push($show_in_group, $row55[0]);
+								}else
+								{
+									die(" mysql_query error ".mysql_error());
+								}
+							}
+						}
+						closeConn($handle11);
+						/*
 						$sql = "select id,groupname from usergroup";
 						$handle11 = openConn();
 						if($handle11 ==NULL) die( "openConn error".mysql_error());
@@ -279,6 +305,7 @@ else
 						{
 							die(" mysql_query error ".mysql_error());
 						}
+						*/
 						
 					}
 					if ( trim($row["ingroup"]) == "" || trim($row["ingroup"]) =="None" )
@@ -352,6 +379,13 @@ function vip_save()
 
   check_root();
   $txt_msg_body = trim($_POST["txt_msg_body"]);
+
+	if( strlen($txt_msg_body)> 2000)
+	{
+		js_show_error("多播消息内容长度太长,请重新填写!");
+		die();
+	}
+
   $status       = trim($_POST["pub_stat"]);
 	if(count($_POST["pub_group"]) > 0)
 	{

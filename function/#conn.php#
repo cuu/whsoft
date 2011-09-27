@@ -13,7 +13,7 @@ function showErr()
 {
 	echo  "<br><br><center><table border=1 cellpadding=10 bordercolor=black bgcolor=#EEEEEE width=450>";
 	echo "<tr><td align=center style=font:9pt Verdana>";
-	echo "·Ç·¨²ÎÊıÌá½»£¡";
+	echo "éæ³•å‚æ•°æäº¤ï¼";
 	echo  "</td></tr></table></center>";
 	die();
 }
@@ -61,20 +61,19 @@ function StopInjection($var)
 
 function openConn()
 {
-        // Èç¹ûmy.cnfÖĞÆôÓÃÁËskip-networking,¼´±íÊ¾¾Ü¾øtcp/ipµÄmysqlÁ¬½Ó,¾ÍÒªÓÃsqlsockectÀ´´¦Àí,ÕâÑù¸ü°²È«
+        // å¦‚æœmy.cnfä¸­å¯ç”¨äº†skip-networking,å³è¡¨ç¤ºæ‹’ç»tcp/ipçš„mysqlè¿æ¥,å°±è¦ç”¨sqlsockectæ¥å¤„ç†,è¿™æ ·æ›´å®‰å…¨
 	$SqlServer = "127.0.0.1";
-        //$SqlServer = "localhost:/Applications/xampp/xamppfiles/var/mysql/mysql.sock";
-	//$SqlServer = "localhost:/var/lib/mysql/mysql.sock";
+        $sqlsocket = "localhost:/Applications/xampp/xamppfiles/var/mysql/mysql.sock";
+	//$sqlsocket = "localhost:/var/lib/mysql/mysql.sock";
 
 	$SqlUser="root";
 	$SqlPasswd="";
 	$SqlDatabase = "sq_whsoft";
 	$link = mysql_connect($SqlServer, $SqlUser, $SqlPasswd);
 	if (!$link) {
-		echo "<script>window.status=\"SQL Server Êı¾İ¿âÁ¬½ÓÊ§°Ü ".mysql_error()."\";</script>";
+		echo "<script>window.status=\"SQL Server æ•°æ®åº“è¿æ¥å¤±è´¥ ".mysql_error()."\";</script>";
 		return NULL;
 	}
-
 	else 
 	{
 		//mysql_set_charset("gb2312");// php >= 5.2.3

@@ -1,7 +1,9 @@
 <?php
+session_start();
 include_once "header.php";
 include_once "cscheck.php";
 
+include_once "../../function/function.php";
 include_once "../../function/conn.php";
 include_once "../../function/sendNote.php";
 
@@ -67,28 +69,28 @@ include_once "../../function/sendNote.php";
    <tr height=25 bgcolor="">
     <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">用户名称：</td>
     <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
-	<input name="yhmc" type="text" class="logininput" value="<?php echo trim($row["yhmc"]);?>" size="20" maxlength="15"/>
+	<input name="yhmc" type="text" class="logininput" value="<?php echo trim($row["yhmc"]);?>" size="20" maxlength="15"  	<?php if($_SESSION["zz"] != "1") echo "DISABLED"; ?>/>
 	</td>
    </tr>
    
    <tr height=25 bgcolor="">
     <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">固定电话：</td>
     <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
-	<input name="gddh" type="text" class="logininput" value="<?php echo trim($row["gddh"]);?>" size="20" maxlength="18"/>
+	<input name="gddh" type="text" class="logininput" value="<?php echo trim($row["gddh"]);?>" size="20" maxlength="18" 	<?php if($_SESSION["zz"] != "1") echo "DISABLED"; ?>/>
 	</td>
    </tr>
    
    <tr height=25 bgcolor="">
     <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">移动电话：</td>
     <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
-	<input name="yddh" type="text" class="logininput" value="<?php echo trim($row["yddh"]);?>" size="20" maxlength="18"/>
+	<input name="yddh" type="text" class="logininput" value="<?php echo trim($row["yddh"]);?>" size="20" maxlength="18" 	<?php if($_SESSION["zz"] != "1") echo "DISABLED"; ?>/>
 	</td>
    </tr>
    
    <tr height=25 bgcolor="">
     <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">联系地址：</td>
     <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
-	<input name="lxdz" type="text" class="logininput" value="<?php echo trim($row["lxdz"]);?>" size="50" maxlength="100" />
+	<input name="lxdz" type="text" class="logininput" value="<?php echo trim($row["lxdz"]);?>" size="50" maxlength="100" 	<?php if($_SESSION["zz"] != "1") echo "DISABLED"; ?> />
 	</td>
    </tr>
    
@@ -108,7 +110,7 @@ include_once "../../function/sendNote.php";
     <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">用户类型：</td>
     <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
 	 <input type="hidden" value="<?php echo intval($row["yhlx"]);?>" name="yhlx1">
-	 <select name="yhlx">
+	 <select name="yhlx" 	<?php if($_SESSION["zz"] != "1") echo "DISABLED"; ?> >
          <?php
 	    switch( intval($row["yhlx"]))
 	      {
@@ -148,7 +150,8 @@ include_once "../../function/sendNote.php";
    <tr height=25 bgcolor="">
     <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">备注：</td>
     <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
-	 <input name="bz" type="text" class="logininput" value="<?php echo trim($row["bz"]);?>" size="50" maxlength="100"/>
+	 <input name="bz" type="text" class="logininput" value="<?php echo trim($row["bz"]);?>" size="50" maxlength="100" 
+	<?php if($_SESSION["zz"] != "1") echo "DISABLED"; ?> />
 	</td>
    </tr>
    
@@ -215,8 +218,22 @@ function soft_edit_save()
 	$zt1    = getFormValue("zt1"   );
 	$bz     = getFormValue("bz"    );
 	
+	
+	if( $_SESSION["zz"]!= "1" )
+	{
+		//check the normal users power rights
+		if( DateDiff("d", now(), $rjjsrq) > 15)
+		{
+			echo "修改不正确，普通用户只能修改时效15天!";
+			die(); 
+		}
+		$sql = "update softsetup set rjjsrq='".$rjjsrq."', zt=".$zt." where id=".intval($id);
+	}
+	else
+	{
+		$sql="update softsetup set yhmc='".$yhmc."',yhlx=".$yhlx.",gddh='".$gddh."',yddh='".$yddh."',lxdz='".$lxdz."',rjjsrq='".$rjjsrq."',zt=".$zt.",bz='".$bz."' where id=".intval($id);
+	}
 
-	$sql="update softsetup set yhmc='".$yhmc."',yhlx=".$yhlx.",gddh='".$gddh."',yddh='".$yddh."',lxdz='".$lxdz."',rjjsrq='".$rjjsrq."',zt=".$zt.",bz='".$bz."' where id=".intval($id);
 	$handle = openConn();
 	if($handle == NULL) return;
 	$result = mysql_query($sql,$handle);

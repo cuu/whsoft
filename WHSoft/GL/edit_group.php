@@ -33,14 +33,19 @@ include_once "../../function/function.php";
 	
 	closeConn($handle);
 */
+<<<<<<< HEAD
 	$pg          = getFormValue("pg");
+=======
+	$pg = getFormValue("pg");
+
+>>>>>>> origin/master
 ?>
 <?php
 
 include_once "header.php";
 include_once "../../function/xdownpage.php";
 //include_once "waibu.php";
-//include_once "cscheck.php";
+include_once "cscheck.php";
 
 
 ?>

@@ -80,11 +80,13 @@ if ( isset($_POST["sedit"] ) && $_POST["sedit"] == "1" )
         case 1: // only update 时效,状态,类型
         {
             $sql  = "update admin set jzrq='".$xpstime."',type=".$edit_type.",zt=".$edit_zt." where username='".$yusername."'";
+	    $sql2 = "update proxy set zt=".$edit_zt."  where name='".$yusername."'";
             $handle = openConn();
             if($handle == NULL) die("openConn error".mysql_error());  
             $result = mysql_query($sql,$handle);
             if($result !== false)
             {
+		mysql_query($sql2,$handle);
  		closeConn($handle);
 		echo "<script language=javascript>alert('管理员帐号修改成功;请记住您修改后的信息!');window.location.href='admin_user2.php' </script>";
 		die();               
@@ -232,6 +234,8 @@ else
                         if($_SESSION["zz"]=="1") // super
                         {
                           $sql2 = "update admin set zt=".$_POST["edit_zt"].",jzrq='".$xpstime."',username='".$xusername."', passwd='".$xpsw."', type=".intval($edit_type)."  where username='".$yusername."'";
+			  $sql3 = "update proxy set zt=".$_POST["edit_zt"]." where name='".$yusername."'";
+			  
                         } else
                         {
                           $sql2 = "update admin set username='".$xusername."', passwd='".$xpsw."'  where username='".$yusername."'";
@@ -244,6 +248,7 @@ else
 			}
 			else
 			{
+				mysql_query($sql3,$handle);
 				closeConn($handle);
 				echo "<script language=javascript>alert('管理员帐号设置成功;请记住您的新帐号信息!');window.location.href='admin_user.php'</script>";
 				die();

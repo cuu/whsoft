@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include_once "header.php";
 include_once "cscheck.php";
 include_once "../../function/conn.php";
@@ -222,8 +224,22 @@ function u_Search()
 		$sql .= " where a.diskid=b.diskid";
 	}
 
-	$sql = "select a.id,a.rjbb,a.zhmc,a.zh,a.zhlx,a.zcfsm,a.serverame,a.zhye,a.diskid,a.zhsxrq,a.zhsxsj,b.yhmc from userzhb a,softsetup b ".$sql;
+	if(intval($_SESSION["zz"]) ==1)
+	{
+		
+	}
+	else if(intval($_SESSION["zz"])!= 1   /* && is_numeric ( $_SESSION["yhgl"] ) */ )
+	{
+		if( $_SESSION["yhgl"]  != "")
+		{
+			$sql .=  "  and  a.proxy ='".$_SESSION["yhgl"]."'";
+		}
+		else die("session error ");
+	}
+
+	$sql = "select a.id,a.rjbb,a.zhmc,a.zh,a.zhlx,a.zcfsm,a.serverame,a.zhye,a.diskid,a.zhsxrq,a.zhsxsj,a.proxy,b.yhmc from userzhb a,softsetup b ".$sql;
 	
+
 
         if($pxgz!="")
         {
@@ -352,11 +368,12 @@ function u_Search()
 		<?php 
 			switch( intval($row["rjbb"]))
 			{
-				case 1: echo "标准版"; break;
-				case 2: echo "速利版"; break;
-				case 3: echo "黄金版"; break;
-				case 4: echo "增强版"; break;
-				case 5: echo "趋势版"; break;
+				case 0: echo "分析系统"; break;
+				case 1: echo "单向版"; break;
+				case 2: echo "趋势版"; break;
+				case 3: echo "双向版"; break;
+				case 4: echo "黄金版"; break;
+				case 5: echo "增强版"; break;
 				default:break;
 			}
 

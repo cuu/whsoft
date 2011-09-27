@@ -1,4 +1,5 @@
 <?php
+include_once "../../function/function.php";
 include_once "../../function/conn.php";
 include_once "../../function/sendNote.php";
 
@@ -9,11 +10,11 @@ $zhmc = getFormValue("D_zhmc"); $zh   = getFormValue("D_zh"  ); $zhlx = getFormV
 $serverame = getFormValue("D_serverame");  $zhye = getFormValue("D_zhye"); $rjbb = getFormValue("D_rjbb");
 //zh is mt4 trader account number
 $msgtime = getFormValue("D_msgtime"); // vip msg timestamp,like xxxx-xx-xx xx:xx:xx
-
+$proxy   = getFormValue("D_proxy");
 
 $nowDate = Format_Date( time() );
 $nowTime = Format_Time( time() );
-$temDate= Format_Date( time() + 86400 *15 ); //默认试用期限15天
+$temDate= Format_Date( time()  + 86400*14  ); //默认试用期限14天
 
 $returnValue = 0;
 if ( strcmp( $action, "vipnews"  ) == 0)
@@ -27,7 +28,7 @@ if ( strcmp( $action, "softfind" ) == 0)
 	echo strval($returnValue);
 }
  
-if ( strcmp( $action, "SoftSX"   ) == 0)
+if ( strcmp( $action, "softsx"   ) == 0)
 {
 	$returnValue = SoftSX($DiskId,$rjbb,$zhmc,$zh,$zhlx,$zcfsm,$serverame,$zhye,$nowDate,$nowTime);
 	echo strval($returnValue);
@@ -35,7 +36,7 @@ if ( strcmp( $action, "SoftSX"   ) == 0)
 
 if ( strcmp( $action, "softin"   ) == 0)
 {
-	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$nowDate,2,"",$temDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye);
+	$returnValue = softIn($DiskId,$yhmc,$lxdz,$gddh,$yddh,$nowDate,$temDate,0,"",$nowDate,$nowTime,$rjbb,$zh,$zhlx,$zcfsm,$serverame,$zhye,$proxy);
 	echo strval($returnValue);
 }
 
@@ -45,7 +46,7 @@ function VipMsg( $f_DiskId,$f_time )
 	
 
 	$now_date = date("Y-m-d H:i:s");
-//	$f_time = $now_date;
+	$f_time = $now_date;
 	$ret = "";
 	$sql2 = "select id,yhlx from softsetup where diskid='".trim($f_DiskId)."'";
 	$sql = "select * from vipmsg where ( DateDiff(time,'".$f_time."')=0 ) and sfqy=1 order by time";
@@ -75,6 +76,7 @@ function VipMsg( $f_DiskId,$f_time )
 		for($i = 0; $i < $num ; $i++)
 		{
 			$row = mysql_fetch_array($result,MYSQL_ASSOC);
+			$row["content"] .="  ";
 			$t_in_group = trim( $row["ingroup"] );
 			if( strstr($t_in_group,","))
 			{
@@ -134,7 +136,21 @@ function VipMsg( $f_DiskId,$f_time )
 				//$ret .= implode("|",$row); $ret .="\n";
 				array_push($ret_array,$row);
 			}
-			
+                        else if( is_numeric( $t_in_group)) // only one group ,numeric id
+                        {
+				$sql7 = "select * from usergroup where FIND_IN_SET('".$row_id."', groupusers)";
+				$result7 = mysql_query($sql7,$handle);
+				if($result7)
+				{
+					$num7 = mysql_num_rows($result7);
+					if($num7 > 0)
+					{
+						array_push($ret_array,$row);
+					}
+				}
+
+			}
+
 		}//end for i=0; i< num...
 		closeConn($handle);
 		//检查是否有重复的消息,重新组织最后的消息内容
@@ -188,7 +204,7 @@ function SoftFind( $f_DiskId )
 	return 0; // 未注册
 }
 
-function  softIn($f_DiskId,$f_yhmc,$f_lxdz,$f_gddh,$f_yddh,$f_zcrq,$f_rjjsrq,$f_zt,$f_bz,$f_zhsxrq,$f_zhsxsj,$f_rjbb,$f_zh,$f_zhlx,$f_zcfsm,$f_servername,$f_zhye)
+function  softIn($f_DiskId,$f_yhmc,$f_lxdz,$f_gddh,$f_yddh,$f_zcrq,$f_rjjsrq,$f_zt,$f_bz,$f_zhsxrq,$f_zhsxsj,$f_rjbb,$f_zh,$f_zhlx,$f_zcfsm,$f_servername,$f_zhye,$f_proxy)
 {
 	$res = softfind( $f_DiskId);
 	if ( $res !=  0 )
@@ -196,13 +212,13 @@ function  softIn($f_DiskId,$f_yhmc,$f_lxdz,$f_gddh,$f_yddh,$f_zcrq,$f_rjjsrq,$f_
 		return 2;
 	}
 
-	$sql = "insert into softsetup(diskid,yhmc,lxdz,gddh,yddh,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj) values('".$f_DiskId."','".$f_yhmc."','".$f_lxdz."','".$f_gddh."','".$f_yddh."','".$f_zcrq."','".$f_rjjsrq."',".$f_zt.",'".$f_bz."','".$f_zhsxrq."','".$f_zhsxsj."')";
+	$sql = "insert into softsetup(diskid,yhmc,lxdz,gddh,yddh,zcrq,rjjsrq,zt,bz,zhsxrq,zhsxsj,proxy) values('".$f_DiskId."','".$f_yhmc."','".$f_lxdz."','".$f_gddh."','".$f_yddh."','".$f_zcrq."','".$f_rjjsrq."',".$f_zt.",'".$f_bz."','".$f_zhsxrq."','".$f_zhsxsj."','".$f_proxy."')";
 	
 	$handle = openConn();
 	if ($handle ==NULL)  return 0;
 	$result = mysql_query($sql, $handle);
 	if($result == FALSE) { closeConn($handle); return 0; }
-	$sql = "insert into userzhb(diskid,rjbb,zhmc,zh,zhlx,zcfsm,serverame,zhye,zhsxrq,zhsxsj) values('".$f_DiskId."',".intval($f_rjbb).",'".$f_yhmc."','".$f_zh."',".$f_zhlx.",'".$f_zcfsm."','".$f_servername."',".$f_zhye.",'".$f_zhsxrq."','".$f_zhsxsj."')";
+	$sql = "insert into userzhb(diskid,rjbb,zhmc,zh,zhlx,zcfsm,serverame,zhye,zhsxrq,zhsxsj,proxy) values('".$f_DiskId."',".intval($f_rjbb).",'".$f_yhmc."','".$f_zh."',".$f_zhlx.",'".$f_zcfsm."','".$f_servername."',".$f_zhye.",'".$f_zhsxrq."','".$f_zhsxsj."','".$f_proxy."')";
 	$result = mysql_query($sql, $handle);
 	if($result == FALSE) { closeConn($handle); return 0; }
 	else
@@ -236,7 +252,7 @@ function SoftSX($f_DiskId,$f_rjbb,$f_zhmc,$f_zh,$f_zhlx,$f_zcfsm,$f_serverame,$f
 	global $nowDate;
 	$ssx =0;
 	$endDate = "";
-	$sql = "select zt,rjjsrq from softsetup where diskid='".$f_DiskId."'";
+	$sql = "select zt,rjjsrq,proxy  from softsetup where diskid='".$f_DiskId."'";
 	$handle =openConn();
 	if($handle == NULL) return 0;
 	$result = mysql_query($sql,$handle);
@@ -248,6 +264,7 @@ function SoftSX($f_DiskId,$f_rjbb,$f_zhmc,$f_zh,$f_zhlx,$f_zcfsm,$f_serverame,$f
 			$row = mysql_fetch_array($result, MYSQL_NUM);
 			$ssx = -($row[0]+1);	// 1 in use 2 locked
 			$endDate = trim( $row[1] );	
+			$proxy = trim( $row[2] );
 		}
 		else
 		{
@@ -270,7 +287,7 @@ function SoftSX($f_DiskId,$f_rjbb,$f_zhmc,$f_zh,$f_zhlx,$f_zcfsm,$f_serverame,$f
 			$sql="update userzhb set diskid='".$f_DiskId."',rjbb=".intval($f_rjbb).",zhmc='".$f_zhmc."',zh='".$f_zh."',zhlx=".$f_zhlx.",zcfsm='".$f_zcfsm."',serverame='".$f_serverame."',zhye=".$f_zhye.",zhsxrq='".$f_zhsxrq."',zhsxsj='".$f_zhsxsj."' where diskid='".$f_DiskId."' and zh='".$f_zh."'";
 		}else
 		{
-			$sql="insert into userzhb(diskid,rjbb,zhmc,zh,zhlx,zcfsm,serverame,zhye,zhsxrq,zhsxsj) values('".$f_DiskId."',".intval($f_rjbb).",'".$f_zhmc."','".$f_zh."',".$f_zhlx.",'".$f_zcfsm."','".$f_serverame."',".$f_zhye.",'".$f_zhsxrq."','".$f_zhsxsj."')";
+			$sql="insert into userzhb(diskid,rjbb,zhmc,zh,zhlx,zcfsm,serverame,zhye,zhsxrq,zhsxsj,proxy) values('".$f_DiskId."',".intval($f_rjbb).",'".$f_zhmc."','".$f_zh."',".$f_zhlx.",'".$f_zcfsm."','".$f_serverame."',".$f_zhye.",'".$f_zhsxrq."','".$f_zhsxsj."','".$proxy."')";
 		}
 		$result = mysql_query($sql,$handle);
 		if($result != FALSE)
