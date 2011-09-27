@@ -33,12 +33,10 @@ include_once "../../function/function.php";
 	
 	closeConn($handle);
 */
-<<<<<<< HEAD
-	$pg          = getFormValue("pg");
-=======
-	$pg = getFormValue("pg");
 
->>>>>>> origin/master
+	$pg          = getFormValue("pg");
+
+
 ?>
 <?php
 
