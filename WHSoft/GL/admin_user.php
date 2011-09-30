@@ -100,12 +100,12 @@ div.ui-datepicker
     }
 ?>
  <div align="center"><p>　</p><p>　</p>
-  <table id="mgr_table" class="g_input" border="0" width="368" cellspacing="4" cellpadding="1"  style=" padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
+  <table id="mgr_table" class="g_input" border="0"   cellspacing="4" cellpadding="1"  style=" padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
    <tr>
     <td height="25"  width="358" colspan="2" class="biaoti">管理员帐号密码</td>
    </tr>
    <tr>
-    <td style="border-left-width: 1px;"  width="80" align="left">
+    <td style="border-left-width: 1px;"    align="left">
     <font size="2">原帐号：
    </font></td>
     <td style="border-left-width: 1px;" width="286" align="left">
@@ -113,19 +113,19 @@ div.ui-datepicker
    </td>
    </tr>
    <tr>
-    <td style="border-left-width: 1px;" width="80" align="left">
+    <td style="border-left-width: 1px;"   align="left">
     <font size="2">原密码：</font></td>
     <td style="border-left-width: 1px;" width="286" align="left">
     <input type="text" name="ypsw" size="20"></td>
    </tr>
    <tr>
-    <td style="border-left-width: 1px;" width="80" align="left">
+    <td style="border-left-width: 1px;"   align="left">
     <font size="2">新帐号：</font></td>
     <td style="border-left-width: 1px;" width="286" align="left">
     <input type="text" name="xusername" size="20" value="">&nbsp;<font size="2" color="#FF0000">若不修改请勿填写</font></td>
    </tr>
    <tr>
-    <td style="border-left-width: 1px; " width="80" align="left">
+    <td style="border-left-width: 1px; "  align="left">
     <font size="2">新密码：</font></td>
     <td style="border-left-width: 1px; " width="286" align="left">
     <input type="text" name="xpsw" size="20">&nbsp;<font size="2" color="#FF0000">若不修改请勿填写</font></td>
@@ -135,7 +135,7 @@ div.ui-datepicker
     {
       ?>
    <tr>
-    <td style="border-left-width: 1px; " width="80" align="left">
+    <td style="border-left-width: 1px; "   align="left">
     <font size="2">新时效：</font></td>
     <td style="border-left-width: 1px; " width="286" align="left">
       <input type="text" id="xpstime" name="xpstime" size="20" value="<?php if(intval($_GET["jzrq"])!=0){ echo $_GET["jzrq"];}else {echo "不限时";} ?>"   style="cursor:pointer;"  readonly="" >&nbsp;<font  color="#FF0000"  size="2" >若不修改请留空白</font></td>
@@ -147,7 +147,7 @@ div.ui-datepicker
 { 
 ?>
    <tr>
-    <td style="border-left-width: 1px; " width="80" align="left">
+    <td style="border-left-width: 1px; "    align="left">
     <font size="2">帐号类型：</font></td>
     <td style="border-left-width: 1px;" width="286" align="left">
     <select id="edit_type" name="edit_type" >
@@ -192,7 +192,7 @@ div.ui-datepicker
     </td>
    </tr>
 <tr>
-  <td style="border-left-width: 1px; " width="80" align="left">
+  <td style="border-left-width: 1px; "  align="left">
     <font size="2">帐号状态：</font></td>
     <td style="border-left-width: 1px;" width="286" align="left">
     <select name="edit_zt">

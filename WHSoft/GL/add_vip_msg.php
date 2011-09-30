@@ -153,7 +153,7 @@ include "jq_ui.php";
 }
 
 #content_styled {
-        width: 360px;
+        width: 560px;
        
         border-width: 3px;
         padding: 5px;
@@ -222,24 +222,25 @@ div.ui-datepicker
 <input name="ori_date" type="hidden" value="<?php echo $date; ?>" >
 <?php }else { ?>
 <input name="add_new_vip_msg" type="hidden" value="add" > <?php } ?>
-  <table id="container" border="0" width="468" cellspacing="4" cellpadding="1"  style="border: 1px solid #ccc;border-right:1px solid #999;border-bottom:1px solid #999;  padding-left: 4px; padding-right: 4px; padding-top: 1px; padding-bottom: 1px">
-   <tr>
-    <td id="dr_title" height="25"  width="358" colspan="2" class="biaoti">
-    <?php if(isset($_GET["id"]))
+
+
+<label class="biaoti" style="margin-bottom:8px;">
+   <?php if(isset($_GET["id"]))
           {
     ?>
       修改多播消息
     <?php } else { ?>
       创建新的多播消息
     <?php }   ?>
-</td>
-   </tr>
+</label>
 
+  <table id="container" border="0"  cellspacing="1" cellpadding="1"  style="border: 1px solid #ccc;border-right:1px solid #999;border-bottom:1px solid #999;  padding-left: 2px; padding-right: 2px; padding-top: 1px; padding-bottom: 1px"   >
+  
    <tr>
     <td style="border-left-width: 1px; border-right-width: 1px; " width="80" align="center" valign="top">
     <font size="2">消息内容：
    </font></td>
-    <td style="border-left-width: 1px; border-right-width: 1px;" width="286" align="left">
+    <td style="border-left-width: 1px; border-right-width: 1px;"  align="left">
       <textarea name="txt_msg_body"  id="content_styled"  cols="30" rows="10"><?php echo $content; ?></textarea>
 
    </td>

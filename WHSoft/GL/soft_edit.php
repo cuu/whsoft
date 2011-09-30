@@ -14,13 +14,51 @@ include_once "../../function/sendNote.php";
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <link rel="stylesheet" type="text/css" href="images/css.css">
 <title>注册用户管理</title>
-<script language="javascript" src="images/time.js" type="text/javascript"></script>
-<script language="javascript" src="images/jquery-1.4.4.min.js" type="text/javascript"></script>
+<!-- <script language="javascript" src="images/time.js" type="text/javascript"></script> -->
+<!-- <script language="javascript" src="images/jquery-1.4.4.min.js" type="text/javascript"></script> -->
+<?php
+include "jq_ui.php";
+?>
 <script language="javascript">
+ $(function() {
+
+                        $.datepicker.regional['zh-CN'] = {
+                                closeText : '关闭',
+                                prevText : '&#x3c;上月',
+                                nextText : '下月&#x3e;',
+                                currentText : '今天',
+                                monthNames : ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月',
+                                                '九月', '十月', '十一月', '十二月'],
+                                monthNamesShort : ['一', '二', '三', '四', '五', '六', '七', '八', '九',
+                                                '十', '十一', '十二'],
+                                dayNames : ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+                                dayNamesShort : ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                                dayNamesMin : ['日', '一', '二', '三', '四', '五', '六'],
+                                dateFormat : 'yy-mm-dd',
+                                firstDay : 1,
+                                isRTL : false
+                        };
+                        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+  $("#rjjsrq_ipt").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                       minDate: 0
+                });
+
+
+ }); // $(function) ends
+ 
+
 
 
 </script>
 <style type="text/css">
+div.ui-datepicker
+{
+ font-size:12px;
+}
+
   .selectedRow {
       background-color: blue;
       cursor: pointer;
@@ -51,18 +89,14 @@ include_once "../../function/sendNote.php";
 			$row = mysql_fetch_array($result,MYSQL_ASSOC);	
 ?>
 
- <TABLE border=0 cellPadding=0 cellSpacing=0 width="500" align="center">
-  <tr>
-   <td  height="25" colspan="5" class="biaoti">注册用户管理</td>
-  </tr>
- </TABLE>
+<label class="biaoti" >注册用户管理 </label>
  <form name="form1" method="post" action="soft_edit.php" style="margin:0px">
   <input type="hidden" value="save" name="action" />
   <input type="hidden" value="<?php echo $id; ?>" name="id" />
-  <table border="0" cellspacing="0" width="500" cellpadding="2" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"  align="center"><tbody>
+  <table border="0" cellspacing="0" cellpadding="2" bordercolorlight="#C0C0C0" bordercolordark="#C0C0C0" style="border-collapse: collapse" bordercolor="#C0C0C0"  align="center" width="100%" style="table-layout:fixed"><tbody>
     <tr height=25 bgcolor="">
     <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">软件注册号：</td>
-    <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;<?php echo trim($row["diskid"]);?>
+    <td width="100%" "align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;<?php echo trim($row["diskid"]);?>
 	</td>
    </tr>
    
@@ -103,7 +137,7 @@ include_once "../../function/sendNote.php";
    <tr height=25 bgcolor="">
     <td width="100" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0; padding-right:10px" align="right">软件截止日期：</td>
     <td align="left" style="border-left-width: 0px; border-right-width: 0px; border-top: 1px solid #C0C0C0;">&nbsp;
-	<input name="rjjsrq" type="text" class="logininput" value="<?php echo trim($row["rjjsrq"]);?>" size="20" maxlength="10" onClick="javascript:this.focus()" onFocus="fPopCalendar(this,this,PopCal); return false;" style="cursor:hand" readonly=""/>
+	<input name="rjjsrq" id="rjjsrq_ipt"  type="text" class="logininput" value="<?php echo trim($row["rjjsrq"]);?>" size="20" maxlength="10"  style="cursor:pointer;" readonly=""/>
 	</td>
    </tr>
    <tr height=25 bgcolor="">

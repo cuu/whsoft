@@ -1,0 +1,12 @@
+version=pmwiki-2.2.0 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3
+author=club
+charset=UTF-8
+csum=
+ctime=1143035851
+host=218.75.27.198
+name=PmWikiZhCn.解决Windows保存出错问题
+rev=14
+targets=
+text=查找function pagefile（我这里是662行）%0a在本Function里增加一句：$pagename = urlencode($pagename);%0a请注意，这样改了后，你以前所有为中文的Tag都会“清空”，请先做好心里准备。%0a%0a不保证这种做法是否有Bug，还在测试中.....%0a%0a欢迎访问我的网站测试:[[http://www.163wap.net | http://www.163wap.net]]%0a%0a----%0a%0a照著上面的作法是可以編輯中文連結沒錯，但是 [@(:pagelist:)@] 這語法就無法使用\\%0a我使用的作法是個別挑出需要encode跟decode的部份%0a%0apmwiki-2.1.12 (其他版本沒測試過)%0a編輯 pmwiki.php%0a%0a行：692(read函式)、729(write函式)、755(exists函式)、760(delete函式)%0a[@%0a    $pagefile = $this->pagefile($pagename);%0a@]%0a更改為%0a[@%0a    $pagefile = $this->pagefile(urlencode($pagename));%0a@]%0a%0a%0a%0a行：779(ls函式)%0a[@%0a $o[] = $pagefile;%0a@]%0a更改為%0a[@%0a $o[] = urldecode($pagefile);%0a@]%0a%0a如此在編輯、刪除、列表均無問題。%0a...Bug觀察中...%0a%0a-----%0a应用此法后，上传中文名附件后，能上传和显示附件，但下载不了呢？？请问大虾们是如何解决的，3x
+time=1237442622
